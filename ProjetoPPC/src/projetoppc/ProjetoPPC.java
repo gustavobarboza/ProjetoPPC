@@ -1,6 +1,5 @@
 package projetoppc;
 
-import javax.swing.JFrame;
 import view.CadastroPlanoDeEnsino;
 
 public class ProjetoPPC {
