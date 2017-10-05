@@ -724,7 +724,7 @@ public class CadastroProfessor extends javax.swing.JDialog {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jPanel11.setBorder(javax.swing.BorderFactory.createTitledBorder("Experiência em Cursos à Distância"));
+        jPanel11.setBorder(javax.swing.BorderFactory.createTitledBorder("Tempo Experiência Profissional"));
 
         jLabel33.setText("Data Inicial");
 
@@ -1082,7 +1082,7 @@ public class CadastroProfessor extends javax.swing.JDialog {
                 {null, null, null}
             },
             new String [] {
-                "Comprovante", "Data", "Local de Publicaçaõ"
+                "Comprovante", "Data", "Local de Publicação"
             }
         ));
         jScrollPane5.setViewportView(jTable3);
