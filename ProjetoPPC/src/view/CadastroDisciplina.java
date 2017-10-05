@@ -62,6 +62,7 @@ public class CadastroDisciplina extends javax.swing.JDialog {
 
         jButton3.setText("Cancelar");
 
+        jLabel6.setForeground(new java.awt.Color(255, 0, 51));
         jLabel6.setText("Professor Responsavel");
 
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
