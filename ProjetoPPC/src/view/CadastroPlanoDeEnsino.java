@@ -88,6 +88,14 @@ public class CadastroPlanoDeEnsino extends javax.swing.JDialog {
             }
         ));
         jScrollPane6.setViewportView(jTable2);
+        if (jTable2.getColumnModel().getColumnCount() > 0) {
+            jTable2.getColumnModel().getColumn(0).setMinWidth(45);
+            jTable2.getColumnModel().getColumn(0).setPreferredWidth(45);
+            jTable2.getColumnModel().getColumn(0).setMaxWidth(45);
+            jTable2.getColumnModel().getColumn(1).setMinWidth(442);
+            jTable2.getColumnModel().getColumn(1).setPreferredWidth(442);
+            jTable2.getColumnModel().getColumn(1).setMaxWidth(442);
+        }
 
         jTextArea4.setColumns(20);
         jTextArea4.setLineWrap(true);
@@ -290,6 +298,7 @@ public class CadastroPlanoDeEnsino extends javax.swing.JDialog {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     /**

@@ -1,12 +1,21 @@
 package projetoppc;
 
+import javax.swing.UIManager;
 import view.CadastroPlanoDeEnsino;
+import view.Principal;
 
 public class ProjetoPPC {
 
     public static void main(String[] args) {
-        CadastroPlanoDeEnsino tela = new CadastroPlanoDeEnsino(new javax.swing.JFrame(), true);
-        tela.setVisible(true);
+       try {
+            // Set System L&F
+        UIManager.setLookAndFeel(
+            UIManager.getSystemLookAndFeelClassName());
+    } 
+    catch(Exception e){ 
+    }
+        Principal principal = new Principal();
+        principal.setVisible(true);
     }
     
 }

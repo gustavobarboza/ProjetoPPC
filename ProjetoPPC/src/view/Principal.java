@@ -5,6 +5,8 @@
  */
 package view;
 
+import javax.swing.JFrame;
+
 /**
  *
  * @author Gustavo
@@ -27,21 +29,305 @@ public class Principal extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jMenuBar1 = new javax.swing.JMenuBar();
+        jMenuCadastro = new javax.swing.JMenu();
+        jMenuCadastroCurso = new javax.swing.JMenuItem();
+        jMenuCadastroDisciplina = new javax.swing.JMenuItem();
+        jMenuCadastroProfessor = new javax.swing.JMenuItem();
+        jMenuCadastroCronograma = new javax.swing.JMenuItem();
+        jMenuCadastroPlanoEnsino = new javax.swing.JMenuItem();
+        jMenuCadastroPPC = new javax.swing.JMenuItem();
+        jMenuCadastroBibliografia = new javax.swing.JMenuItem();
+        jMenuCadastroAtaReuniao = new javax.swing.JMenuItem();
+        jMenuGestao = new javax.swing.JMenu();
+        jMenuGestaoCurso = new javax.swing.JMenuItem();
+        jMenuGestaoDisciplina = new javax.swing.JMenuItem();
+        jMenuGestaoProfessor = new javax.swing.JMenuItem();
+        jMenuGestaoCronograma = new javax.swing.JMenuItem();
+        jMenuGestaoPlanoEnsino = new javax.swing.JMenuItem();
+        jMenuGestaoPPC = new javax.swing.JMenuItem();
+        jMenuGestaoBibliografia = new javax.swing.JMenuItem();
+        jMenuGestaoAtaReuniao = new javax.swing.JMenuItem();
+        jMenuGestaoMatrizCurricular = new javax.swing.JMenuItem();
+        jMenuSimulador = new javax.swing.JMenu();
+        jMenuSimuladorMEC = new javax.swing.JMenuItem();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                formWindowOpened(evt);
+            }
+        });
+
+        jMenuBar1.setBorder(null);
+
+        jMenuCadastro.setText("Cadastro");
+
+        jMenuCadastroCurso.setText("Curso");
+        jMenuCadastroCurso.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuCadastroCursoActionPerformed(evt);
+            }
+        });
+        jMenuCadastro.add(jMenuCadastroCurso);
+
+        jMenuCadastroDisciplina.setText("Disciplina");
+        jMenuCadastroDisciplina.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuCadastroDisciplinaActionPerformed(evt);
+            }
+        });
+        jMenuCadastro.add(jMenuCadastroDisciplina);
+
+        jMenuCadastroProfessor.setText("Professor");
+        jMenuCadastroProfessor.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuCadastroProfessorActionPerformed(evt);
+            }
+        });
+        jMenuCadastro.add(jMenuCadastroProfessor);
+
+        jMenuCadastroCronograma.setText("Cronograma");
+        jMenuCadastroCronograma.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuCadastroCronogramaActionPerformed(evt);
+            }
+        });
+        jMenuCadastro.add(jMenuCadastroCronograma);
+
+        jMenuCadastroPlanoEnsino.setText("Plano de Ensino");
+        jMenuCadastroPlanoEnsino.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuCadastroPlanoEnsinoActionPerformed(evt);
+            }
+        });
+        jMenuCadastro.add(jMenuCadastroPlanoEnsino);
+
+        jMenuCadastroPPC.setText("PPC");
+        jMenuCadastroPPC.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuCadastroPPCActionPerformed(evt);
+            }
+        });
+        jMenuCadastro.add(jMenuCadastroPPC);
+
+        jMenuCadastroBibliografia.setText("Bibliografia");
+        jMenuCadastroBibliografia.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuCadastroBibliografiaActionPerformed(evt);
+            }
+        });
+        jMenuCadastro.add(jMenuCadastroBibliografia);
+
+        jMenuCadastroAtaReuniao.setText("Ata de Reunião");
+        jMenuCadastroAtaReuniao.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuCadastroAtaReuniaoActionPerformed(evt);
+            }
+        });
+        jMenuCadastro.add(jMenuCadastroAtaReuniao);
+
+        jMenuBar1.add(jMenuCadastro);
+
+        jMenuGestao.setText("Gestão");
+
+        jMenuGestaoCurso.setText("Curso");
+        jMenuGestaoCurso.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuGestaoCursoActionPerformed(evt);
+            }
+        });
+        jMenuGestao.add(jMenuGestaoCurso);
+
+        jMenuGestaoDisciplina.setText("Disciplina");
+        jMenuGestaoDisciplina.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuGestaoDisciplinaActionPerformed(evt);
+            }
+        });
+        jMenuGestao.add(jMenuGestaoDisciplina);
+
+        jMenuGestaoProfessor.setText("Professor");
+        jMenuGestaoProfessor.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuGestaoProfessorActionPerformed(evt);
+            }
+        });
+        jMenuGestao.add(jMenuGestaoProfessor);
+
+        jMenuGestaoCronograma.setText("Cronograma");
+        jMenuGestaoCronograma.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuGestaoCronogramaActionPerformed(evt);
+            }
+        });
+        jMenuGestao.add(jMenuGestaoCronograma);
+
+        jMenuGestaoPlanoEnsino.setText("Plano de Ensino");
+        jMenuGestaoPlanoEnsino.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuGestaoPlanoEnsinoActionPerformed(evt);
+            }
+        });
+        jMenuGestao.add(jMenuGestaoPlanoEnsino);
+
+        jMenuGestaoPPC.setText("PPC");
+        jMenuGestaoPPC.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuGestaoPPCActionPerformed(evt);
+            }
+        });
+        jMenuGestao.add(jMenuGestaoPPC);
+
+        jMenuGestaoBibliografia.setText("Bibliografia");
+        jMenuGestaoBibliografia.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuGestaoBibliografiaActionPerformed(evt);
+            }
+        });
+        jMenuGestao.add(jMenuGestaoBibliografia);
+
+        jMenuGestaoAtaReuniao.setText("Ata de Reunião");
+        jMenuGestaoAtaReuniao.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuGestaoAtaReuniaoActionPerformed(evt);
+            }
+        });
+        jMenuGestao.add(jMenuGestaoAtaReuniao);
+
+        jMenuGestaoMatrizCurricular.setText("Matriz Curricular");
+        jMenuGestaoMatrizCurricular.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuGestaoMatrizCurricularActionPerformed(evt);
+            }
+        });
+        jMenuGestao.add(jMenuGestaoMatrizCurricular);
+
+        jMenuBar1.add(jMenuGestao);
+
+        jMenuSimulador.setText("Simulador");
+
+        jMenuSimuladorMEC.setText("Simulador MEC");
+        jMenuSimuladorMEC.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuSimuladorMECActionPerformed(evt);
+            }
+        });
+        jMenuSimulador.add(jMenuSimuladorMEC);
+
+        jMenuBar1.add(jMenuSimulador);
+
+        setJMenuBar(jMenuBar1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGap(0, 719, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGap(0, 457, Short.MAX_VALUE)
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
+
+    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+        this.setExtendedState(JFrame.MAXIMIZED_BOTH);
+    }//GEN-LAST:event_formWindowOpened
+
+    private void jMenuCadastroDisciplinaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuCadastroDisciplinaActionPerformed
+        CadastroDisciplina cadastroDisciplina = new CadastroDisciplina (new javax.swing.JFrame(), true);
+        cadastroDisciplina.setVisible(true);
+    }//GEN-LAST:event_jMenuCadastroDisciplinaActionPerformed
+
+    private void jMenuCadastroProfessorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuCadastroProfessorActionPerformed
+        CadastroProfessor cadastroProfessor = new CadastroProfessor(new javax.swing.JFrame(), true);
+        cadastroProfessor.setVisible(true);
+    }//GEN-LAST:event_jMenuCadastroProfessorActionPerformed
+
+    private void jMenuCadastroPlanoEnsinoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuCadastroPlanoEnsinoActionPerformed
+        CadastroPlanoDeEnsino cadastroPlanoDeEnsino = new CadastroPlanoDeEnsino(new javax.swing.JFrame(), true);
+        cadastroPlanoDeEnsino.setVisible(true);
+    }//GEN-LAST:event_jMenuCadastroPlanoEnsinoActionPerformed
+
+    private void jMenuCadastroPPCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuCadastroPPCActionPerformed
+        CadastroPPC cadastroPPC = new CadastroPPC(new javax.swing.JFrame(), true);
+        cadastroPPC.setVisible(true);
+    }//GEN-LAST:event_jMenuCadastroPPCActionPerformed
+
+    private void jMenuCadastroBibliografiaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuCadastroBibliografiaActionPerformed
+        CadastroBibliografia cadastroBibliografia = new CadastroBibliografia(new javax.swing.JFrame(), true);
+        cadastroBibliografia.setVisible(true);
+    }//GEN-LAST:event_jMenuCadastroBibliografiaActionPerformed
+
+    private void jMenuCadastroAtaReuniaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuCadastroAtaReuniaoActionPerformed
+        CadastroAtaReuniao cadastroAtaReuniao = new CadastroAtaReuniao(new javax.swing.JFrame(), true);
+        cadastroAtaReuniao.setVisible(true);
+    }//GEN-LAST:event_jMenuCadastroAtaReuniaoActionPerformed
+
+    private void jMenuGestaoCursoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuGestaoCursoActionPerformed
+        GestaoCurso gestaoCurso = new GestaoCurso(new javax.swing.JFrame(), true);
+        gestaoCurso.setVisible(true);
+    }//GEN-LAST:event_jMenuGestaoCursoActionPerformed
+
+    private void jMenuGestaoDisciplinaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuGestaoDisciplinaActionPerformed
+        GestaoDisciplina gestaoDisciplina = new GestaoDisciplina(new javax.swing.JFrame(), true);
+        gestaoDisciplina.setVisible(true);
+    }//GEN-LAST:event_jMenuGestaoDisciplinaActionPerformed
+
+    private void jMenuGestaoProfessorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuGestaoProfessorActionPerformed
+        GestaoProfessor gestaoProfessor = new GestaoProfessor(new javax.swing.JFrame(), true);
+        gestaoProfessor.setVisible(true);
+    }//GEN-LAST:event_jMenuGestaoProfessorActionPerformed
+
+    private void jMenuGestaoCronogramaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuGestaoCronogramaActionPerformed
+        GestaoCronograma gestaoCronograma = new GestaoCronograma(new javax.swing.JFrame(), true);
+        gestaoCronograma.setVisible(true);
+    }//GEN-LAST:event_jMenuGestaoCronogramaActionPerformed
+
+    private void jMenuGestaoPlanoEnsinoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuGestaoPlanoEnsinoActionPerformed
+        GestaoPlanoDeEnsino gestaoPlanoEnsino = new GestaoPlanoDeEnsino(new javax.swing.JFrame(), true);
+        gestaoPlanoEnsino.setVisible(true);
+    }//GEN-LAST:event_jMenuGestaoPlanoEnsinoActionPerformed
+
+    private void jMenuGestaoPPCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuGestaoPPCActionPerformed
+        GestaoPPC gestaoPPC = new GestaoPPC(new javax.swing.JFrame(), true);
+        gestaoPPC.setVisible(true);
+    }//GEN-LAST:event_jMenuGestaoPPCActionPerformed
+
+    private void jMenuGestaoBibliografiaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuGestaoBibliografiaActionPerformed
+        GestaoBibliografia gestaoBibliografia = new GestaoBibliografia(new javax.swing.JFrame(), true);
+        gestaoBibliografia.setVisible(true);
+    }//GEN-LAST:event_jMenuGestaoBibliografiaActionPerformed
+
+    private void jMenuGestaoAtaReuniaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuGestaoAtaReuniaoActionPerformed
+        GestaoAtasReuniao gestaoAtasReuniao= new GestaoAtasReuniao(new javax.swing.JFrame(), true);
+        gestaoAtasReuniao.setVisible(true);
+    }//GEN-LAST:event_jMenuGestaoAtaReuniaoActionPerformed
+
+    private void jMenuGestaoMatrizCurricularActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuGestaoMatrizCurricularActionPerformed
+        GestaoMatrizCurricular gestaoMatrizCurricular = new GestaoMatrizCurricular(new javax.swing.JFrame(), true);
+        gestaoMatrizCurricular.setVisible(true);
+    }//GEN-LAST:event_jMenuGestaoMatrizCurricularActionPerformed
+
+    private void jMenuSimuladorMECActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuSimuladorMECActionPerformed
+        SimuladorAvaliacaoMEC simuladorAvaliacaoMEC = new SimuladorAvaliacaoMEC(new javax.swing.JFrame(), true);
+        simuladorAvaliacaoMEC.setVisible(true);
+    }//GEN-LAST:event_jMenuSimuladorMECActionPerformed
+
+    private void jMenuCadastroCursoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuCadastroCursoActionPerformed
+        CadastroCurso cadastroCurso = new CadastroCurso(new javax.swing.JFrame(), true);
+        cadastroCurso.setVisible(true);
+    }//GEN-LAST:event_jMenuCadastroCursoActionPerformed
+
+    private void jMenuCadastroCronogramaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuCadastroCronogramaActionPerformed
+        CadastroCronograma cadastroCronograma = new CadastroCronograma(new javax.swing.JFrame(), true);
+        cadastroCronograma.setVisible(true);
+    }//GEN-LAST:event_jMenuCadastroCronogramaActionPerformed
 
     /**
      * @param args the command line arguments
@@ -80,5 +366,27 @@ public class Principal extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenu jMenuCadastro;
+    private javax.swing.JMenuItem jMenuCadastroAtaReuniao;
+    private javax.swing.JMenuItem jMenuCadastroBibliografia;
+    private javax.swing.JMenuItem jMenuCadastroCronograma;
+    private javax.swing.JMenuItem jMenuCadastroCurso;
+    private javax.swing.JMenuItem jMenuCadastroDisciplina;
+    private javax.swing.JMenuItem jMenuCadastroPPC;
+    private javax.swing.JMenuItem jMenuCadastroPlanoEnsino;
+    private javax.swing.JMenuItem jMenuCadastroProfessor;
+    private javax.swing.JMenu jMenuGestao;
+    private javax.swing.JMenuItem jMenuGestaoAtaReuniao;
+    private javax.swing.JMenuItem jMenuGestaoBibliografia;
+    private javax.swing.JMenuItem jMenuGestaoCronograma;
+    private javax.swing.JMenuItem jMenuGestaoCurso;
+    private javax.swing.JMenuItem jMenuGestaoDisciplina;
+    private javax.swing.JMenuItem jMenuGestaoMatrizCurricular;
+    private javax.swing.JMenuItem jMenuGestaoPPC;
+    private javax.swing.JMenuItem jMenuGestaoPlanoEnsino;
+    private javax.swing.JMenuItem jMenuGestaoProfessor;
+    private javax.swing.JMenu jMenuSimulador;
+    private javax.swing.JMenuItem jMenuSimuladorMEC;
     // End of variables declaration//GEN-END:variables
 }
