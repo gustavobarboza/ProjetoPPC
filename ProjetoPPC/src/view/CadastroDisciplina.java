@@ -5,6 +5,11 @@
  */
 package view;
 
+import dao.DisciplinaDao;
+import entity.Disciplina;
+import java.awt.Color;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author gbarboza
@@ -59,6 +64,11 @@ public class CadastroDisciplina extends javax.swing.JDialog {
         jLabel5.setText("Carga Horária");
 
         jButton2.setText("Salvar");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         jButton3.setText("Cancelar");
 
@@ -145,6 +155,27 @@ public class CadastroDisciplina extends javax.swing.JDialog {
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+
+        //Instancia e envia os dados inseridos no formulário para o objeto disciplina
+        Disciplina disciplina = new Disciplina();
+        
+        disciplina.setNome(jTextField1.getText());
+        disciplina.setDescricao(jTextField2.getText());
+        disciplina.setCodigo(jTextField3.getText());
+        disciplina.setSemestre(jTextField4.getText());
+        disciplina.setCargaHoraria(Integer.parseInt(jTextField5.getText()));
+        
+        //Valida o preenchimento dos dados antes de enviá-los para a base de dados
+        
+        DisciplinaDao disciplinaDao = new DisciplinaDao();
+        if (disciplinaDao.cria(disciplina)){
+            JOptionPane.showMessageDialog(this, "Disciplina cadastrada com sucesso!");
+        }else{
+            JOptionPane.showMessageDialog(this, "Erro ao cadastrar a disciplina!");
+        }
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
      * @param args the command line arguments

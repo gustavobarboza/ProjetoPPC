@@ -20,7 +20,7 @@ public class ConexaoDb {
     public Connection getConexao(){
             
         try {
-            return DriverManager.getConnection("jdbc:sqlite:C:\\Users\\Gustavo\\ProjetoPPC\\ProjetoPPC\\database\\ppc_db.db");
+            return DriverManager.getConnection("jdbc:sqlite:.\\database\\ppc_db.db");
         } catch (SQLException ex) {
            throw new RuntimeException(ex);
         }

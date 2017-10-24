@@ -5,6 +5,10 @@
  */
 package view;
 
+import dao.DisciplinaDao;
+import entity.Disciplina;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author gbarboza
@@ -37,6 +41,11 @@ public class GestaoDisciplina extends javax.swing.JDialog {
         jButton4 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                formWindowOpened(evt);
+            }
+        });
 
         jLabel1.setText("Disciplinas Cadastradas:");
 
@@ -107,6 +116,23 @@ public class GestaoDisciplina extends javax.swing.JDialog {
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
+
+    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+        
+        DisciplinaDao disciplinaDao = new DisciplinaDao();
+        
+        DefaultTableModel modelo = (DefaultTableModel) jTable1.getModel();
+        
+        modelo.setNumRows(0);
+        for(Disciplina disciplina : disciplinaDao.getDisciplinas()){
+            modelo.addRow(new Object[]{
+                disciplina.getNome(),
+                disciplina.getDescricao(),
+                disciplina.getCodigo()
+            });
+        }
+        
+    }//GEN-LAST:event_formWindowOpened
 
     /**
      * @param args the command line arguments
