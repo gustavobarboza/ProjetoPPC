@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package view;
 
 import dao.DisciplinaDao;
@@ -58,6 +53,12 @@ public class CadastroDisciplina extends javax.swing.JDialog {
 
         jLabel3.setText("Código da Disciplina");
 
+        jCodigo.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                jCodigoFocusGained(evt);
+            }
+        });
+
         jLabel4.setText("Semestre");
 
         jLabel5.setText("Carga Horária");
@@ -99,17 +100,17 @@ public class CadastroDisciplina extends javax.swing.JDialog {
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                             .addComponent(jDescricao))
                         .addGroup(layout.createSequentialGroup()
+                            .addComponent(jLabel5)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(jCargaHoraria, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(layout.createSequentialGroup()
                             .addComponent(jLabel3)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                             .addComponent(jCodigo))
                         .addGroup(layout.createSequentialGroup()
                             .addComponent(jLabel4)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(jSemestre))
-                        .addGroup(layout.createSequentialGroup()
-                            .addComponent(jLabel5)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(jCargaHoraria, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(jSemestre, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jSalvar)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -173,24 +174,30 @@ public class CadastroDisciplina extends javax.swing.JDialog {
                 //Verifica se a disciplina já existe
                 if(disciplinaDao.getDisciplina(disciplina.getCodigo()).getCodigo()==null){
                     //Trecho executado para cadastros de novas disciplinas
-                    if (disciplinaDao.Insere(disciplina)){
-                        JOptionPane.showMessageDialog(this, "Disciplina cadastrada com sucesso!");
-                    }else{
-                        JOptionPane.showMessageDialog(this, "Erro ao cadastrar a disciplina!");
+                    if(JOptionPane.showConfirmDialog(null, "Tem certeza que deseja cadastrar a disciplina?", "Excluir Disciplina", JOptionPane.YES_NO_OPTION)==JOptionPane.YES_OPTION){
+                        if (disciplinaDao.Insere(disciplina)){
+                           JOptionPane.showMessageDialog(this, "Disciplina cadastrada com sucesso!");
+                           dispose();
+                       }else{
+                           JOptionPane.showMessageDialog(this, "Erro ao cadastrar a disciplina!");
+                       }
                     }
                 }else{
-                    JOptionPane.showMessageDialog(this, "Disciplina ja existe!");
+                    JOptionPane.showMessageDialog(this, "Já existe uma disciplina cadastrada com esse código!","Disciplina já cadastrada", JOptionPane.WARNING_MESSAGE);
+                    jCodigo.setBackground(Color.red);
                 }
             //Trecho executado para alteração de uma disciplina existente    
             }else{
-                if (disciplinaDao.Altera(disciplina, codigoDisciplina)){
-                    JOptionPane.showMessageDialog(this, "Disciplina alterada com sucesso!");
-                }else{
-                    JOptionPane.showMessageDialog(this, "Erro ao alterar a disciplina!","Erro ao alterar", JOptionPane.WARNING_MESSAGE );
+                if(JOptionPane.showConfirmDialog(null, "Tem certeza que deseja alterar a disciplina?", "Excluir Disciplina", JOptionPane.YES_NO_OPTION)==JOptionPane.YES_OPTION){
+                    if (disciplinaDao.Altera(disciplina, codigoDisciplina)){
+                        JOptionPane.showMessageDialog(this, "Disciplina alterada com sucesso!");
+                        dispose();
+                    }else{
+                        JOptionPane.showMessageDialog(this, "Erro ao alterar a disciplina!","Erro ao alterar", JOptionPane.WARNING_MESSAGE );
+                    }
                 }
             }
         }
-       
     }//GEN-LAST:event_jSalvarActionPerformed
 
     private void jSairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jSairActionPerformed
@@ -203,6 +210,10 @@ public class CadastroDisciplina extends javax.swing.JDialog {
         evt.consume();
         }
     }//GEN-LAST:event_jCargaHorariaKeyTyped
+
+    private void jCodigoFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jCodigoFocusGained
+        jCodigo.setBackground(Color.white);
+    }//GEN-LAST:event_jCodigoFocusGained
 
     /**
      * @param args the command line arguments

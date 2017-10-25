@@ -62,9 +62,17 @@ public class GestaoDisciplina extends javax.swing.JDialog {
                 {null, null, null}
             },
             new String [] {
-                "Nome", "Descrição", "Código"
+                "Código", "Nome", "Descrição"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         jTable1.setToolTipText("");
         jScrollPane1.setViewportView(jTable1);
 
@@ -181,28 +189,34 @@ public class GestaoDisciplina extends javax.swing.JDialog {
        }else{
            JOptionPane.showMessageDialog(this, "Seleciona uma disciplina para alterar");
        }
+        
+
     }//GEN-LAST:event_jAlterarActionPerformed
 
     private void jExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jExcluirActionPerformed
+
+
         int index =-1;
         index=jTable1.getSelectedRow();
         if (index!=-1){
 
             String codigo = jTable1.getValueAt(jTable1.getSelectedRow(), 2).toString();
-            
-            DisciplinaDao disciplinaDao = new DisciplinaDao();
-            if (disciplinaDao.Remove(codigo)){
-                JOptionPane.showMessageDialog(this, "Disciplina excluída da base de dados!", "Disciplina excluída",
-                JOptionPane.INFORMATION_MESSAGE);
+            if(JOptionPane.showConfirmDialog(null, "Tem certeza que deseja excluir a disciplina?", "Excluir Disciplina", JOptionPane.YES_NO_OPTION)==JOptionPane.YES_OPTION){
+                DisciplinaDao disciplinaDao = new DisciplinaDao();
                 
-                listaDisciplinas();
-            }else{
-                JOptionPane.showMessageDialog(this, "Não foi possível excluir a disciplina!", "Erro ao excluir",
-                JOptionPane.WARNING_MESSAGE);
+                if (disciplinaDao.Remove(codigo)){
+                    
+                    JOptionPane.showMessageDialog(this, "Disciplina excluída da base de dados!", "Disciplina excluída",
+                    JOptionPane.INFORMATION_MESSAGE);
+
+                    listaDisciplinas();
+                }else{
+                    JOptionPane.showMessageDialog(this, "Não foi possível excluir a disciplina!", "Erro ao excluir",
+                    JOptionPane.WARNING_MESSAGE);
             }
-                        
+        }
         }else{
-            JOptionPane.showMessageDialog(this, "Seleciona uma disciplina para excluir");
+            JOptionPane.showMessageDialog(this, "Selecione uma disciplina para excluir", "Selecione uma disciplina",JOptionPane.INFORMATION_MESSAGE);
         }
     }//GEN-LAST:event_jExcluirActionPerformed
 
@@ -262,9 +276,9 @@ public class GestaoDisciplina extends javax.swing.JDialog {
         modelo.setNumRows(0);
         for(Disciplina disciplina : disciplinaDao.getDisciplinas()){
             modelo.addRow(new Object[]{
+                disciplina.getCodigo(),
                 disciplina.getNome(),
-                disciplina.getDescricao(),
-                disciplina.getCodigo()
+                disciplina.getDescricao()
             });
         }
     }
