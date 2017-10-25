@@ -16,11 +16,12 @@ import javax.swing.JOptionPane;
  */
 public class CadastroDisciplina extends javax.swing.JDialog {
 
-    /**
-     * Creates new form CadastroDisciplina
-     */
+    boolean novo; //Varial utilizada para saber se está sendo cadastrado uma nova discplina ou alterado uma existente.
+    String codigoDisciplina; // Variavel recebe o código da disciplina do form de gestão de disciplinas e utiliza para fazer consultas
+    
     public CadastroDisciplina(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
+        this.novo = true;
         initComponents();
     }
 
@@ -35,19 +36,17 @@ public class CadastroDisciplina extends javax.swing.JDialog {
 
         jButton1 = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        jNome = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
-        jTextField2 = new javax.swing.JTextField();
+        jDescricao = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
-        jTextField3 = new javax.swing.JTextField();
+        jCodigo = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
-        jTextField4 = new javax.swing.JTextField();
+        jSemestre = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
-        jTextField5 = new javax.swing.JTextField();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
-        jLabel6 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        jCargaHoraria = new javax.swing.JTextField();
+        jSalvar = new javax.swing.JButton();
+        jSair = new javax.swing.JButton();
 
         jButton1.setText("jButton1");
 
@@ -63,19 +62,25 @@ public class CadastroDisciplina extends javax.swing.JDialog {
 
         jLabel5.setText("Carga Horária");
 
-        jButton2.setText("Salvar");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+        jCargaHoraria.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jCargaHorariaKeyTyped(evt);
             }
         });
 
-        jButton3.setText("Cancelar");
+        jSalvar.setText("Salvar");
+        jSalvar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jSalvarActionPerformed(evt);
+            }
+        });
 
-        jLabel6.setForeground(new java.awt.Color(255, 0, 51));
-        jLabel6.setText("Professor Responsavel");
-
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jSair.setText("Sair");
+        jSair.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jSairActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -84,39 +89,32 @@ public class CadastroDisciplina extends javax.swing.JDialog {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addGroup(layout.createSequentialGroup()
+                            .addComponent(jLabel1)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(jNome, javax.swing.GroupLayout.PREFERRED_SIZE, 347, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(layout.createSequentialGroup()
+                            .addComponent(jLabel2)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(jDescricao))
+                        .addGroup(layout.createSequentialGroup()
+                            .addComponent(jLabel3)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(jCodigo))
+                        .addGroup(layout.createSequentialGroup()
+                            .addComponent(jLabel4)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(jSemestre))
+                        .addGroup(layout.createSequentialGroup()
+                            .addComponent(jLabel5)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(jCargaHoraria, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel6)
+                        .addComponent(jSalvar)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jComboBox1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addGroup(layout.createSequentialGroup()
-                                    .addComponent(jLabel1)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 347, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGroup(layout.createSequentialGroup()
-                                    .addComponent(jLabel2)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(jTextField2))
-                                .addGroup(layout.createSequentialGroup()
-                                    .addComponent(jLabel3)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(jTextField3))
-                                .addGroup(layout.createSequentialGroup()
-                                    .addComponent(jLabel4)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(jTextField4))
-                                .addGroup(layout.createSequentialGroup()
-                                    .addComponent(jLabel5)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jButton2)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jButton3)))
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addContainerGap())
+                        .addComponent(jSair)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -124,31 +122,27 @@ public class CadastroDisciplina extends javax.swing.JDialog {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jDescricao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
-                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
-                    .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel6)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(21, 21, 21)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel5)
-                    .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jSemestre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton2)
-                    .addComponent(jButton3))
+                    .addComponent(jLabel5)
+                    .addComponent(jCargaHoraria, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jSalvar)
+                    .addComponent(jSair))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -156,26 +150,59 @@ public class CadastroDisciplina extends javax.swing.JDialog {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void jSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jSalvarActionPerformed
 
-        //Instancia e envia os dados inseridos no formulário para o objeto disciplina
-        Disciplina disciplina = new Disciplina();
-        
-        disciplina.setNome(jTextField1.getText());
-        disciplina.setDescricao(jTextField2.getText());
-        disciplina.setCodigo(jTextField3.getText());
-        disciplina.setSemestre(jTextField4.getText());
-        disciplina.setCargaHoraria(Integer.parseInt(jTextField5.getText()));
-        
-        //Valida o preenchimento dos dados antes de enviá-los para a base de dados
-        
-        DisciplinaDao disciplinaDao = new DisciplinaDao();
-        if (disciplinaDao.cria(disciplina)){
-            JOptionPane.showMessageDialog(this, "Disciplina cadastrada com sucesso!");
+        //Verifica se os campos foram preenchidos corretamente
+        if(jNome.getText().isEmpty() || jDescricao.getText().isEmpty() || jCodigo.getText().isEmpty() 
+        || jSemestre.getText().isEmpty() || jCargaHoraria.getText().isEmpty()){
+            JOptionPane.showMessageDialog(this, "Preencha todos os campos!", "Erro de preenchimento", JOptionPane.WARNING_MESSAGE);
         }else{
-            JOptionPane.showMessageDialog(this, "Erro ao cadastrar a disciplina!");
+            
+            //Instancia e envia os dados inseridos no formulário para o objeto disciplina
+            Disciplina disciplina = new Disciplina();
+
+            disciplina.setNome(jNome.getText());
+            disciplina.setDescricao(jDescricao.getText());
+            disciplina.setCodigo(jCodigo.getText());
+            disciplina.setSemestre(jSemestre.getText());
+            disciplina.setCargaHoraria(Integer.parseInt(jCargaHoraria.getText()));
+
+            DisciplinaDao disciplinaDao = new DisciplinaDao();
+
+            if (novo){
+                //Verifica se a disciplina já existe
+                if(disciplinaDao.getDisciplina(disciplina.getCodigo()).getCodigo()==null){
+                    //Trecho executado para cadastros de novas disciplinas
+                    if (disciplinaDao.Insere(disciplina)){
+                        JOptionPane.showMessageDialog(this, "Disciplina cadastrada com sucesso!");
+                    }else{
+                        JOptionPane.showMessageDialog(this, "Erro ao cadastrar a disciplina!");
+                    }
+                }else{
+                    JOptionPane.showMessageDialog(this, "Disciplina ja existe!");
+                }
+            //Trecho executado para alteração de uma disciplina existente    
+            }else{
+                if (disciplinaDao.Altera(disciplina, codigoDisciplina)){
+                    JOptionPane.showMessageDialog(this, "Disciplina alterada com sucesso!");
+                }else{
+                    JOptionPane.showMessageDialog(this, "Erro ao alterar a disciplina!","Erro ao alterar", JOptionPane.WARNING_MESSAGE );
+                }
+            }
         }
-    }//GEN-LAST:event_jButton2ActionPerformed
+       
+    }//GEN-LAST:event_jSalvarActionPerformed
+
+    private void jSairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jSairActionPerformed
+        dispose();
+    }//GEN-LAST:event_jSairActionPerformed
+
+    private void jCargaHorariaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jCargaHorariaKeyTyped
+        String caracteres="0987654321";
+        if(!caracteres.contains(evt.getKeyChar()+"")){
+        evt.consume();
+        }
+    }//GEN-LAST:event_jCargaHorariaKeyTyped
 
     /**
      * @param args the command line arguments
@@ -221,19 +248,65 @@ public class CadastroDisciplina extends javax.swing.JDialog {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JComboBox<String> jComboBox1;
+    private javax.swing.JTextField jCargaHoraria;
+    private javax.swing.JTextField jCodigo;
+    private javax.swing.JTextField jDescricao;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
-    private javax.swing.JTextField jTextField4;
-    private javax.swing.JTextField jTextField5;
+    private javax.swing.JTextField jNome;
+    private javax.swing.JButton jSair;
+    private javax.swing.JButton jSalvar;
+    private javax.swing.JTextField jSemestre;
     // End of variables declaration//GEN-END:variables
+
+public void consultaDisciplina(String codigo){
+    DisciplinaDao disciplinaDao = new DisciplinaDao();
+    Disciplina disciplina = new Disciplina();
+    
+    disciplina = disciplinaDao.getDisciplina(codigo);
+    if (!disciplina.getNome().isEmpty()){
+        jNome.setText(disciplina.getNome());
+        jDescricao.setText(disciplina.getDescricao());
+        jCodigo.setText(disciplina.getCodigo());
+        jSemestre.setText(disciplina.getSemestre());
+        jCargaHoraria.setText(String.valueOf(disciplina.getCargaHoraria()));
+        
+        jNome.setEnabled(false);
+        jDescricao.setEnabled(false);
+        jCodigo.setEnabled(false);
+        jSemestre.setEnabled(false);
+        jCargaHoraria.setEnabled(false);
+        
+        jSalvar.setVisible(false);
+    }else{
+        JOptionPane.showMessageDialog(this, "Não foi possível consultar a disciplina");
+        dispose();
+    }
+    }
+
+public void alteraDisciplina(String codigo){
+    DisciplinaDao disciplinaDao = new DisciplinaDao();
+    Disciplina disciplina = new Disciplina();
+    
+    disciplina = disciplinaDao.getDisciplina(codigo);
+    if (!disciplina.getNome().isEmpty()){
+        
+        jNome.setText(disciplina.getNome());
+        jDescricao.setText(disciplina.getDescricao());
+        jCodigo.setText(disciplina.getCodigo());
+        jSemestre.setText(disciplina.getSemestre());
+        jCargaHoraria.setText(String.valueOf(disciplina.getCargaHoraria()));
+        
+        //Define que não se trata de uma item novo, mas de uma alteração, utilizado ao acionar o botão salvar
+        novo = false;
+        codigoDisciplina=codigo;
+        
+    }else{
+        JOptionPane.showMessageDialog(this, "Não foi possível consultar a disciplina");
+        dispose();
+    }
+    }
 }
