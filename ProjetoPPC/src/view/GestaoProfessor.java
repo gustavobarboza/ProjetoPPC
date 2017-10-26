@@ -5,6 +5,11 @@
  */
 package view;
 
+import dao.ProfessorDao;
+import entity.Professor;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author Gustavo
@@ -37,6 +42,11 @@ public class GestaoProfessor extends javax.swing.JDialog {
         jButton4 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                formWindowOpened(evt);
+            }
+        });
 
         jLabel1.setText("Gestão de Professores:");
 
@@ -54,7 +64,7 @@ public class GestaoProfessor extends javax.swing.JDialog {
                 {null, null, null}
             },
             new String [] {
-                "Tipo de Curso", "Modalidade", "Denominação do Curso"
+                "Professor", "CPF", "Titulação"
             }
         ));
         jTable1.setToolTipText("");
@@ -63,6 +73,11 @@ public class GestaoProfessor extends javax.swing.JDialog {
         jButton2.setText("Consultar");
 
         jButton3.setText("Alterar");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
 
         jButton4.setText("Excluir");
 
@@ -108,6 +123,28 @@ public class GestaoProfessor extends javax.swing.JDialog {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
+    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+        listaProfessores();
+    }//GEN-LAST:event_formWindowOpened
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        CadastroProfessor cadastroProfessor = new CadastroProfessor(new javax.swing.JFrame(), true);
+        int index=-1;
+        
+        index=jTable1.getSelectedRow();
+      
+        if(index!=-1){
+        String cpf = jTable1.getValueAt(jTable1.getSelectedRow(), 1).toString();
+        cadastroProfessor.alteraProfessor(cpf);
+        
+        cadastroProfessor.setVisible(true);
+        
+        listaProfessores();
+       }else{
+           JOptionPane.showMessageDialog(this, "Seleciona uma disciplina para alterar");
+       }
+    }//GEN-LAST:event_jButton3ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -149,6 +186,20 @@ public class GestaoProfessor extends javax.swing.JDialog {
                 dialog.setVisible(true);
             }
         });
+    }
+        public void listaProfessores(){
+            ProfessorDao professorDao = new ProfessorDao();
+        
+        DefaultTableModel modelo = (DefaultTableModel) jTable1.getModel();
+        
+        modelo.setNumRows(0);
+        for(Professor professor : professorDao.getProfessores()){
+            modelo.addRow(new Object[]{
+                professor.getNome(),
+                professor.getCpf(),
+                professor.getMaiorTitulacao()
+            });
+        }
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

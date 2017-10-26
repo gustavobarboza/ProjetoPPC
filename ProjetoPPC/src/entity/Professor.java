@@ -5,7 +5,7 @@
  */
 package entity;
 
-import java.util.Date;
+import java.sql.Date;
 
 /**
  *
@@ -21,7 +21,7 @@ public class Professor {
     private String dataAtualizacao;
     private boolean coordenador;
     private String matricula;
-    private Date dataAdmissao;
+    private String dataAdmissao;
     private int horasNde;
     private int orientacaoTcc;
     private int coordenacaoCurso;
@@ -126,11 +126,11 @@ public class Professor {
         this.matricula = matricula;
     }
 
-    public Date getDataAdmissao() {
+    public String getDataAdmissao() {
         return dataAdmissao;
     }
 
-    public void setDataAdmissao(Date dataAdmissao) {
+    public void setDataAdmissao(String dataAdmissao) {
         this.dataAdmissao = dataAdmissao;
     }
 

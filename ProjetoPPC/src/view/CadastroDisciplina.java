@@ -298,26 +298,26 @@ public void consultaDisciplina(String codigo){
     }
     }
 
-public void alteraDisciplina(String codigo){
-    DisciplinaDao disciplinaDao = new DisciplinaDao();
-    Disciplina disciplina = new Disciplina();
-    
-    disciplina = disciplinaDao.getDisciplina(codigo);
-    if (!disciplina.getNome().isEmpty()){
-        
-        jNome.setText(disciplina.getNome());
-        jDescricao.setText(disciplina.getDescricao());
-        jCodigo.setText(disciplina.getCodigo());
-        jSemestre.setText(disciplina.getSemestre());
-        jCargaHoraria.setText(String.valueOf(disciplina.getCargaHoraria()));
-        
-        //Define que não se trata de uma item novo, mas de uma alteração, utilizado ao acionar o botão salvar
-        novo = false;
-        codigoDisciplina=codigo;
-        
-    }else{
-        JOptionPane.showMessageDialog(this, "Não foi possível consultar a disciplina");
-        dispose();
-    }
+    public void alteraDisciplina(String codigo){
+        DisciplinaDao disciplinaDao = new DisciplinaDao();
+        Disciplina disciplina = new Disciplina();
+
+        disciplina = disciplinaDao.getDisciplina(codigo);
+        if (!disciplina.getNome().isEmpty()){
+
+            jNome.setText(disciplina.getNome());
+            jDescricao.setText(disciplina.getDescricao());
+            jCodigo.setText(disciplina.getCodigo());
+            jSemestre.setText(disciplina.getSemestre());
+            jCargaHoraria.setText(String.valueOf(disciplina.getCargaHoraria()));
+
+            //Define que não se trata de uma item novo, mas de uma alteração, utilizado ao acionar o botão salvar
+            novo = false;
+            codigoDisciplina=codigo;
+
+        }else{
+            JOptionPane.showMessageDialog(this, "Não foi possível consultar a disciplina");
+            dispose();
+        }
     }
 }
