@@ -16,6 +16,10 @@ import entity.ProfessorDisciplinasOutrosCursos;
 import entity.ProfessorParticipacaoEventos;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -26,8 +30,12 @@ import javax.swing.JOptionPane;
  * @author Gustavo
  */
 public class CadastroProfessor extends javax.swing.JDialog {
+    DateTimeFormatter dataFormatador = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+
+    LocalDate dataAtual = LocalDate.now();
 
     boolean novo = true;
+    
     Professor professor = new Professor();
     ProfessorDao professorDao = new ProfessorDao();
     ProfessorComprovantesDao professorComprovantesDao = new ProfessorComprovantesDao();
@@ -116,29 +124,29 @@ public class CadastroProfessor extends javax.swing.JDialog {
         jButton7 = new javax.swing.JButton();
         jSalvarDadosGerais = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
-        jCheckBox2 = new javax.swing.JCheckBox();
-        jCheckBox3 = new javax.swing.JCheckBox();
-        jCheckBox4 = new javax.swing.JCheckBox();
+        jMembroNde = new javax.swing.JCheckBox();
+        jMembroColegiado = new javax.swing.JCheckBox();
+        jDocente = new javax.swing.JCheckBox();
         jPanel7 = new javax.swing.JPanel();
         jLabel25 = new javax.swing.JLabel();
-        jFormattedTextField4 = new javax.swing.JFormattedTextField();
+        jTempoVinculoData = new javax.swing.JFormattedTextField();
         jLabel26 = new javax.swing.JLabel();
-        jTextField15 = new javax.swing.JTextField();
+        jTempoVinculoTotal = new javax.swing.JTextField();
         jPanel8 = new javax.swing.JPanel();
         jLabel27 = new javax.swing.JLabel();
-        jFormattedTextField5 = new javax.swing.JFormattedTextField();
+        jTempoMagisterioData = new javax.swing.JFormattedTextField();
         jLabel28 = new javax.swing.JLabel();
-        jTextField18 = new javax.swing.JTextField();
+        jTempoMagisterioTotal = new javax.swing.JTextField();
         jPanel9 = new javax.swing.JPanel();
         jLabel29 = new javax.swing.JLabel();
-        jFormattedTextField6 = new javax.swing.JFormattedTextField();
+        jExperienciaDistanciaData = new javax.swing.JFormattedTextField();
         jLabel30 = new javax.swing.JLabel();
-        jTextField19 = new javax.swing.JTextField();
+        jExperienciaDistanciaTotal = new javax.swing.JTextField();
         jPanel11 = new javax.swing.JPanel();
         jLabel33 = new javax.swing.JLabel();
-        jFormattedTextField8 = new javax.swing.JFormattedTextField();
+        jTempoExperienciaData = new javax.swing.JFormattedTextField();
         jLabel34 = new javax.swing.JLabel();
-        jTextField21 = new javax.swing.JTextField();
+        jTempoExperienciaTotal = new javax.swing.JTextField();
         jPanel12 = new javax.swing.JPanel();
         jTextField23 = new javax.swing.JTextField();
         jLabel37 = new javax.swing.JLabel();
@@ -147,41 +155,41 @@ public class CadastroProfessor extends javax.swing.JDialog {
         jList1 = new javax.swing.JList<>();
         jButton9 = new javax.swing.JButton();
         jButton10 = new javax.swing.JButton();
-        jButton11 = new javax.swing.JButton();
+        jSalvarAtuacaoProfissional = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
         jPanel13 = new javax.swing.JPanel();
-        jTextField22 = new javax.swing.JTextField();
+        jOutrasPublicacoesTraducoes = new javax.swing.JTextField();
         jLabel35 = new javax.swing.JLabel();
-        jTextField25 = new javax.swing.JTextField();
+        jOutrasPublicacoesProjetos = new javax.swing.JTextField();
         jLabel36 = new javax.swing.JLabel();
-        jTextField37 = new javax.swing.JTextField();
+        jOutrasPublicacoesProducao = new javax.swing.JTextField();
         jLabel51 = new javax.swing.JLabel();
         jPanel14 = new javax.swing.JPanel();
-        jTextField26 = new javax.swing.JTextField();
+        jLivrosCapitulosArea = new javax.swing.JTextField();
         jLabel41 = new javax.swing.JLabel();
-        jTextField27 = new javax.swing.JTextField();
+        jLivrosCapitulosOutrasAreas = new javax.swing.JTextField();
         jLabel42 = new javax.swing.JLabel();
         jPanel17 = new javax.swing.JPanel();
-        jTextField32 = new javax.swing.JTextField();
+        jArtigosPublicadosArea = new javax.swing.JTextField();
         jLabel47 = new javax.swing.JLabel();
-        jTextField33 = new javax.swing.JTextField();
+        jArtigosPublicadosOutrasAreas = new javax.swing.JTextField();
         jLabel48 = new javax.swing.JLabel();
         jPanel18 = new javax.swing.JPanel();
-        jTextField34 = new javax.swing.JTextField();
+        jPropriedadeIntelectualDepositada = new javax.swing.JTextField();
         jLabel49 = new javax.swing.JLabel();
-        jTextField35 = new javax.swing.JTextField();
+        jPropriedadeIntelectualRegistrada = new javax.swing.JTextField();
         jLabel50 = new javax.swing.JLabel();
         jPanel19 = new javax.swing.JPanel();
-        jTextField24 = new javax.swing.JTextField();
+        jTrabalhosPublicadosCompletos = new javax.swing.JTextField();
         jLabel39 = new javax.swing.JLabel();
-        jTextField36 = new javax.swing.JTextField();
+        jTrabalhosPublicadosResumos = new javax.swing.JTextField();
         jLabel40 = new javax.swing.JLabel();
         jButton12 = new javax.swing.JButton();
         jButton13 = new javax.swing.JButton();
         jLabel52 = new javax.swing.JLabel();
         jScrollPane5 = new javax.swing.JScrollPane();
         jTable3 = new javax.swing.JTable();
-        jButton14 = new javax.swing.JButton();
+        jSalvarPublicacoes = new javax.swing.JButton();
 
         jCheckBox1.setText("jCheckBox1");
 
@@ -215,6 +223,11 @@ public class CadastroProfessor extends javax.swing.JDialog {
         } catch (java.text.ParseException ex) {
             ex.printStackTrace();
         }
+        jDataAtualizacao.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                jDataAtualizacaoFocusLost(evt);
+            }
+        });
 
         jSalvar.setText("Salvar");
         jSalvar.addActionListener(new java.awt.event.ActionListener() {
@@ -318,24 +331,83 @@ public class CadastroProfessor extends javax.swing.JDialog {
         } catch (java.text.ParseException ex) {
             ex.printStackTrace();
         }
+        jDataAdmissao.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                jDataAdmissaoFocusLost(evt);
+            }
+        });
 
         jPanel5.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
+        jHorasNDE.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jHorasNDEKeyTyped(evt);
+            }
+        });
+
         jLabel10.setText("Horas NDE");
+
+        jOrientacaoTCC.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jOrientacaoTCCKeyTyped(evt);
+            }
+        });
 
         jLabel11.setText("Orientação TCC");
 
+        jCoordenacaoCurso.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jCoordenacaoCursoKeyTyped(evt);
+            }
+        });
+
         jLabel12.setText("Coordenação Curso");
+
+        jCoordenacaoOutrosCursos.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jCoordenacaoOutrosCursosKeyTyped(evt);
+            }
+        });
 
         jLabel13.setText("Coordenação Outros Cursos");
 
+        jPesquisa.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jPesquisaKeyTyped(evt);
+            }
+        });
+
         jLabel14.setText("Pesquisa (Semestre Atual)");
+
+        jAtividadeExtraClasseCurso.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jAtividadeExtraClasseCursoKeyTyped(evt);
+            }
+        });
 
         jLabel15.setText("Atividade Extra Classe no Curso");
 
+        jAtividadeExtraClasseOutrosCursos.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jAtividadeExtraClasseOutrosCursosKeyTyped(evt);
+            }
+        });
+
         jLabel16.setText("Atividade Extra Classe Outros Cursos");
 
+        jQtdeHorasCurso.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jQtdeHorasCursoKeyTyped(evt);
+            }
+        });
+
         jLabel17.setText("Qtde de Horas Curso");
+
+        jQtdeHorasOutroCurso.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jQtdeHorasOutroCursoKeyTyped(evt);
+            }
+        });
 
         jLabel18.setText("Qtde de Horas  Outro Curso");
 
@@ -458,6 +530,12 @@ public class CadastroProfessor extends javax.swing.JDialog {
         ));
         jScrollPane1.setViewportView(jTable1);
 
+        jTextField16.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jTextField16KeyTyped(evt);
+            }
+        });
+
         jLabel22.setText("Disciplina:");
 
         jButton4.setText("Incluir");
@@ -485,6 +563,12 @@ public class CadastroProfessor extends javax.swing.JDialog {
         jButton6.setText("Remover");
 
         jLabel24.setText("Carga Horária");
+
+        jTextField17.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jTextField17KeyTyped(evt);
+            }
+        });
 
         jButton7.setText("Incluir");
 
@@ -621,21 +705,26 @@ public class CadastroProfessor extends javax.swing.JDialog {
 
         jTabbedPane2.addTab("Geral", jPanel2);
 
-        jCheckBox2.setText("Membro NDE?");
+        jMembroNde.setText("Membro NDE?");
 
-        jCheckBox3.setText("Membro Colegiado?");
+        jMembroColegiado.setText("Membro Colegiado?");
 
-        jCheckBox4.setText("Docente com formação/capacitação/experiência pedagógica?");
+        jDocente.setText("Docente com formação/capacitação/experiência pedagógica?");
 
         jPanel7.setBorder(javax.swing.BorderFactory.createTitledBorder("Tempo de vínculo initerrupto do docente com o curso"));
 
         jLabel25.setText("Data Inicial");
 
         try {
-            jFormattedTextField4.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("##/##/####")));
+            jTempoVinculoData.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("##/##/####")));
         } catch (java.text.ParseException ex) {
             ex.printStackTrace();
         }
+        jTempoVinculoData.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                jTempoVinculoDataFocusLost(evt);
+            }
+        });
 
         jLabel26.setText("Tempo total");
 
@@ -650,9 +739,9 @@ public class CadastroProfessor extends javax.swing.JDialog {
                         .addGap(31, 31, 31)
                         .addComponent(jLabel26))
                     .addGroup(jPanel7Layout.createSequentialGroup()
-                        .addComponent(jFormattedTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jTempoVinculoData, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(jTextField15, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jTempoVinculoTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(0, 103, Short.MAX_VALUE))
         );
         jPanel7Layout.setVerticalGroup(
@@ -664,8 +753,8 @@ public class CadastroProfessor extends javax.swing.JDialog {
                     .addComponent(jLabel26))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jFormattedTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField15, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jTempoVinculoData, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTempoVinculoTotal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -674,10 +763,15 @@ public class CadastroProfessor extends javax.swing.JDialog {
         jLabel27.setText("Data Inicial");
 
         try {
-            jFormattedTextField5.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("##/##/####")));
+            jTempoMagisterioData.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("##/##/####")));
         } catch (java.text.ParseException ex) {
             ex.printStackTrace();
         }
+        jTempoMagisterioData.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                jTempoMagisterioDataFocusLost(evt);
+            }
+        });
 
         jLabel28.setText("Tempo total");
 
@@ -692,9 +786,9 @@ public class CadastroProfessor extends javax.swing.JDialog {
                         .addGap(31, 31, 31)
                         .addComponent(jLabel28))
                     .addGroup(jPanel8Layout.createSequentialGroup()
-                        .addComponent(jFormattedTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jTempoMagisterioData, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(jTextField18, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jTempoMagisterioTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(0, 103, Short.MAX_VALUE))
         );
         jPanel8Layout.setVerticalGroup(
@@ -706,8 +800,8 @@ public class CadastroProfessor extends javax.swing.JDialog {
                     .addComponent(jLabel28))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jFormattedTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField18, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(jTempoMagisterioData, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTempoMagisterioTotal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
         );
 
         jPanel9.setBorder(javax.swing.BorderFactory.createTitledBorder("Experiência em Cursos à Distância"));
@@ -715,10 +809,15 @@ public class CadastroProfessor extends javax.swing.JDialog {
         jLabel29.setText("Data Inicial");
 
         try {
-            jFormattedTextField6.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("##/##/####")));
+            jExperienciaDistanciaData.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("##/##/####")));
         } catch (java.text.ParseException ex) {
             ex.printStackTrace();
         }
+        jExperienciaDistanciaData.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                jExperienciaDistanciaDataFocusLost(evt);
+            }
+        });
 
         jLabel30.setText("Tempo total");
 
@@ -733,9 +832,9 @@ public class CadastroProfessor extends javax.swing.JDialog {
                         .addGap(31, 31, 31)
                         .addComponent(jLabel30))
                     .addGroup(jPanel9Layout.createSequentialGroup()
-                        .addComponent(jFormattedTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jExperienciaDistanciaData, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(jTextField19, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jExperienciaDistanciaTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(0, 103, Short.MAX_VALUE))
         );
         jPanel9Layout.setVerticalGroup(
@@ -747,8 +846,8 @@ public class CadastroProfessor extends javax.swing.JDialog {
                     .addComponent(jLabel30))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jFormattedTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField19, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jExperienciaDistanciaData, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jExperienciaDistanciaTotal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -757,10 +856,15 @@ public class CadastroProfessor extends javax.swing.JDialog {
         jLabel33.setText("Data Inicial");
 
         try {
-            jFormattedTextField8.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("##/##/####")));
+            jTempoExperienciaData.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("##/##/####")));
         } catch (java.text.ParseException ex) {
             ex.printStackTrace();
         }
+        jTempoExperienciaData.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                jTempoExperienciaDataFocusLost(evt);
+            }
+        });
 
         jLabel34.setText("Tempo total");
 
@@ -775,9 +879,9 @@ public class CadastroProfessor extends javax.swing.JDialog {
                         .addGap(31, 31, 31)
                         .addComponent(jLabel34))
                     .addGroup(jPanel11Layout.createSequentialGroup()
-                        .addComponent(jFormattedTextField8, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jTempoExperienciaData, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(jTextField21, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jTempoExperienciaTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(0, 99, Short.MAX_VALUE))
         );
         jPanel11Layout.setVerticalGroup(
@@ -789,12 +893,18 @@ public class CadastroProfessor extends javax.swing.JDialog {
                     .addComponent(jLabel34))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jFormattedTextField8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField21, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jTempoExperienciaData, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTempoExperienciaTotal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jPanel12.setBorder(javax.swing.BorderFactory.createTitledBorder("Participação em eventos"));
+
+        jTextField23.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jTextField23KeyTyped(evt);
+            }
+        });
 
         jLabel37.setText("Quantidade");
 
@@ -848,7 +958,12 @@ public class CadastroProfessor extends javax.swing.JDialog {
                         .addComponent(jButton10))))
         );
 
-        jButton11.setText("Salvar");
+        jSalvarAtuacaoProfissional.setText("Salvar");
+        jSalvarAtuacaoProfissional.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jSalvarAtuacaoProfissionalActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -865,11 +980,11 @@ public class CadastroProfessor extends javax.swing.JDialog {
                                         .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addComponent(jCheckBox4)
+                                    .addComponent(jDocente)
                                     .addGroup(jPanel3Layout.createSequentialGroup()
-                                        .addComponent(jCheckBox2)
+                                        .addComponent(jMembroNde)
                                         .addGap(18, 18, 18)
-                                        .addComponent(jCheckBox3))
+                                        .addComponent(jMembroColegiado))
                                     .addGroup(jPanel3Layout.createSequentialGroup()
                                         .addGap(4, 4, 4)
                                         .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -881,7 +996,7 @@ public class CadastroProfessor extends javax.swing.JDialog {
                         .addGap(0, 186, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jButton11, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jSalvarAtuacaoProfissional, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         jPanel3Layout.setVerticalGroup(
@@ -889,10 +1004,10 @@ public class CadastroProfessor extends javax.swing.JDialog {
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jCheckBox2)
-                    .addComponent(jCheckBox3))
+                    .addComponent(jMembroNde)
+                    .addComponent(jMembroColegiado))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jCheckBox4)
+                .addComponent(jDocente)
                 .addGap(7, 7, 7)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jPanel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -905,7 +1020,7 @@ public class CadastroProfessor extends javax.swing.JDialog {
                         .addComponent(jPanel12, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jPanel11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(62, 62, 62)
-                .addComponent(jButton11, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jSalvarAtuacaoProfissional, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
@@ -913,9 +1028,27 @@ public class CadastroProfessor extends javax.swing.JDialog {
 
         jPanel13.setBorder(javax.swing.BorderFactory.createTitledBorder("Outras Publicações"));
 
+        jOutrasPublicacoesTraducoes.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jOutrasPublicacoesTraducoesKeyTyped(evt);
+            }
+        });
+
         jLabel35.setText("Traduções de livros, capítulos de livros ou artigos publicados (qtde)");
 
+        jOutrasPublicacoesProjetos.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jOutrasPublicacoesProjetosKeyTyped(evt);
+            }
+        });
+
         jLabel36.setText("Projetos e/ou produções técnicas artísticas e culturais (qtde)");
+
+        jOutrasPublicacoesProducao.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jOutrasPublicacoesProducaoKeyTyped(evt);
+            }
+        });
 
         jLabel51.setText("Produção didático-pedagógica relevante, publicada ou não (qtde)");
 
@@ -926,15 +1059,15 @@ public class CadastroProfessor extends javax.swing.JDialog {
             .addGroup(jPanel13Layout.createSequentialGroup()
                 .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel13Layout.createSequentialGroup()
-                        .addComponent(jTextField22, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jOutrasPublicacoesTraducoes, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel35))
                     .addGroup(jPanel13Layout.createSequentialGroup()
-                        .addComponent(jTextField25, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jOutrasPublicacoesProjetos, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel36))
                     .addGroup(jPanel13Layout.createSequentialGroup()
-                        .addComponent(jTextField37, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jOutrasPublicacoesProducao, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel51)))
                 .addGap(0, 0, Short.MAX_VALUE))
@@ -943,22 +1076,34 @@ public class CadastroProfessor extends javax.swing.JDialog {
             jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel13Layout.createSequentialGroup()
                 .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField22, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jOutrasPublicacoesTraducoes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel35))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField25, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jOutrasPublicacoesProjetos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel36))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField37, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jOutrasPublicacoesProducao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel51))
                 .addGap(0, 43, Short.MAX_VALUE))
         );
 
         jPanel14.setBorder(javax.swing.BorderFactory.createTitledBorder("Livros ou Capítulos"));
 
+        jLivrosCapitulosArea.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jLivrosCapitulosAreaKeyTyped(evt);
+            }
+        });
+
         jLabel41.setText("livros publicados na área (qtde)");
+
+        jLivrosCapitulosOutrasAreas.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jLivrosCapitulosOutrasAreasKeyTyped(evt);
+            }
+        });
 
         jLabel42.setText("livros publicados em outras áreas (qtde)");
 
@@ -969,11 +1114,11 @@ public class CadastroProfessor extends javax.swing.JDialog {
             .addGroup(jPanel14Layout.createSequentialGroup()
                 .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel14Layout.createSequentialGroup()
-                        .addComponent(jTextField26, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLivrosCapitulosArea, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel41))
                     .addGroup(jPanel14Layout.createSequentialGroup()
-                        .addComponent(jTextField27, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLivrosCapitulosOutrasAreas, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel42)))
                 .addGap(0, 33, Short.MAX_VALUE))
@@ -982,18 +1127,30 @@ public class CadastroProfessor extends javax.swing.JDialog {
             jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel14Layout.createSequentialGroup()
                 .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField26, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLivrosCapitulosArea, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel41))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField27, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLivrosCapitulosOutrasAreas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel42))
                 .addGap(0, 16, Short.MAX_VALUE))
         );
 
         jPanel17.setBorder(javax.swing.BorderFactory.createTitledBorder("Artigos publicados em periódicos científicos"));
 
+        jArtigosPublicadosArea.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jArtigosPublicadosAreaKeyTyped(evt);
+            }
+        });
+
         jLabel47.setText("na área (qtde)");
+
+        jArtigosPublicadosOutrasAreas.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jArtigosPublicadosOutrasAreasKeyTyped(evt);
+            }
+        });
 
         jLabel48.setText("em outras áreas (qtde)");
 
@@ -1004,11 +1161,11 @@ public class CadastroProfessor extends javax.swing.JDialog {
             .addGroup(jPanel17Layout.createSequentialGroup()
                 .addGroup(jPanel17Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel17Layout.createSequentialGroup()
-                        .addComponent(jTextField32, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jArtigosPublicadosArea, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel47))
                     .addGroup(jPanel17Layout.createSequentialGroup()
-                        .addComponent(jTextField33, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jArtigosPublicadosOutrasAreas, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel48)))
                 .addGap(0, 113, Short.MAX_VALUE))
@@ -1017,18 +1174,30 @@ public class CadastroProfessor extends javax.swing.JDialog {
             jPanel17Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel17Layout.createSequentialGroup()
                 .addGroup(jPanel17Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField32, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jArtigosPublicadosArea, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel47))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel17Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField33, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jArtigosPublicadosOutrasAreas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel48))
                 .addGap(0, 16, Short.MAX_VALUE))
         );
 
         jPanel18.setBorder(javax.swing.BorderFactory.createTitledBorder("Propriedade Intelectual"));
 
+        jPropriedadeIntelectualDepositada.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jPropriedadeIntelectualDepositadaKeyTyped(evt);
+            }
+        });
+
         jLabel49.setText("depositada (qtde)");
+
+        jPropriedadeIntelectualRegistrada.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jPropriedadeIntelectualRegistradaKeyTyped(evt);
+            }
+        });
 
         jLabel50.setText("registrada (qtde)");
 
@@ -1039,11 +1208,11 @@ public class CadastroProfessor extends javax.swing.JDialog {
             .addGroup(jPanel18Layout.createSequentialGroup()
                 .addGroup(jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel18Layout.createSequentialGroup()
-                        .addComponent(jTextField34, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jPropriedadeIntelectualDepositada, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel49))
                     .addGroup(jPanel18Layout.createSequentialGroup()
-                        .addComponent(jTextField35, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jPropriedadeIntelectualRegistrada, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel50)))
                 .addGap(0, 0, Short.MAX_VALUE))
@@ -1052,18 +1221,30 @@ public class CadastroProfessor extends javax.swing.JDialog {
             jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel18Layout.createSequentialGroup()
                 .addGroup(jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField34, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jPropriedadeIntelectualDepositada, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel49))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField35, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jPropriedadeIntelectualRegistrada, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel50))
                 .addGap(0, 16, Short.MAX_VALUE))
         );
 
         jPanel19.setBorder(javax.swing.BorderFactory.createTitledBorder("Trabalhos publicados em anais"));
 
+        jTrabalhosPublicadosCompletos.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jTrabalhosPublicadosCompletosKeyTyped(evt);
+            }
+        });
+
         jLabel39.setText("completos (qtde)");
+
+        jTrabalhosPublicadosResumos.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jTrabalhosPublicadosResumosKeyTyped(evt);
+            }
+        });
 
         jLabel40.setText("resumos (qtde)");
 
@@ -1074,11 +1255,11 @@ public class CadastroProfessor extends javax.swing.JDialog {
             .addGroup(jPanel19Layout.createSequentialGroup()
                 .addGroup(jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel19Layout.createSequentialGroup()
-                        .addComponent(jTextField24, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jTrabalhosPublicadosCompletos, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel39))
                     .addGroup(jPanel19Layout.createSequentialGroup()
-                        .addComponent(jTextField36, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jTrabalhosPublicadosResumos, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel40)))
                 .addGap(0, 0, Short.MAX_VALUE))
@@ -1087,11 +1268,11 @@ public class CadastroProfessor extends javax.swing.JDialog {
             jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel19Layout.createSequentialGroup()
                 .addGroup(jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField24, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTrabalhosPublicadosCompletos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel39))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField36, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTrabalhosPublicadosResumos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel40))
                 .addGap(0, 16, Short.MAX_VALUE))
         );
@@ -1115,7 +1296,12 @@ public class CadastroProfessor extends javax.swing.JDialog {
         ));
         jScrollPane5.setViewportView(jTable3);
 
-        jButton14.setText("Salvar");
+        jSalvarPublicacoes.setText("Salvar");
+        jSalvarPublicacoes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jSalvarPublicacoesActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -1150,7 +1336,7 @@ public class CadastroProfessor extends javax.swing.JDialog {
                         .addGap(0, 0, Short.MAX_VALUE))))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton14, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jSalvarPublicacoes, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18))
         );
         jPanel4Layout.setVerticalGroup(
@@ -1176,7 +1362,7 @@ public class CadastroProfessor extends javax.swing.JDialog {
                         .addComponent(jButton13))
                     .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
-                .addComponent(jButton14, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jSalvarPublicacoes, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
@@ -1207,39 +1393,64 @@ public class CadastroProfessor extends javax.swing.JDialog {
 
     private void jSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jSalvarActionPerformed
         
-        
-        professor.setNome(jNome.getText());
-        professor.setCpf(jCPF.getText());
-        professor.setMaiorTitulacao(jMaiorTitulacao.getText());
-        professor.setAreaFormacao(jAreaFormacao.getText());
-        professor.setCurriculoLattes(jCurriculoLattes.getText());
+        boolean dadosValidos; //variavel utilizada para identificar se os dados foram preenchidos
+        dadosValidos = true;
+        SimpleDateFormat formatador = new SimpleDateFormat("dd/MM/yyyy");
+        Date data = new Date();
 
-        professor.setDataAtualizacao(jDataAtualizacao.getText());
         
-        professor.setCoordenador(jCoordenador.isSelected());
-        
-       
-
-        try {
-            professorDao.Cria(professor);
-            int idProfessor = professorDao.getIdProfessor(professor.getCpf());
-            
-            professorComprovantesDao.Cria(idProfessor);
-            professorDisciplinasCursoDao.Cria(idProfessor);
-            professorDisciplinasOutrosCursosDao.Cria(idProfessor);
-            professorParticipacaoEventosDao.Cria(idProfessor);
-            
-            JOptionPane.showMessageDialog(this, "Dados inseridos com sucesso"); 
-            jTabbedPane1.setEnabledAt(1, true);
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "Erro ao salvar");
+        //Verifica se os campos foram preenchidos
+        if(jNome.getText().isEmpty() || jCPF.getText().isEmpty() || jMaiorTitulacao.getText().isEmpty() 
+            || jAreaFormacao.getText().isEmpty() ||jCurriculoLattes.getText().isEmpty()){
+            dadosValidos=false;
         }
-//        if(professorDao.Insere(professor)){
-//           
-//            
-//        }else{
-//        }
         
+        //Verifica se a data é valida
+        try {
+            data = formatador.parse(jDataAtualizacao.getText());
+            
+        } catch (ParseException ex) {
+                dadosValidos=false;
+                Logger.getLogger(CadastroProfessor.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        
+        if (dadosValidos){
+            
+            professor.setNome(jNome.getText());
+            professor.setCpf(jCPF.getText());
+            professor.setMaiorTitulacao(jMaiorTitulacao.getText());
+            professor.setAreaFormacao(jAreaFormacao.getText());
+            professor.setCurriculoLattes(jCurriculoLattes.getText());
+            professor.setDataAtualizacao(jDataAtualizacao.getText());
+            professor.setCoordenador(jCoordenador.isSelected());
+
+            try {
+                if(novo){
+                professorDao.Cria(professor);
+                int idProfessor = professorDao.getIdProfessor(professor.getCpf());
+
+                professorComprovantesDao.Cria(idProfessor);
+                professorDisciplinasCursoDao.Cria(idProfessor);
+                professorDisciplinasOutrosCursosDao.Cria(idProfessor);
+                professorParticipacaoEventosDao.Cria(idProfessor);
+
+                JOptionPane.showMessageDialog(this, "Dados inseridos com sucesso");
+                }else{
+                    int idProfessor = professorDao.getIdProfessor(professor.getCpf());    
+
+                    professorDao.Altera(professor, idProfessor);
+
+                    JOptionPane.showMessageDialog(this, "Dados alterados com sucesso");
+                }
+
+                jTabbedPane1.setEnabledAt(1, true);
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(this, "Erro ao salvar");
+            }
+        }else{
+            JOptionPane.showMessageDialog(this, "Verifique o preenchimento dos campos", "Verifique o preenchimento", JOptionPane.WARNING_MESSAGE);
+        }
     }//GEN-LAST:event_jSalvarActionPerformed
 
     private void jSalvarDadosGeraisActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jSalvarDadosGeraisActionPerformed
@@ -1274,6 +1485,321 @@ public class CadastroProfessor extends javax.swing.JDialog {
             jTabbedPane1.setEnabledAt(1, false);
         }
     }//GEN-LAST:event_formWindowOpened
+
+    private void jSalvarAtuacaoProfissionalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jSalvarAtuacaoProfissionalActionPerformed
+                
+        professor.setMembroNde(jMembroNde.isSelected());
+        professor.setMembroColegiado(jMembroColegiado.isSelected());
+        professor.setDocenteCapacitacao(jMembroColegiado.isSelected());
+        professor.setTempoVinculoData(jTempoVinculoData.getText());
+        professor.setTempoVinculoTotal(jTempoVinculoTotal.getText());
+        professor.setTempoMagisterioData(jTempoMagisterioData.getText());
+        professor.setTempoMagisterioTotal(jTempoMagisterioTotal.getText());
+        professor.setExperienciaDistanciaData(jExperienciaDistanciaData.getText());
+        professor.setExperienciaDistanciaTotal(jExperienciaDistanciaTotal.getText());
+        professor.setTempoExperienciaData(jTempoExperienciaData.getText());
+        professor.setTempoExperienciaTotal(jTempoExperienciaTotal.getText());
+        
+        int idProfessor = professorDao.getIdProfessor(professor.getCpf());
+
+        if (professorDao.InsereAtuacaoProfissional(professor, idProfessor)){
+            JOptionPane.showMessageDialog(this, "Salvo com sucesso");
+        }else{
+        JOptionPane.showMessageDialog(this, "Erro ao salvar.");
+        }
+
+    }//GEN-LAST:event_jSalvarAtuacaoProfissionalActionPerformed
+
+    private void jTempoVinculoDataFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTempoVinculoDataFocusLost
+        SimpleDateFormat formatador = new SimpleDateFormat("dd/MM/yyyy");
+        Date data = new Date();
+        try {
+            data = formatador.parse(jTempoVinculoData.getText());
+            LocalDate dataInformada = LocalDate.parse(jTempoVinculoData.getText(), dataFormatador);
+            long diferenca = ChronoUnit.MONTHS.between(dataInformada, dataAtual);
+        
+            jTempoVinculoData.setText(String.valueOf(diferenca)+" meses");
+            
+        } catch (ParseException ex) {
+            JOptionPane.showMessageDialog(this, "Insira uma data válida");
+            jTempoVinculoData.setText("");
+            jTempoVinculoTotal.setText("");
+            
+            Logger.getLogger(CadastroProfessor.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jTempoVinculoDataFocusLost
+
+    private void jTempoMagisterioDataFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTempoMagisterioDataFocusLost
+        SimpleDateFormat formatador = new SimpleDateFormat("dd/MM/yyyy");
+        Date data = new Date();
+        try {
+            data = formatador.parse(jTempoMagisterioData.getText());
+            LocalDate dataInformada = LocalDate.parse(jTempoMagisterioData.getText(), dataFormatador);
+            long diferenca = ChronoUnit.MONTHS.between(dataInformada, dataAtual);
+        
+            jTempoMagisterioData.setText(String.valueOf(diferenca)+" meses");
+            
+        } catch (ParseException ex) {
+            JOptionPane.showMessageDialog(this, "Insira uma data válida");
+            jTempoMagisterioData.setText("");
+            jTempoMagisterioTotal.setText("");
+
+            
+            Logger.getLogger(CadastroProfessor.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jTempoMagisterioDataFocusLost
+
+    private void jExperienciaDistanciaDataFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jExperienciaDistanciaDataFocusLost
+        SimpleDateFormat formatador = new SimpleDateFormat("dd/MM/yyyy");
+        Date data = new Date();
+        try {
+            data = formatador.parse(jExperienciaDistanciaData.getText());
+            LocalDate dataInformada = LocalDate.parse(jExperienciaDistanciaData.getText(), dataFormatador);
+            long diferenca = ChronoUnit.MONTHS.between(dataInformada, dataAtual);
+        
+            jExperienciaDistanciaData.setText(String.valueOf(diferenca)+" meses");
+            
+        } catch (ParseException ex) {
+            JOptionPane.showMessageDialog(this, "Insira uma data válida");
+            jExperienciaDistanciaData.setText("");
+            jExperienciaDistanciaTotal.setText("");
+
+            
+            Logger.getLogger(CadastroProfessor.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jExperienciaDistanciaDataFocusLost
+
+    private void jTempoExperienciaDataFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTempoExperienciaDataFocusLost
+
+        SimpleDateFormat formatador = new SimpleDateFormat("dd/MM/yyyy");
+        Date data = new Date();
+        try {
+            data = formatador.parse(jTempoExperienciaData.getText());
+            LocalDate dataInformada = LocalDate.parse(jTempoExperienciaData.getText(), dataFormatador);
+            long diferenca = ChronoUnit.MONTHS.between(dataInformada, dataAtual);
+        
+            jTempoExperienciaData.setText(String.valueOf(diferenca)+" meses");
+            
+        } catch (ParseException ex) {
+            JOptionPane.showMessageDialog(this, "Insira uma data válida");
+            jTempoExperienciaData.setText("");
+            jTempoExperienciaTotal.setText("");
+
+            
+            Logger.getLogger(CadastroProfessor.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jTempoExperienciaDataFocusLost
+
+    private void jSalvarPublicacoesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jSalvarPublicacoesActionPerformed
+        
+        professor.setArtigosPublicadosArea(Integer.parseInt(jArtigosPublicadosArea.getText()));
+        professor.setArtigosPublicadosOutrasAreas(Integer.parseInt(jArtigosPublicadosOutrasAreas.getText()));
+        professor.setLivrosCapitulosArea(Integer.parseInt(jLivrosCapitulosArea.getText()));
+        professor.setLivrosCapitulosOutrasAreas(Integer.parseInt(jLivrosCapitulosOutrasAreas.getText()));
+        professor.setTrabalhosPublicadosCompletos(Integer.parseInt(jTrabalhosPublicadosCompletos.getText()));
+        professor.setTrabalhosPublicadosResumos(Integer.parseInt(jTrabalhosPublicadosResumos.getText()));
+        professor.setPropriedadeIntelectualDepositada(Integer.parseInt(jPropriedadeIntelectualDepositada.getText()));
+        professor.setPropriedadeIntelectualRegistrada(Integer.parseInt(jPropriedadeIntelectualRegistrada.getText()));
+        professor.setOutrasPublicacoesTraducoes(Integer.parseInt(jOutrasPublicacoesTraducoes.getText()));
+        professor.setOutrasPublicacoesProjetos(Integer.parseInt(jOutrasPublicacoesProjetos.getText()));
+        professor.setOutrasPublicacoesProducao(Integer.parseInt(jOutrasPublicacoesProducao.getText()));
+        
+        int idProfessor = professorDao.getIdProfessor(professor.getCpf());
+
+        if (professorDao.InserePublicacoes(professor, idProfessor)){
+            JOptionPane.showMessageDialog(this, "Salvo com sucesso");
+        }else{
+        JOptionPane.showMessageDialog(this, "Erro ao salvar.");
+        }
+    }//GEN-LAST:event_jSalvarPublicacoesActionPerformed
+
+    private void jHorasNDEKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jHorasNDEKeyTyped
+        String caracteres="0987654321";
+        if(!caracteres.contains(evt.getKeyChar()+"")){
+        evt.consume();
+        }
+    }//GEN-LAST:event_jHorasNDEKeyTyped
+
+    private void jAtividadeExtraClasseCursoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jAtividadeExtraClasseCursoKeyTyped
+        String caracteres="0987654321";
+        if(!caracteres.contains(evt.getKeyChar()+"")){
+        evt.consume();
+        }
+    }//GEN-LAST:event_jAtividadeExtraClasseCursoKeyTyped
+
+    private void jOrientacaoTCCKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jOrientacaoTCCKeyTyped
+        String caracteres="0987654321";
+        if(!caracteres.contains(evt.getKeyChar()+"")){
+        evt.consume();
+        }
+    }//GEN-LAST:event_jOrientacaoTCCKeyTyped
+
+    private void jAtividadeExtraClasseOutrosCursosKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jAtividadeExtraClasseOutrosCursosKeyTyped
+        String caracteres="0987654321";
+        if(!caracteres.contains(evt.getKeyChar()+"")){
+        evt.consume();
+        }
+    }//GEN-LAST:event_jAtividadeExtraClasseOutrosCursosKeyTyped
+
+    private void jCoordenacaoCursoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jCoordenacaoCursoKeyTyped
+        String caracteres="0987654321";
+        if(!caracteres.contains(evt.getKeyChar()+"")){
+        evt.consume();
+        }
+    }//GEN-LAST:event_jCoordenacaoCursoKeyTyped
+
+    private void jQtdeHorasCursoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jQtdeHorasCursoKeyTyped
+        String caracteres="0987654321";
+        if(!caracteres.contains(evt.getKeyChar()+"")){
+        evt.consume();
+        }
+    }//GEN-LAST:event_jQtdeHorasCursoKeyTyped
+
+    private void jCoordenacaoOutrosCursosKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jCoordenacaoOutrosCursosKeyTyped
+        String caracteres="0987654321";
+        if(!caracteres.contains(evt.getKeyChar()+"")){
+        evt.consume();
+        }
+    }//GEN-LAST:event_jCoordenacaoOutrosCursosKeyTyped
+
+    private void jQtdeHorasOutroCursoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jQtdeHorasOutroCursoKeyTyped
+        String caracteres="0987654321";
+        if(!caracteres.contains(evt.getKeyChar()+"")){
+        evt.consume();
+        }
+    }//GEN-LAST:event_jQtdeHorasOutroCursoKeyTyped
+
+    private void jPesquisaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jPesquisaKeyTyped
+        String caracteres="0987654321";
+        if(!caracteres.contains(evt.getKeyChar()+"")){
+        evt.consume();
+        }
+    }//GEN-LAST:event_jPesquisaKeyTyped
+
+    private void jTextField16KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField16KeyTyped
+        String caracteres="0987654321";
+        if(!caracteres.contains(evt.getKeyChar()+"")){
+        evt.consume();
+        }
+    }//GEN-LAST:event_jTextField16KeyTyped
+
+    private void jTextField17KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField17KeyTyped
+        String caracteres="0987654321";
+        if(!caracteres.contains(evt.getKeyChar()+"")){
+        evt.consume();
+        }
+    }//GEN-LAST:event_jTextField17KeyTyped
+
+    private void jTextField23KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField23KeyTyped
+        String caracteres="0987654321";
+        if(!caracteres.contains(evt.getKeyChar()+"")){
+        evt.consume();
+        }
+    }//GEN-LAST:event_jTextField23KeyTyped
+
+    private void jArtigosPublicadosAreaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jArtigosPublicadosAreaKeyTyped
+        String caracteres="0987654321";
+        if(!caracteres.contains(evt.getKeyChar()+"")){
+        evt.consume();
+        }
+    }//GEN-LAST:event_jArtigosPublicadosAreaKeyTyped
+
+    private void jArtigosPublicadosOutrasAreasKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jArtigosPublicadosOutrasAreasKeyTyped
+        String caracteres="0987654321";
+        if(!caracteres.contains(evt.getKeyChar()+"")){
+        evt.consume();
+        }
+    }//GEN-LAST:event_jArtigosPublicadosOutrasAreasKeyTyped
+
+    private void jLivrosCapitulosAreaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jLivrosCapitulosAreaKeyTyped
+        String caracteres="0987654321";
+        if(!caracteres.contains(evt.getKeyChar()+"")){
+        evt.consume();
+        }
+    }//GEN-LAST:event_jLivrosCapitulosAreaKeyTyped
+
+    private void jLivrosCapitulosOutrasAreasKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jLivrosCapitulosOutrasAreasKeyTyped
+        String caracteres="0987654321";
+        if(!caracteres.contains(evt.getKeyChar()+"")){
+        evt.consume();
+        }
+    }//GEN-LAST:event_jLivrosCapitulosOutrasAreasKeyTyped
+
+    private void jTrabalhosPublicadosCompletosKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTrabalhosPublicadosCompletosKeyTyped
+        String caracteres="0987654321";
+        if(!caracteres.contains(evt.getKeyChar()+"")){
+        evt.consume();
+        }
+    }//GEN-LAST:event_jTrabalhosPublicadosCompletosKeyTyped
+
+    private void jTrabalhosPublicadosResumosKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTrabalhosPublicadosResumosKeyTyped
+        String caracteres="0987654321";
+        if(!caracteres.contains(evt.getKeyChar()+"")){
+        evt.consume();
+        }
+    }//GEN-LAST:event_jTrabalhosPublicadosResumosKeyTyped
+
+    private void jPropriedadeIntelectualDepositadaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jPropriedadeIntelectualDepositadaKeyTyped
+        String caracteres="0987654321";
+        if(!caracteres.contains(evt.getKeyChar()+"")){
+        evt.consume();
+        }
+    }//GEN-LAST:event_jPropriedadeIntelectualDepositadaKeyTyped
+
+    private void jPropriedadeIntelectualRegistradaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jPropriedadeIntelectualRegistradaKeyTyped
+        String caracteres="0987654321";
+        if(!caracteres.contains(evt.getKeyChar()+"")){
+        evt.consume();
+        }
+    }//GEN-LAST:event_jPropriedadeIntelectualRegistradaKeyTyped
+
+    private void jOutrasPublicacoesTraducoesKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jOutrasPublicacoesTraducoesKeyTyped
+        String caracteres="0987654321";
+        if(!caracteres.contains(evt.getKeyChar()+"")){
+        evt.consume();
+        }
+    }//GEN-LAST:event_jOutrasPublicacoesTraducoesKeyTyped
+
+    private void jOutrasPublicacoesProjetosKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jOutrasPublicacoesProjetosKeyTyped
+        String caracteres="0987654321";
+        if(!caracteres.contains(evt.getKeyChar()+"")){
+        evt.consume();
+        }
+    }//GEN-LAST:event_jOutrasPublicacoesProjetosKeyTyped
+
+    private void jOutrasPublicacoesProducaoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jOutrasPublicacoesProducaoKeyTyped
+        String caracteres="0987654321";
+        if(!caracteres.contains(evt.getKeyChar()+"")){
+        evt.consume();
+        }
+    }//GEN-LAST:event_jOutrasPublicacoesProducaoKeyTyped
+
+    private void jDataAtualizacaoFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jDataAtualizacaoFocusLost
+        
+        SimpleDateFormat formatador = new SimpleDateFormat("dd/MM/yyyy");
+        Date data = new Date();
+        try {
+            data = formatador.parse(jDataAtualizacao.getText());
+        } catch (ParseException ex) {
+            JOptionPane.showMessageDialog(this, "Insira uma data válida");
+            jDataAtualizacao.setText("");
+            
+            Logger.getLogger(CadastroProfessor.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jDataAtualizacaoFocusLost
+
+    private void jDataAdmissaoFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jDataAdmissaoFocusLost
+        SimpleDateFormat formatador = new SimpleDateFormat("dd/MM/yyyy");
+        Date data = new Date();
+        try {
+            data = formatador.parse(jDataAdmissao.getText());
+        } catch (ParseException ex) {
+            JOptionPane.showMessageDialog(this, "Insira uma data válida");
+            jDataAdmissao.setText("");
+            
+            Logger.getLogger(CadastroProfessor.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jDataAdmissaoFocusLost
     public void alteraProfessor(String cpf){
 
         professor = professorDao.getProfessor(cpf);
@@ -1288,11 +1814,157 @@ public class CadastroProfessor extends javax.swing.JDialog {
             jCurriculoLattes.setText(professor.getCurriculoLattes());
             jDataAtualizacao.setText(professor.getDataAtualizacao());
             jCoordenador.setSelected(professor.isCoordenador());
+            
+            jMatricula.setText(professor.getMatricula());
+            jDataAdmissao.setText(professor.getDataAdmissao());
+            jHorasNDE.setText(String.valueOf(professor.getHorasNde()));
+            jOrientacaoTCC.setText(String.valueOf(professor.getOrientacaoTcc()));
+            jCoordenacaoCurso.setText(String.valueOf(professor.getCoordenacaoCurso()));
+            jCoordenacaoOutrosCursos.setText(String.valueOf(professor.getCoordenacaoOutrosCursos()));
+            jPesquisa.setText(String.valueOf(professor.getPesquisa()));
+            jAtividadeExtraClasseCurso.setText(String.valueOf(professor.getAtividadeExtraClasseCurso()));
+            jAtividadeExtraClasseOutrosCursos.setText(String.valueOf(professor.getAtividadeExtraClasseOutrosCursos()));
+            jQtdeHorasCurso.setText(String.valueOf(professor.getQtdeHorasCurso()));
+            jQtdeHorasOutroCurso.setText(String.valueOf(professor.getQtdeHorasOutroCurso()));
+            
+            jMembroNde.setSelected(professor.isMembroNde());
+            jMembroColegiado.setSelected(professor.isMembroColegiado());
+            jDocente.setSelected(professor.isDocenteCapacitacao());
+            jTempoVinculoData.setText(professor.getTempoVinculoData());
+            jTempoVinculoTotal.setText(professor.getTempoVinculoTotal());
+            jTempoMagisterioData.setText(professor.getTempoMagisterioData());
+            jTempoMagisterioTotal.setText(professor.getTempoMagisterioTotal());
+            jExperienciaDistanciaData.setText(professor.getExperienciaDistanciaData());
+            jExperienciaDistanciaTotal.setText(professor.getExperienciaDistanciaTotal());
+            jTempoExperienciaData.setText(professor.getTempoExperienciaData());
+            jTempoExperienciaTotal.setText(professor.getTempoExperienciaTotal());
+                     
+            jArtigosPublicadosArea.setText(String.valueOf(professor.getArtigosPublicadosArea()));
+            jArtigosPublicadosOutrasAreas.setText(String.valueOf(professor.getArtigosPublicadosOutrasAreas()));
+            jLivrosCapitulosArea.setText(String.valueOf(professor.getLivrosCapitulosArea()));
+            jLivrosCapitulosOutrasAreas.setText(String.valueOf(professor.getLivrosCapitulosOutrasAreas()));
+            jTrabalhosPublicadosCompletos.setText(String.valueOf(professor.getTrabalhosPublicadosCompletos()));
+            jTrabalhosPublicadosResumos.setText(String.valueOf(professor.getTrabalhosPublicadosResumos()));
+            jPropriedadeIntelectualDepositada.setText(String.valueOf(professor.getPropriedadeIntelectualDepositada()));
+            jPropriedadeIntelectualRegistrada.setText(String.valueOf(professor.getPropriedadeIntelectualRegistrada()));
+            jOutrasPublicacoesTraducoes.setText(String.valueOf(professor.getOutrasPublicacoesTraducoes()));
+            jOutrasPublicacoesProjetos.setText(String.valueOf(professor.getOutrasPublicacoesProjetos()));
+            jOutrasPublicacoesProducao.setText(String.valueOf(professor.getOutrasPublicacoesProducao()));
+            
+            
             jTabbedPane1.setEnabledAt(1, true);
 
             //Define que não se trata de uma item novo, mas de uma alteração, utilizado ao acionar o botão salvar
             novo = false;
 
+        }else{
+            JOptionPane.showMessageDialog(this, "Não foi possível consultar o professor");
+            dispose();
+        }
+    }
+    public void consultaProfessor(String cpf){
+
+        professor = professorDao.getProfessor(cpf);
+        if (!professor.getNome().isEmpty()){
+
+            
+            
+            jNome.setText(professor.getNome());
+            jCPF.setText(cpf);
+            jMaiorTitulacao.setText(professor.getMaiorTitulacao());
+            jAreaFormacao.setText(professor.getAreaFormacao());
+            jCurriculoLattes.setText(professor.getCurriculoLattes());
+            jDataAtualizacao.setText(professor.getDataAtualizacao());
+            jCoordenador.setSelected(professor.isCoordenador());
+            
+            jMatricula.setText(professor.getMatricula());
+            jDataAdmissao.setText(professor.getDataAdmissao());
+            jHorasNDE.setText(String.valueOf(professor.getHorasNde()));
+            jOrientacaoTCC.setText(String.valueOf(professor.getOrientacaoTcc()));
+            jCoordenacaoCurso.setText(String.valueOf(professor.getCoordenacaoCurso()));
+            jCoordenacaoOutrosCursos.setText(String.valueOf(professor.getCoordenacaoOutrosCursos()));
+            jPesquisa.setText(String.valueOf(professor.getPesquisa()));
+            jAtividadeExtraClasseCurso.setText(String.valueOf(professor.getAtividadeExtraClasseCurso()));
+            jAtividadeExtraClasseOutrosCursos.setText(String.valueOf(professor.getAtividadeExtraClasseOutrosCursos()));
+            jQtdeHorasCurso.setText(String.valueOf(professor.getQtdeHorasCurso()));
+            jQtdeHorasOutroCurso.setText(String.valueOf(professor.getQtdeHorasOutroCurso()));
+            
+            jMembroNde.setSelected(professor.isMembroNde());
+            jMembroColegiado.setSelected(professor.isMembroColegiado());
+            jDocente.setSelected(professor.isDocenteCapacitacao());
+            jTempoVinculoData.setText(professor.getTempoVinculoData());
+            jTempoVinculoTotal.setText(professor.getTempoVinculoTotal());
+            jTempoMagisterioData.setText(professor.getTempoMagisterioData());
+            jTempoMagisterioTotal.setText(professor.getTempoMagisterioTotal());
+            jExperienciaDistanciaData.setText(professor.getExperienciaDistanciaData());
+            jExperienciaDistanciaTotal.setText(professor.getExperienciaDistanciaTotal());
+            jTempoExperienciaData.setText(professor.getTempoExperienciaData());
+            jTempoExperienciaTotal.setText(professor.getTempoExperienciaTotal());
+                     
+            jArtigosPublicadosArea.setText(String.valueOf(professor.getArtigosPublicadosArea()));
+            jArtigosPublicadosOutrasAreas.setText(String.valueOf(professor.getArtigosPublicadosOutrasAreas()));
+            jLivrosCapitulosArea.setText(String.valueOf(professor.getLivrosCapitulosArea()));
+            jLivrosCapitulosOutrasAreas.setText(String.valueOf(professor.getLivrosCapitulosOutrasAreas()));
+            jTrabalhosPublicadosCompletos.setText(String.valueOf(professor.getTrabalhosPublicadosCompletos()));
+            jTrabalhosPublicadosResumos.setText(String.valueOf(professor.getTrabalhosPublicadosResumos()));
+            jPropriedadeIntelectualDepositada.setText(String.valueOf(professor.getPropriedadeIntelectualDepositada()));
+            jPropriedadeIntelectualRegistrada.setText(String.valueOf(professor.getPropriedadeIntelectualRegistrada()));
+            jOutrasPublicacoesTraducoes.setText(String.valueOf(professor.getOutrasPublicacoesTraducoes()));
+            jOutrasPublicacoesProjetos.setText(String.valueOf(professor.getOutrasPublicacoesProjetos()));
+            jOutrasPublicacoesProducao.setText(String.valueOf(professor.getOutrasPublicacoesProducao()));
+            
+            
+            jNome.setEnabled(false);
+            jCPF.setEnabled(false);
+            jMaiorTitulacao.setEnabled(false);
+            jAreaFormacao.setEnabled(false);
+            jCurriculoLattes.setEnabled(false);
+            jDataAtualizacao.setEnabled(false);
+            jCoordenador.setEnabled(false);
+            
+            jMatricula.setEnabled(false);
+            jDataAdmissao.setEnabled(false);
+            jHorasNDE.setEnabled(false);
+            jOrientacaoTCC.setEnabled(false);
+            jCoordenacaoCurso.setEnabled(false);
+            jCoordenacaoOutrosCursos.setEnabled(false);
+            jPesquisa.setEnabled(false);
+            jAtividadeExtraClasseCurso.setEnabled(false);
+            jAtividadeExtraClasseOutrosCursos.setEnabled(false);
+            jQtdeHorasCurso.setEnabled(false);
+            jQtdeHorasOutroCurso.setEnabled(false);
+            
+            jMembroNde.setEnabled(false);
+            jMembroColegiado.setEnabled(false);
+            jDocente.setEnabled(false);
+            jTempoVinculoData.setEnabled(false);
+            jTempoVinculoTotal.setEnabled(false);
+            jTempoMagisterioData.setEnabled(false);
+            jTempoMagisterioTotal.setEnabled(false);
+            jExperienciaDistanciaData.setEnabled(false);
+            jExperienciaDistanciaTotal.setEnabled(false);
+            jTempoExperienciaData.setEnabled(false);
+            jTempoExperienciaTotal.setEnabled(false);
+                     
+            jArtigosPublicadosArea.setEnabled(false);
+            jArtigosPublicadosOutrasAreas.setEnabled(false);
+            jLivrosCapitulosArea.setEnabled(false);
+            jLivrosCapitulosOutrasAreas.setEnabled(false);
+            jTrabalhosPublicadosCompletos.setEnabled(false);
+            jTrabalhosPublicadosResumos.setEnabled(false);
+            jPropriedadeIntelectualDepositada.setEnabled(false);
+            jPropriedadeIntelectualRegistrada.setEnabled(false);
+            jOutrasPublicacoesTraducoes.setEnabled(false);
+            jOutrasPublicacoesProjetos.setEnabled(false);
+            jOutrasPublicacoesProducao.setEnabled(false);
+            
+            
+            
+            
+            jTabbedPane1.setEnabledAt(1, true);
+            
+             novo = false;
+             
         }else{
             JOptionPane.showMessageDialog(this, "Não foi possível consultar o professor");
             dispose();
@@ -1342,13 +2014,13 @@ public class CadastroProfessor extends javax.swing.JDialog {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField jAreaFormacao;
+    private javax.swing.JTextField jArtigosPublicadosArea;
+    private javax.swing.JTextField jArtigosPublicadosOutrasAreas;
     private javax.swing.JTextField jAtividadeExtraClasseCurso;
     private javax.swing.JTextField jAtividadeExtraClasseOutrosCursos;
     private javax.swing.JButton jButton10;
-    private javax.swing.JButton jButton11;
     private javax.swing.JButton jButton12;
     private javax.swing.JButton jButton13;
-    private javax.swing.JButton jButton14;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
@@ -1356,9 +2028,6 @@ public class CadastroProfessor extends javax.swing.JDialog {
     private javax.swing.JButton jButton9;
     private javax.swing.JFormattedTextField jCPF;
     private javax.swing.JCheckBox jCheckBox1;
-    private javax.swing.JCheckBox jCheckBox2;
-    private javax.swing.JCheckBox jCheckBox3;
-    private javax.swing.JCheckBox jCheckBox4;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JComboBox<String> jComboBox2;
     private javax.swing.JTextField jCoordenacaoCurso;
@@ -1367,10 +2036,9 @@ public class CadastroProfessor extends javax.swing.JDialog {
     private javax.swing.JTextField jCurriculoLattes;
     private javax.swing.JFormattedTextField jDataAdmissao;
     private javax.swing.JFormattedTextField jDataAtualizacao;
-    private javax.swing.JFormattedTextField jFormattedTextField4;
-    private javax.swing.JFormattedTextField jFormattedTextField5;
-    private javax.swing.JFormattedTextField jFormattedTextField6;
-    private javax.swing.JFormattedTextField jFormattedTextField8;
+    private javax.swing.JCheckBox jDocente;
+    private javax.swing.JFormattedTextField jExperienciaDistanciaData;
+    private javax.swing.JTextField jExperienciaDistanciaTotal;
     private javax.swing.JTextField jHorasNDE;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
@@ -1419,10 +2087,17 @@ public class CadastroProfessor extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JList<String> jList1;
+    private javax.swing.JTextField jLivrosCapitulosArea;
+    private javax.swing.JTextField jLivrosCapitulosOutrasAreas;
     private javax.swing.JTextField jMaiorTitulacao;
     private javax.swing.JTextField jMatricula;
+    private javax.swing.JCheckBox jMembroColegiado;
+    private javax.swing.JCheckBox jMembroNde;
     private javax.swing.JTextField jNome;
     private javax.swing.JTextField jOrientacaoTCC;
+    private javax.swing.JTextField jOutrasPublicacoesProducao;
+    private javax.swing.JTextField jOutrasPublicacoesProjetos;
+    private javax.swing.JTextField jOutrasPublicacoesTraducoes;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel11;
     private javax.swing.JPanel jPanel12;
@@ -1440,11 +2115,15 @@ public class CadastroProfessor extends javax.swing.JDialog {
     private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
     private javax.swing.JTextField jPesquisa;
+    private javax.swing.JTextField jPropriedadeIntelectualDepositada;
+    private javax.swing.JTextField jPropriedadeIntelectualRegistrada;
     private javax.swing.JTextField jQtdeHorasCurso;
     private javax.swing.JTextField jQtdeHorasOutroCurso;
     private javax.swing.JButton jSair;
     private javax.swing.JButton jSalvar;
+    private javax.swing.JButton jSalvarAtuacaoProfissional;
     private javax.swing.JButton jSalvarDadosGerais;
+    private javax.swing.JButton jSalvarPublicacoes;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
@@ -1454,23 +2133,16 @@ public class CadastroProfessor extends javax.swing.JDialog {
     private javax.swing.JTable jTable1;
     private javax.swing.JTable jTable2;
     private javax.swing.JTable jTable3;
-    private javax.swing.JTextField jTextField15;
+    private javax.swing.JFormattedTextField jTempoExperienciaData;
+    private javax.swing.JTextField jTempoExperienciaTotal;
+    private javax.swing.JFormattedTextField jTempoMagisterioData;
+    private javax.swing.JTextField jTempoMagisterioTotal;
+    private javax.swing.JFormattedTextField jTempoVinculoData;
+    private javax.swing.JTextField jTempoVinculoTotal;
     private javax.swing.JTextField jTextField16;
     private javax.swing.JTextField jTextField17;
-    private javax.swing.JTextField jTextField18;
-    private javax.swing.JTextField jTextField19;
-    private javax.swing.JTextField jTextField21;
-    private javax.swing.JTextField jTextField22;
     private javax.swing.JTextField jTextField23;
-    private javax.swing.JTextField jTextField24;
-    private javax.swing.JTextField jTextField25;
-    private javax.swing.JTextField jTextField26;
-    private javax.swing.JTextField jTextField27;
-    private javax.swing.JTextField jTextField32;
-    private javax.swing.JTextField jTextField33;
-    private javax.swing.JTextField jTextField34;
-    private javax.swing.JTextField jTextField35;
-    private javax.swing.JTextField jTextField36;
-    private javax.swing.JTextField jTextField37;
+    private javax.swing.JTextField jTrabalhosPublicadosCompletos;
+    private javax.swing.JTextField jTrabalhosPublicadosResumos;
     // End of variables declaration//GEN-END:variables
 }

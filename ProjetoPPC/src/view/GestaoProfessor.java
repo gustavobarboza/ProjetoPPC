@@ -5,7 +5,11 @@
  */
 package view;
 
+import dao.ProfessorComprovantesDao;
 import dao.ProfessorDao;
+import dao.ProfessorDisciplinasCursoDao;
+import dao.ProfessorDisciplinasOutrosCursosDao;
+import dao.ProfessorParticipacaoEventosDao;
 import entity.Professor;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -51,6 +55,11 @@ public class GestaoProfessor extends javax.swing.JDialog {
         jLabel1.setText("Gestão de Professores:");
 
         jButton1.setText("Cadastrar novo Professor");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -71,6 +80,11 @@ public class GestaoProfessor extends javax.swing.JDialog {
         jScrollPane1.setViewportView(jTable1);
 
         jButton2.setText("Consultar");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         jButton3.setText("Alterar");
         jButton3.addActionListener(new java.awt.event.ActionListener() {
@@ -80,6 +94,11 @@ public class GestaoProfessor extends javax.swing.JDialog {
         });
 
         jButton4.setText("Excluir");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -141,9 +160,68 @@ public class GestaoProfessor extends javax.swing.JDialog {
         
         listaProfessores();
        }else{
-           JOptionPane.showMessageDialog(this, "Seleciona uma disciplina para alterar");
+           JOptionPane.showMessageDialog(this, "Seleciona um professor para alterar");
        }
     }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+      CadastroProfessor cadastroProfessor = new CadastroProfessor(new javax.swing.JFrame(), true);
+        int index=-1;
+        
+        index=jTable1.getSelectedRow();
+      
+        if(index!=-1){
+        String cpf = jTable1.getValueAt(jTable1.getSelectedRow(), 1).toString();
+        cadastroProfessor.consultaProfessor(cpf);
+        
+        cadastroProfessor.setVisible(true);
+        
+        listaProfessores();
+       }else{
+           JOptionPane.showMessageDialog(this, "Seleciona um professor para consultar");
+       }
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        int index=-1;
+        
+        index=jTable1.getSelectedRow();
+      
+        if(index!=-1){
+            String cpf = jTable1.getValueAt(jTable1.getSelectedRow(), 1).toString();
+            ProfessorDao professorDao = new ProfessorDao();
+            int idProfessor = professorDao.getIdProfessor(cpf);
+
+            if(JOptionPane.showConfirmDialog(null, "Tem certeza que deseja excluir o professor?"
+                + "", "Excluir professor", JOptionPane.YES_NO_OPTION)==JOptionPane.YES_OPTION){
+                 if(professorDao.Remove(idProfessor)){
+                    ProfessorComprovantesDao professorComprovantesDao = new ProfessorComprovantesDao();
+                    ProfessorDisciplinasCursoDao professorDisciplinasCursoDao = new ProfessorDisciplinasCursoDao();
+                    ProfessorDisciplinasOutrosCursosDao professorDisciplinasOutrosCursosDao = new ProfessorDisciplinasOutrosCursosDao();
+                    ProfessorParticipacaoEventosDao professorParticipacaoEventosDao = new ProfessorParticipacaoEventosDao();
+
+                    professorComprovantesDao.Remove(idProfessor);
+                    professorDisciplinasCursoDao.Remove(idProfessor);
+                    professorDisciplinasOutrosCursosDao.Remove(idProfessor);
+                    professorParticipacaoEventosDao.Remove(idProfessor);
+                    
+                    JOptionPane.showMessageDialog(this, "Professor removido com sucesso!");
+
+                    listaProfessores();
+                }else{
+                    JOptionPane.showMessageDialog(this, "Erro ao remover professor");
+                }
+            }
+       }else{
+           JOptionPane.showMessageDialog(this, "Selecione um professor para remover!");
+       }
+    }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        CadastroProfessor cadastroProfessor = new CadastroProfessor(new javax.swing.JFrame(), true);
+        cadastroProfessor.setVisible(true);
+        listaProfessores();
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments

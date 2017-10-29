@@ -31,9 +31,9 @@ public class Professor {
     private int atividadeExtraClasseOutrosCursos;
     private int qtdeHorasCurso;
     private int qtdeHorasOutroCurso;
-    private int membroNde;
-    private int membroColegiado;
-    private int docenteCapacitacao;
+    private boolean membroNde;
+    private boolean membroColegiado;
+    private boolean docenteCapacitacao;
     private String tempoVinculoData;
     private String tempoVinculoTotal;
     private String tempoMagisterioData;
@@ -43,7 +43,7 @@ public class Professor {
     private String tempoExperienciaData;
     private String tempoExperienciaTotal;
     private int artigosPublicadosArea;
-    private int atigosPublicadosOutrasAreas;
+    private int artigosPublicadosOutrasAreas;
     private int livrosCapitulosArea;
     private int livrosCapitulosOutrasAreas;
     private int trabalhosPublicadosCompletos;
@@ -53,6 +53,30 @@ public class Professor {
     private int outrasPublicacoesTraducoes;
     private int outrasPublicacoesProjetos;
     private int outrasPublicacoesProducao;
+
+    public boolean isMembroNde() {
+        return membroNde;
+    }
+
+    public void setMembroNde(boolean membroNde) {
+        this.membroNde = membroNde;
+    }
+
+    public boolean isMembroColegiado() {
+        return membroColegiado;
+    }
+
+    public void setMembroColegiado(boolean membroColegiado) {
+        this.membroColegiado = membroColegiado;
+    }
+
+    public boolean isDocenteCapacitacao() {
+        return docenteCapacitacao;
+    }
+
+    public void setDocenteCapacitacao(boolean docenteCapacitacao) {
+        this.docenteCapacitacao = docenteCapacitacao;
+    }
 
     public int getIdProfessor() {
         return idProfessor;
@@ -206,29 +230,7 @@ public class Professor {
         this.qtdeHorasOutroCurso = qtdeHorasOutroCurso;
     }
 
-    public int getMembroNde() {
-        return membroNde;
-    }
 
-    public void setMembroNde(int membroNde) {
-        this.membroNde = membroNde;
-    }
-
-    public int getMembroColegiado() {
-        return membroColegiado;
-    }
-
-    public void setMembroColegiado(int membroColegiado) {
-        this.membroColegiado = membroColegiado;
-    }
-
-    public int getDocenteCapacitacao() {
-        return docenteCapacitacao;
-    }
-
-    public void setDocenteCapacitacao(int docenteCapacitacao) {
-        this.docenteCapacitacao = docenteCapacitacao;
-    }
 
     public String getTempoVinculoData() {
         return tempoVinculoData;
@@ -302,12 +304,12 @@ public class Professor {
         this.artigosPublicadosArea = artigosPublicadosArea;
     }
 
-    public int getAtigosPublicadosOutrasAreas() {
-        return atigosPublicadosOutrasAreas;
+    public int getArtigosPublicadosOutrasAreas() {
+        return artigosPublicadosOutrasAreas;
     }
 
-    public void setAtigosPublicadosOutrasAreas(int atigosPublicadosOutrasAreas) {
-        this.atigosPublicadosOutrasAreas = atigosPublicadosOutrasAreas;
+    public void setArtigosPublicadosOutrasAreas(int atigosPublicadosOutrasAreas) {
+        this.artigosPublicadosOutrasAreas = atigosPublicadosOutrasAreas;
     }
 
     public int getLivrosCapitulosArea() {

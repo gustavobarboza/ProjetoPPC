@@ -40,4 +40,25 @@ public class ProfessorComprovantesDao {
             }
         }
     }
+    public boolean Remove(Integer id){
+        conexaoDb = new ConexaoDb().getConexao();
+        String sql = "DELETE FROM PROFESSOR_COMPROVANTES WHERE fk_id_professor=?";
+        try {
+            PreparedStatement stmt = conexaoDb.prepareStatement(sql);
+            
+            stmt.setInt(1, id);
+            
+            stmt.execute();
+            return true;
+        } catch (SQLException ex) {
+            Logger.getLogger(DisciplinaDao.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
+        }finally{
+            try {
+                conexaoDb.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(DisciplinaDao.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }     
 }
