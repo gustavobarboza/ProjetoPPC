@@ -5,12 +5,15 @@
  */
 package view;
 
+import dao.DisciplinaDao;
 import dao.ProfessorComprovantesDao;
 import dao.ProfessorDao;
 import dao.ProfessorDisciplinasCursoDao;
 import dao.ProfessorDisciplinasOutrosCursosDao;
 import dao.ProfessorParticipacaoEventosDao;
+import entity.Disciplina;
 import entity.Professor;
+import entity.ProfessorComprovantes;
 import entity.ProfessorDisciplinasCurso;
 import entity.ProfessorDisciplinasOutrosCursos;
 import entity.ProfessorParticipacaoEventos;
@@ -19,21 +22,32 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
-import java.util.Calendar;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
  * @author Gustavo
  */
 public class CadastroProfessor extends javax.swing.JDialog {
+   
+    List<ProfessorDisciplinasCurso> listaProfessorDisciplinasCurso = new ArrayList<>();
+    List<ProfessorDisciplinasOutrosCursos> listaProfessorDisciplinasOutrosCursos = new ArrayList<>();
+    List<ProfessorComprovantes> listaProfessorComprovantes = new ArrayList<>();
+    List<ProfessorParticipacaoEventos> listaProfessorParticipacaoEventos = new ArrayList<>();
+    
+    
+    
+    //Variaveis utilizadas para preenchimento automatico do campo tempo total da aba "Atuação Profissional 
     DateTimeFormatter dataFormatador = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-
     LocalDate dataAtual = LocalDate.now();
 
+    //Variável utilizada para identificar se está sendo feito um novo cadastro ou alterando um registro existente
     boolean novo = true;
     
     Professor professor = new Professor();
@@ -106,22 +120,22 @@ public class CadastroProfessor extends javax.swing.JDialog {
         jPanel6 = new javax.swing.JPanel();
         jLabel19 = new javax.swing.JLabel();
         jLabel20 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        jDisciplinasCurso = new javax.swing.JComboBox<>();
         jLabel21 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
-        jTextField16 = new javax.swing.JTextField();
+        jTabelaDisciplinasCurso = new javax.swing.JTable();
+        jCargaHorariaCurso = new javax.swing.JTextField();
         jLabel22 = new javax.swing.JLabel();
-        jButton4 = new javax.swing.JButton();
-        jButton5 = new javax.swing.JButton();
+        jIncluirDisciplinasCurso = new javax.swing.JButton();
+        jRemoverDisciplinaCurso = new javax.swing.JButton();
         jLabel23 = new javax.swing.JLabel();
-        jComboBox2 = new javax.swing.JComboBox<>();
+        jDisciplinasOutroCurso = new javax.swing.JComboBox<>();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTable2 = new javax.swing.JTable();
-        jButton6 = new javax.swing.JButton();
+        jTabelaDisciplinasOutroCurso = new javax.swing.JTable();
+        jRemoverDisciplinaOutrosCursos = new javax.swing.JButton();
         jLabel24 = new javax.swing.JLabel();
-        jTextField17 = new javax.swing.JTextField();
-        jButton7 = new javax.swing.JButton();
+        jCargaHorariaOutroCurso = new javax.swing.JTextField();
+        jIncluirDisciplinasOutrosCursos = new javax.swing.JButton();
         jSalvarDadosGerais = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         jMembroNde = new javax.swing.JCheckBox();
@@ -151,10 +165,10 @@ public class CadastroProfessor extends javax.swing.JDialog {
         jTextField23 = new javax.swing.JTextField();
         jLabel37 = new javax.swing.JLabel();
         jLabel38 = new javax.swing.JLabel();
-        jScrollPane3 = new javax.swing.JScrollPane();
-        jList1 = new javax.swing.JList<>();
         jButton9 = new javax.swing.JButton();
         jButton10 = new javax.swing.JButton();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        jTabelaDisciplinasCurso1 = new javax.swing.JTable();
         jSalvarAtuacaoProfissional = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
         jPanel13 = new javax.swing.JPanel();
@@ -236,7 +250,12 @@ public class CadastroProfessor extends javax.swing.JDialog {
             }
         });
 
-        jSair.setText("Limpar");
+        jSair.setText("Sair");
+        jSair.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jSairActionPerformed(evt);
+            }
+        });
 
         jCoordenador.setText("Coordenador");
 
@@ -315,7 +334,7 @@ public class CadastroProfessor extends javax.swing.JDialog {
                     .addComponent(jCoordenador)
                     .addComponent(jSair, javax.swing.GroupLayout.DEFAULT_SIZE, 35, Short.MAX_VALUE)
                     .addComponent(jSalvar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(349, Short.MAX_VALUE))
+                .addContainerGap(371, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Dados Pessoais", jPanel1);
@@ -512,65 +531,80 @@ public class CadastroProfessor extends javax.swing.JDialog {
 
         jLabel20.setText("Disciplinas Ministradas em outros cursos da IES:");
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jDisciplinasCurso.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         jLabel21.setText("Carga Horária");
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        jTabelaDisciplinasCurso.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null}
+
             },
             new String [] {
                 "Disciplina", "Carga Horária"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(jTabelaDisciplinasCurso);
+        if (jTabelaDisciplinasCurso.getColumnModel().getColumnCount() > 0) {
+            jTabelaDisciplinasCurso.getColumnModel().getColumn(1).setHeaderValue("Carga Horária");
+        }
 
-        jTextField16.addKeyListener(new java.awt.event.KeyAdapter() {
+        jCargaHorariaCurso.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
-                jTextField16KeyTyped(evt);
+                jCargaHorariaCursoKeyTyped(evt);
             }
         });
 
         jLabel22.setText("Disciplina:");
 
-        jButton4.setText("Incluir");
+        jIncluirDisciplinasCurso.setText("Incluir");
+        jIncluirDisciplinasCurso.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jIncluirDisciplinasCursoActionPerformed(evt);
+            }
+        });
 
-        jButton5.setText("Remover");
+        jRemoverDisciplinaCurso.setText("Remover");
+        jRemoverDisciplinaCurso.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jRemoverDisciplinaCursoActionPerformed(evt);
+            }
+        });
 
         jLabel23.setText("Disciplina:");
 
-        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jDisciplinasOutroCurso.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
-        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+        jTabelaDisciplinasOutroCurso.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null}
+
             },
             new String [] {
                 "Disciplina", "Carga Horária"
             }
         ));
-        jScrollPane2.setViewportView(jTable2);
+        jScrollPane2.setViewportView(jTabelaDisciplinasOutroCurso);
 
-        jButton6.setText("Remover");
-
-        jLabel24.setText("Carga Horária");
-
-        jTextField17.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                jTextField17KeyTyped(evt);
+        jRemoverDisciplinaOutrosCursos.setText("Remover");
+        jRemoverDisciplinaOutrosCursos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jRemoverDisciplinaOutrosCursosActionPerformed(evt);
             }
         });
 
-        jButton7.setText("Incluir");
+        jLabel24.setText("Carga Horária");
+
+        jCargaHorariaOutroCurso.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jCargaHorariaOutroCursoKeyTyped(evt);
+            }
+        });
+
+        jIncluirDisciplinasOutrosCursos.setText("Incluir");
+        jIncluirDisciplinasOutrosCursos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jIncluirDisciplinasOutrosCursosActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
@@ -582,31 +616,31 @@ public class CadastroProfessor extends javax.swing.JDialog {
                     .addComponent(jLabel22)
                     .addGroup(jPanel6Layout.createSequentialGroup()
                         .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(jComboBox1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jDisciplinasCurso, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jLabel19, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel21)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jTextField16, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jCargaHorariaCurso, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton4))
-                    .addComponent(jButton5)
+                        .addComponent(jIncluirDisciplinasCurso))
+                    .addComponent(jRemoverDisciplinaCurso)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 349, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 63, Short.MAX_VALUE)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
                         .addComponent(jLabel24)
                         .addGap(8, 8, 8)
-                        .addComponent(jTextField17, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jCargaHorariaOutroCurso, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton7)
+                        .addComponent(jIncluirDisciplinasOutrosCursos)
                         .addGap(43, 43, 43))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
-                        .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jDisciplinasOutroCurso, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(243, 243, 243))
                     .addGroup(jPanel6Layout.createSequentialGroup()
                         .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jButton6)
+                            .addComponent(jRemoverDisciplinaOutrosCursos)
                             .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 353, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel23)
                             .addComponent(jLabel20))
@@ -627,24 +661,24 @@ public class CadastroProfessor extends javax.swing.JDialog {
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel6Layout.createSequentialGroup()
                         .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jComboBox2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jDisciplinasOutroCurso, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel24)
-                            .addComponent(jTextField17, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButton7))
+                            .addComponent(jCargaHorariaOutroCurso, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jIncluirDisciplinasOutrosCursos))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton6))
+                        .addComponent(jRemoverDisciplinaOutrosCursos))
                     .addGroup(jPanel6Layout.createSequentialGroup()
                         .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jComboBox1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jDisciplinasCurso, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel21)
-                            .addComponent(jTextField16, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButton4))
+                            .addComponent(jCargaHorariaCurso, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jIncluirDisciplinasCurso))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton5)))
+                        .addComponent(jRemoverDisciplinaCurso)))
                 .addGap(0, 12, Short.MAX_VALUE))
         );
 
@@ -728,6 +762,8 @@ public class CadastroProfessor extends javax.swing.JDialog {
 
         jLabel26.setText("Tempo total");
 
+        jTempoVinculoTotal.setEnabled(false);
+
         javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
         jPanel7.setLayout(jPanel7Layout);
         jPanel7Layout.setHorizontalGroup(
@@ -775,6 +811,8 @@ public class CadastroProfessor extends javax.swing.JDialog {
 
         jLabel28.setText("Tempo total");
 
+        jTempoMagisterioTotal.setEnabled(false);
+
         javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
         jPanel8.setLayout(jPanel8Layout);
         jPanel8Layout.setHorizontalGroup(
@@ -820,6 +858,8 @@ public class CadastroProfessor extends javax.swing.JDialog {
         });
 
         jLabel30.setText("Tempo total");
+
+        jExperienciaDistanciaTotal.setEnabled(false);
 
         javax.swing.GroupLayout jPanel9Layout = new javax.swing.GroupLayout(jPanel9);
         jPanel9.setLayout(jPanel9Layout);
@@ -868,6 +908,8 @@ public class CadastroProfessor extends javax.swing.JDialog {
 
         jLabel34.setText("Tempo total");
 
+        jTempoExperienciaTotal.setEnabled(false);
+
         javax.swing.GroupLayout jPanel11Layout = new javax.swing.GroupLayout(jPanel11);
         jPanel11.setLayout(jPanel11Layout);
         jPanel11Layout.setHorizontalGroup(
@@ -910,35 +952,41 @@ public class CadastroProfessor extends javax.swing.JDialog {
 
         jLabel38.setText("Anexar Comprovantes");
 
-        jList1.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
-        });
-        jScrollPane3.setViewportView(jList1);
-
         jButton9.setText("Incluir");
 
         jButton10.setText("Remover");
+
+        jTabelaDisciplinasCurso1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Comprovantes"
+            }
+        ));
+        jScrollPane4.setViewportView(jTabelaDisciplinasCurso1);
 
         javax.swing.GroupLayout jPanel12Layout = new javax.swing.GroupLayout(jPanel12);
         jPanel12.setLayout(jPanel12Layout);
         jPanel12Layout.setHorizontalGroup(
             jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel12Layout.createSequentialGroup()
+                .addComponent(jLabel38)
+                .addGap(0, 0, Short.MAX_VALUE))
+            .addGroup(jPanel12Layout.createSequentialGroup()
                 .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel12Layout.createSequentialGroup()
+                        .addGap(4, 4, 4)
                         .addComponent(jTextField23, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel37))
-                    .addComponent(jLabel38)
                     .addGroup(jPanel12Layout.createSequentialGroup()
-                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 249, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 281, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jButton10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jButton9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                .addGap(0, 16, Short.MAX_VALUE))
+                        .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jButton9, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jButton10))))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel12Layout.setVerticalGroup(
             jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -947,15 +995,16 @@ public class CadastroProfessor extends javax.swing.JDialog {
                 .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jTextField23, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel37))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel38)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel12Layout.createSequentialGroup()
                         .addComponent(jButton9)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton10))))
+                        .addGap(18, 18, 18)
+                        .addComponent(jButton10))
+                    .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(23, 23, 23))
         );
 
         jSalvarAtuacaoProfissional.setText("Salvar");
@@ -972,32 +1021,31 @@ public class CadastroProfessor extends javax.swing.JDialog {
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGap(24, 24, 24)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel3Layout.createSequentialGroup()
-                                .addGap(24, 24, 24)
-                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(jPanel3Layout.createSequentialGroup()
-                                        .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addComponent(jDocente)
-                                    .addGroup(jPanel3Layout.createSequentialGroup()
-                                        .addComponent(jMembroNde)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(jMembroColegiado))
-                                    .addGroup(jPanel3Layout.createSequentialGroup()
-                                        .addGap(4, 4, 4)
-                                        .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jPanel11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jDocente)
                             .addGroup(jPanel3Layout.createSequentialGroup()
-                                .addContainerGap()
-                                .addComponent(jPanel12, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(jMembroNde)
+                                .addGap(18, 18, 18)
+                                .addComponent(jMembroColegiado))
+                            .addGroup(jPanel3Layout.createSequentialGroup()
+                                .addGap(4, 4, 4)
+                                .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jPanel11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(0, 186, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(jSalvarAtuacaoProfissional, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel12, javax.swing.GroupLayout.PREFERRED_SIZE, 379, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1014,14 +1062,13 @@ public class CadastroProfessor extends javax.swing.JDialog {
                     .addComponent(jPanel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(36, 36, 36)
-                        .addComponent(jPanel12, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jPanel11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(62, 62, 62)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jPanel12, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 70, Short.MAX_VALUE)
                 .addComponent(jSalvarAtuacaoProfissional, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addGap(23, 23, 23))
         );
 
         jTabbedPane2.addTab("<html>Atuação <br>Profissional<html>", jPanel3);
@@ -1361,7 +1408,7 @@ public class CadastroProfessor extends javax.swing.JDialog {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton13))
                     .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 40, Short.MAX_VALUE)
                 .addComponent(jSalvarPublicacoes, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -1430,10 +1477,11 @@ public class CadastroProfessor extends javax.swing.JDialog {
                 professorDao.Cria(professor);
                 int idProfessor = professorDao.getIdProfessor(professor.getCpf());
 
-                professorComprovantesDao.Cria(idProfessor);
-                professorDisciplinasCursoDao.Cria(idProfessor);
-                professorDisciplinasOutrosCursosDao.Cria(idProfessor);
-                professorParticipacaoEventosDao.Cria(idProfessor);
+                //Remover este trecho, não é necessário criar um registro nas tabelas de professor ao cadastrar um novo professor
+//                professorComprovantesDao.Cria(idProfessor);
+//                professorDisciplinasCursoDao.Cria(idProfessor);
+//                professorDisciplinasOutrosCursosDao.Cria(idProfessor);
+//                professorParticipacaoEventosDao.Cria(idProfessor);
 
                 JOptionPane.showMessageDialog(this, "Dados inseridos com sucesso");
                 }else{
@@ -1454,25 +1502,80 @@ public class CadastroProfessor extends javax.swing.JDialog {
     }//GEN-LAST:event_jSalvarActionPerformed
 
     private void jSalvarDadosGeraisActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jSalvarDadosGeraisActionPerformed
+        boolean dadosValidos=true;
         
-        professor.setMatricula(jMatricula.getText());
-        professor.setDataAdmissao(jDataAdmissao.getText());
-        professor.setHorasNde(Integer.parseInt(jHorasNDE.getText()));
-        professor.setOrientacaoTcc(Integer.parseInt(jOrientacaoTCC.getText()));
-        professor.setCoordenacaoCurso(Integer.parseInt(jCoordenacaoCurso.getText()));
-        professor.setCoordenacaoOutrosCursos(Integer.parseInt(jCoordenacaoOutrosCursos.getText()));
-        professor.setPesquisa(Integer.parseInt(jPesquisa.getText()));
-        professor.setAtividadeExtraClasseCurso(Integer.parseInt(jAtividadeExtraClasseCurso.getText()));
-        professor.setAtividadeExtraClasseOutrosCursos(Integer.parseInt(jAtividadeExtraClasseOutrosCursos.getText()));
-        professor.setQtdeHorasCurso(Integer.parseInt(jQtdeHorasCurso.getText()));
-        professor.setQtdeHorasOutroCurso(Integer.parseInt(jQtdeHorasOutroCurso.getText()));
+        SimpleDateFormat formatador = new SimpleDateFormat("dd/MM/yyyy");
+        Date data = new Date();
         
-        int idProfessor = professorDao.getIdProfessor(professor.getCpf());
+        if(jMatricula.getText().isEmpty() || jHorasNDE.getText().isEmpty() || jOrientacaoTCC.getText().isEmpty() ||
+           jCoordenacaoCurso.getText().isEmpty() || jCoordenacaoOutrosCursos.getText().isEmpty() || jPesquisa.getText().isEmpty() ||
+           jAtividadeExtraClasseCurso.getText().isEmpty() || jAtividadeExtraClasseOutrosCursos.getText().isEmpty() ||
+           jQtdeHorasCurso.getText().isEmpty() || jQtdeHorasOutroCurso.getText().isEmpty()){
+            
+            dadosValidos= false;
+        }
+        //Verifica se a data é valida
+        try {
+            data = formatador.parse(jDataAdmissao.getText());
+            
+        } catch (ParseException ex) {
+                dadosValidos=false;
+                Logger.getLogger(CadastroProfessor.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        if (dadosValidos){
+            professor.setMatricula(jMatricula.getText());
+            professor.setDataAdmissao(jDataAdmissao.getText());
+            professor.setHorasNde(Integer.parseInt(jHorasNDE.getText()));
+            professor.setOrientacaoTcc(Integer.parseInt(jOrientacaoTCC.getText()));
+            professor.setCoordenacaoCurso(Integer.parseInt(jCoordenacaoCurso.getText()));
+            professor.setCoordenacaoOutrosCursos(Integer.parseInt(jCoordenacaoOutrosCursos.getText()));
+            professor.setPesquisa(Integer.parseInt(jPesquisa.getText()));
+            professor.setAtividadeExtraClasseCurso(Integer.parseInt(jAtividadeExtraClasseCurso.getText()));
+            professor.setAtividadeExtraClasseOutrosCursos(Integer.parseInt(jAtividadeExtraClasseOutrosCursos.getText()));
+            professor.setQtdeHorasCurso(Integer.parseInt(jQtdeHorasCurso.getText()));
+            professor.setQtdeHorasOutroCurso(Integer.parseInt(jQtdeHorasOutroCurso.getText()));
 
-        if (professorDao.InsereDadosGerais(professor, idProfessor)){
-            JOptionPane.showMessageDialog(this, "Salvo com sucesso");
-        }else{
-        JOptionPane.showMessageDialog(this, "Erro ao salvar.");
+            int idProfessor = professorDao.getIdProfessor(professor.getCpf());
+                
+            if (professorDao.InsereDadosGerais(professor, idProfessor)){
+                DefaultTableModel modeloDisciplinasCurso = (DefaultTableModel) jTabelaDisciplinasCurso.getModel();
+                DefaultTableModel modeloDisciplinasOutrosCursos = (DefaultTableModel) jTabelaDisciplinasOutroCurso.getModel();
+
+                //Preenche o array que sera utilizado para enviar os dados para a base
+                for(int i=0; i<modeloDisciplinasCurso.getRowCount(); i++){
+                    ProfessorDisciplinasCurso professorDisciplinasCurso = new ProfessorDisciplinasCurso();
+                    professorDisciplinasCurso.setDisciplina(modeloDisciplinasCurso.getValueAt(i, 0).toString());
+                    professorDisciplinasCurso.setCargaHoraria(Integer.parseInt(modeloDisciplinasCurso.getValueAt(i, 1).toString()));
+                    listaProfessorDisciplinasCurso.add(professorDisciplinasCurso);
+                }
+                //Prenche a tabela Disciplinas Curso Professor
+                professorDisciplinasCursoDao.Remove(idProfessor);
+                for (int i = 0; i<listaProfessorDisciplinasCurso.size(); i++){
+                    professorDisciplinasCursoDao.Cria(idProfessor, listaProfessorDisciplinasCurso.get(i));
+                }
+               
+                
+                //Preenche o array que sera utilizado para enviar os dados para a base
+                for(int i=0; i<modeloDisciplinasOutrosCursos.getRowCount(); i++){
+                    ProfessorDisciplinasOutrosCursos professorDisciplinasOutrosCurso = new ProfessorDisciplinasOutrosCursos();
+                    professorDisciplinasOutrosCurso.setDisciplina(modeloDisciplinasOutrosCursos.getValueAt(i, 0).toString());
+                    professorDisciplinasOutrosCurso.setCargaHoraria(Integer.parseInt(modeloDisciplinasOutrosCursos.getValueAt(i, 1).toString()));
+                    listaProfessorDisciplinasOutrosCursos.add(professorDisciplinasOutrosCurso);
+                }
+                //Prenche a tabela Disciplinas Outros Cursos Professor
+                professorDisciplinasOutrosCursosDao.Remove(idProfessor);
+                for (int i = 0; i<listaProfessorDisciplinasOutrosCursos.size(); i++){
+                    professorDisciplinasOutrosCursosDao.Cria(idProfessor, listaProfessorDisciplinasOutrosCursos.get(i));
+                }
+                
+                JOptionPane.showMessageDialog(this, "Dados salvos com sucesso!");
+            }else{
+                JOptionPane.showMessageDialog(this, "Erro ao salvar.");
+            }
+        }
+        else{
+            JOptionPane.showMessageDialog(this, "Verifique o preenchimento dos campos", "Verifique os campos", JOptionPane.WARNING_MESSAGE);
         }
 
     }//GEN-LAST:event_jSalvarDadosGeraisActionPerformed
@@ -1484,29 +1587,55 @@ public class CadastroProfessor extends javax.swing.JDialog {
         if (novo){
             jTabbedPane1.setEnabledAt(1, false);
         }
+        
+        DisciplinaDao disciplinaDao = new DisciplinaDao();
+        List<Disciplina> listaDisciplinas = disciplinaDao.getDisciplinas();
+        
+        jDisciplinasCurso.removeAllItems();
+        jDisciplinasOutroCurso.removeAllItems();
+        
+        for(int i=0; i<listaDisciplinas.size(); i++){
+            jDisciplinasCurso.addItem(listaDisciplinas.get(i).getNome());
+            jDisciplinasOutroCurso.addItem(listaDisciplinas.get(i).getNome());
+        }
+
     }//GEN-LAST:event_formWindowOpened
 
     private void jSalvarAtuacaoProfissionalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jSalvarAtuacaoProfissionalActionPerformed
-                
-        professor.setMembroNde(jMembroNde.isSelected());
-        professor.setMembroColegiado(jMembroColegiado.isSelected());
-        professor.setDocenteCapacitacao(jMembroColegiado.isSelected());
-        professor.setTempoVinculoData(jTempoVinculoData.getText());
-        professor.setTempoVinculoTotal(jTempoVinculoTotal.getText());
-        professor.setTempoMagisterioData(jTempoMagisterioData.getText());
-        professor.setTempoMagisterioTotal(jTempoMagisterioTotal.getText());
-        professor.setExperienciaDistanciaData(jExperienciaDistanciaData.getText());
-        professor.setExperienciaDistanciaTotal(jExperienciaDistanciaTotal.getText());
-        professor.setTempoExperienciaData(jTempoExperienciaData.getText());
-        professor.setTempoExperienciaTotal(jTempoExperienciaTotal.getText());
         
-        int idProfessor = professorDao.getIdProfessor(professor.getCpf());
+        boolean dadosValidos=true;
 
-        if (professorDao.InsereAtuacaoProfissional(professor, idProfessor)){
-            JOptionPane.showMessageDialog(this, "Salvo com sucesso");
-        }else{
-        JOptionPane.showMessageDialog(this, "Erro ao salvar.");
+        if(jTempoVinculoTotal.getText().isEmpty() || jTempoMagisterioTotal.getText().isEmpty() || 
+           jExperienciaDistanciaTotal.getText().isEmpty() || jTempoExperienciaTotal.getText().isEmpty()){
+           
+            dadosValidos=false;
         }
+        
+        if(dadosValidos){
+            professor.setMembroNde(jMembroNde.isSelected());
+            professor.setMembroColegiado(jMembroColegiado.isSelected());
+            professor.setDocenteCapacitacao(jMembroColegiado.isSelected());
+            professor.setTempoVinculoData(jTempoVinculoData.getText());
+            professor.setTempoVinculoTotal(jTempoVinculoTotal.getText());
+            professor.setTempoMagisterioData(jTempoMagisterioData.getText());
+            professor.setTempoMagisterioTotal(jTempoMagisterioTotal.getText());
+            professor.setExperienciaDistanciaData(jExperienciaDistanciaData.getText());
+            professor.setExperienciaDistanciaTotal(jExperienciaDistanciaTotal.getText());
+            professor.setTempoExperienciaData(jTempoExperienciaData.getText());
+            professor.setTempoExperienciaTotal(jTempoExperienciaTotal.getText());
+
+            int idProfessor = professorDao.getIdProfessor(professor.getCpf());
+
+            if (professorDao.InsereAtuacaoProfissional(professor, idProfessor)){
+                JOptionPane.showMessageDialog(this, "Dados salvos com sucesso!");
+            }
+            else{
+                JOptionPane.showMessageDialog(this, "Erro ao salvar.");
+            }           
+        }else{
+            JOptionPane.showMessageDialog(this, "Verifique o preenchimento dos campos.", "Verifique o preenchimento", JOptionPane.WARNING_MESSAGE);
+        }
+
 
     }//GEN-LAST:event_jSalvarAtuacaoProfissionalActionPerformed
 
@@ -1518,7 +1647,7 @@ public class CadastroProfessor extends javax.swing.JDialog {
             LocalDate dataInformada = LocalDate.parse(jTempoVinculoData.getText(), dataFormatador);
             long diferenca = ChronoUnit.MONTHS.between(dataInformada, dataAtual);
         
-            jTempoVinculoData.setText(String.valueOf(diferenca)+" meses");
+            jTempoVinculoTotal.setText(String.valueOf(diferenca)+" meses");
             
         } catch (ParseException ex) {
             JOptionPane.showMessageDialog(this, "Insira uma data válida");
@@ -1537,7 +1666,7 @@ public class CadastroProfessor extends javax.swing.JDialog {
             LocalDate dataInformada = LocalDate.parse(jTempoMagisterioData.getText(), dataFormatador);
             long diferenca = ChronoUnit.MONTHS.between(dataInformada, dataAtual);
         
-            jTempoMagisterioData.setText(String.valueOf(diferenca)+" meses");
+            jTempoMagisterioTotal.setText(String.valueOf(diferenca)+" meses");
             
         } catch (ParseException ex) {
             JOptionPane.showMessageDialog(this, "Insira uma data válida");
@@ -1557,7 +1686,7 @@ public class CadastroProfessor extends javax.swing.JDialog {
             LocalDate dataInformada = LocalDate.parse(jExperienciaDistanciaData.getText(), dataFormatador);
             long diferenca = ChronoUnit.MONTHS.between(dataInformada, dataAtual);
         
-            jExperienciaDistanciaData.setText(String.valueOf(diferenca)+" meses");
+            jExperienciaDistanciaTotal.setText(String.valueOf(diferenca)+" meses");
             
         } catch (ParseException ex) {
             JOptionPane.showMessageDialog(this, "Insira uma data válida");
@@ -1578,7 +1707,7 @@ public class CadastroProfessor extends javax.swing.JDialog {
             LocalDate dataInformada = LocalDate.parse(jTempoExperienciaData.getText(), dataFormatador);
             long diferenca = ChronoUnit.MONTHS.between(dataInformada, dataAtual);
         
-            jTempoExperienciaData.setText(String.valueOf(diferenca)+" meses");
+            jTempoExperienciaTotal.setText(String.valueOf(diferenca)+" meses");
             
         } catch (ParseException ex) {
             JOptionPane.showMessageDialog(this, "Insira uma data válida");
@@ -1591,26 +1720,43 @@ public class CadastroProfessor extends javax.swing.JDialog {
     }//GEN-LAST:event_jTempoExperienciaDataFocusLost
 
     private void jSalvarPublicacoesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jSalvarPublicacoesActionPerformed
-        
-        professor.setArtigosPublicadosArea(Integer.parseInt(jArtigosPublicadosArea.getText()));
-        professor.setArtigosPublicadosOutrasAreas(Integer.parseInt(jArtigosPublicadosOutrasAreas.getText()));
-        professor.setLivrosCapitulosArea(Integer.parseInt(jLivrosCapitulosArea.getText()));
-        professor.setLivrosCapitulosOutrasAreas(Integer.parseInt(jLivrosCapitulosOutrasAreas.getText()));
-        professor.setTrabalhosPublicadosCompletos(Integer.parseInt(jTrabalhosPublicadosCompletos.getText()));
-        professor.setTrabalhosPublicadosResumos(Integer.parseInt(jTrabalhosPublicadosResumos.getText()));
-        professor.setPropriedadeIntelectualDepositada(Integer.parseInt(jPropriedadeIntelectualDepositada.getText()));
-        professor.setPropriedadeIntelectualRegistrada(Integer.parseInt(jPropriedadeIntelectualRegistrada.getText()));
-        professor.setOutrasPublicacoesTraducoes(Integer.parseInt(jOutrasPublicacoesTraducoes.getText()));
-        professor.setOutrasPublicacoesProjetos(Integer.parseInt(jOutrasPublicacoesProjetos.getText()));
-        professor.setOutrasPublicacoesProducao(Integer.parseInt(jOutrasPublicacoesProducao.getText()));
-        
-        int idProfessor = professorDao.getIdProfessor(professor.getCpf());
+        boolean dadosValidos=true;
 
-        if (professorDao.InserePublicacoes(professor, idProfessor)){
-            JOptionPane.showMessageDialog(this, "Salvo com sucesso");
-        }else{
-        JOptionPane.showMessageDialog(this, "Erro ao salvar.");
+        if(jArtigosPublicadosArea.getText().isEmpty() || jArtigosPublicadosOutrasAreas.getText().isEmpty() || 
+           jLivrosCapitulosArea.getText().isEmpty() || jLivrosCapitulosOutrasAreas.getText().isEmpty() ||
+           jTrabalhosPublicadosCompletos.getText().isEmpty() || jTrabalhosPublicadosResumos.getText().isEmpty() ||
+           jPropriedadeIntelectualDepositada.getText().isEmpty() || jPropriedadeIntelectualRegistrada.getText().isEmpty() ||
+           jOutrasPublicacoesTraducoes.getText().isEmpty() || jOutrasPublicacoesProjetos.getText().isEmpty() ||
+           jOutrasPublicacoesProducao.getText().isEmpty()){
+           
+            dadosValidos=false;
         }
+        
+        if(dadosValidos){
+            professor.setArtigosPublicadosArea(Integer.parseInt(jArtigosPublicadosArea.getText()));
+            professor.setArtigosPublicadosOutrasAreas(Integer.parseInt(jArtigosPublicadosOutrasAreas.getText()));
+            professor.setLivrosCapitulosArea(Integer.parseInt(jLivrosCapitulosArea.getText()));
+            professor.setLivrosCapitulosOutrasAreas(Integer.parseInt(jLivrosCapitulosOutrasAreas.getText()));
+            professor.setTrabalhosPublicadosCompletos(Integer.parseInt(jTrabalhosPublicadosCompletos.getText()));
+            professor.setTrabalhosPublicadosResumos(Integer.parseInt(jTrabalhosPublicadosResumos.getText()));
+            professor.setPropriedadeIntelectualDepositada(Integer.parseInt(jPropriedadeIntelectualDepositada.getText()));
+            professor.setPropriedadeIntelectualRegistrada(Integer.parseInt(jPropriedadeIntelectualRegistrada.getText()));
+            professor.setOutrasPublicacoesTraducoes(Integer.parseInt(jOutrasPublicacoesTraducoes.getText()));
+            professor.setOutrasPublicacoesProjetos(Integer.parseInt(jOutrasPublicacoesProjetos.getText()));
+            professor.setOutrasPublicacoesProducao(Integer.parseInt(jOutrasPublicacoesProducao.getText()));
+
+            int idProfessor = professorDao.getIdProfessor(professor.getCpf());
+
+            if (professorDao.InserePublicacoes(professor, idProfessor)){
+                JOptionPane.showMessageDialog(this, "Dados salvos com sucesso!");
+            }else{
+            JOptionPane.showMessageDialog(this, "Erro ao salvar.");
+            }
+        }
+        else{
+            JOptionPane.showMessageDialog(this, "Verifique o preenchimento dos campos", "Verifique o preenchimento", JOptionPane.WARNING_MESSAGE);
+        }
+
     }//GEN-LAST:event_jSalvarPublicacoesActionPerformed
 
     private void jHorasNDEKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jHorasNDEKeyTyped
@@ -1676,19 +1822,19 @@ public class CadastroProfessor extends javax.swing.JDialog {
         }
     }//GEN-LAST:event_jPesquisaKeyTyped
 
-    private void jTextField16KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField16KeyTyped
+    private void jCargaHorariaCursoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jCargaHorariaCursoKeyTyped
         String caracteres="0987654321";
         if(!caracteres.contains(evt.getKeyChar()+"")){
         evt.consume();
         }
-    }//GEN-LAST:event_jTextField16KeyTyped
+    }//GEN-LAST:event_jCargaHorariaCursoKeyTyped
 
-    private void jTextField17KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField17KeyTyped
+    private void jCargaHorariaOutroCursoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jCargaHorariaOutroCursoKeyTyped
         String caracteres="0987654321";
         if(!caracteres.contains(evt.getKeyChar()+"")){
         evt.consume();
         }
-    }//GEN-LAST:event_jTextField17KeyTyped
+    }//GEN-LAST:event_jCargaHorariaOutroCursoKeyTyped
 
     private void jTextField23KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField23KeyTyped
         String caracteres="0987654321";
@@ -1800,6 +1946,75 @@ public class CadastroProfessor extends javax.swing.JDialog {
             Logger.getLogger(CadastroProfessor.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jDataAdmissaoFocusLost
+
+    private void jIncluirDisciplinasCursoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jIncluirDisciplinasCursoActionPerformed
+        if(!jCargaHorariaCurso.getText().isEmpty()){
+            ProfessorDisciplinasCurso professorDisciplinaCurso = new ProfessorDisciplinasCurso();
+            professorDisciplinaCurso.setDisciplina(jDisciplinasCurso.getSelectedItem().toString());
+            professorDisciplinaCurso.setCargaHoraria(Integer.parseInt(jCargaHorariaCurso.getText()));
+
+            DefaultTableModel modeloDisciplinasCurso = (DefaultTableModel) jTabelaDisciplinasCurso.getModel();
+
+            modeloDisciplinasCurso.addRow(new Object[]{
+                professorDisciplinaCurso.getDisciplina(),
+                professorDisciplinaCurso.getCargaHoraria(),
+            });    
+        }else{
+            JOptionPane.showMessageDialog(this, "Informe a carga horária!");
+        }
+        
+
+    }//GEN-LAST:event_jIncluirDisciplinasCursoActionPerformed
+
+    private void jRemoverDisciplinaCursoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRemoverDisciplinaCursoActionPerformed
+        int index=-1;
+        
+        DefaultTableModel modeloDisciplinasCurso = (DefaultTableModel) jTabelaDisciplinasCurso.getModel();
+        
+        index=jTabelaDisciplinasCurso.getSelectedRow();
+      
+        if(index!=-1){
+            modeloDisciplinasCurso.removeRow(index);
+            }else{
+            JOptionPane.showMessageDialog(this, "Selecione um item para excluir");
+        }
+    }//GEN-LAST:event_jRemoverDisciplinaCursoActionPerformed
+
+    private void jIncluirDisciplinasOutrosCursosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jIncluirDisciplinasOutrosCursosActionPerformed
+        if(!jCargaHorariaOutroCurso.getText().isEmpty()){
+            ProfessorDisciplinasOutrosCursos professorDisciplinasOutrosCursos = new ProfessorDisciplinasOutrosCursos();
+            professorDisciplinasOutrosCursos.setDisciplina(jDisciplinasOutroCurso.getSelectedItem().toString());
+            professorDisciplinasOutrosCursos.setCargaHoraria(Integer.parseInt(jCargaHorariaOutroCurso.getText()));
+
+            DefaultTableModel modeloDisciplinasOutroCurso = (DefaultTableModel) jTabelaDisciplinasOutroCurso.getModel();
+
+            modeloDisciplinasOutroCurso.addRow(new Object[]{
+                professorDisciplinasOutrosCursos.getDisciplina(),
+                professorDisciplinasOutrosCursos.getCargaHoraria(),
+            });    
+        }else{
+            JOptionPane.showMessageDialog(this, "Informe a carga horária!");
+        }
+        
+    }//GEN-LAST:event_jIncluirDisciplinasOutrosCursosActionPerformed
+
+    private void jRemoverDisciplinaOutrosCursosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRemoverDisciplinaOutrosCursosActionPerformed
+        int index=-1;
+        
+        DefaultTableModel modeloDisciplinasCurso = (DefaultTableModel) jTabelaDisciplinasOutroCurso.getModel();
+        
+        index=jTabelaDisciplinasOutroCurso.getSelectedRow();
+      
+        if(index!=-1){
+            modeloDisciplinasCurso.removeRow(index);
+            }else{
+            JOptionPane.showMessageDialog(this, "Selecione um item para excluir");
+        }
+    }//GEN-LAST:event_jRemoverDisciplinaOutrosCursosActionPerformed
+
+    private void jSairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jSairActionPerformed
+        dispose();
+    }//GEN-LAST:event_jSairActionPerformed
     public void alteraProfessor(String cpf){
 
         professor = professorDao.getProfessor(cpf);
@@ -1851,6 +2066,23 @@ public class CadastroProfessor extends javax.swing.JDialog {
             jOutrasPublicacoesProjetos.setText(String.valueOf(professor.getOutrasPublicacoesProjetos()));
             jOutrasPublicacoesProducao.setText(String.valueOf(professor.getOutrasPublicacoesProducao()));
             
+            //Preenche a table de Disciplinas ministradas no curso, aba Geral
+            DefaultTableModel modeloTabelaDisciplinaCursos =(DefaultTableModel) jTabelaDisciplinasCurso.getModel();
+            for(ProfessorDisciplinasCurso professorDisciplinasCurso : professorDisciplinasCursoDao.getLista(professorDao.getIdProfessor(cpf))){
+                modeloTabelaDisciplinaCursos.addRow(new Object[]{
+                    professorDisciplinasCurso.getDisciplina(),
+                    professorDisciplinasCurso.getCargaHoraria()
+                });
+            }
+            
+            //Preenche a table de Disciplinas ministradas no curso, aba Geral
+            DefaultTableModel modeloTabelaDisciplinaOutrosCursos =(DefaultTableModel) jTabelaDisciplinasOutroCurso.getModel();
+            for(ProfessorDisciplinasOutrosCursos professorDisciplinasOutrosCursos : professorDisciplinasOutrosCursosDao.getLista(professorDao.getIdProfessor(cpf))){
+                modeloTabelaDisciplinaOutrosCursos.addRow(new Object[]{
+                    professorDisciplinasOutrosCursos.getDisciplina(),
+                    professorDisciplinasOutrosCursos.getCargaHoraria()
+                });
+            }
             
             jTabbedPane1.setEnabledAt(1, true);
 
@@ -1914,51 +2146,76 @@ public class CadastroProfessor extends javax.swing.JDialog {
             jOutrasPublicacoesProducao.setText(String.valueOf(professor.getOutrasPublicacoesProducao()));
             
             
-            jNome.setEnabled(false);
-            jCPF.setEnabled(false);
-            jMaiorTitulacao.setEnabled(false);
-            jAreaFormacao.setEnabled(false);
-            jCurriculoLattes.setEnabled(false);
-            jDataAtualizacao.setEnabled(false);
-            jCoordenador.setEnabled(false);
+//            jNome.setEnabled(false);
+//            jCPF.setEnabled(false);
+//            jMaiorTitulacao.setEnabled(false);
+//            jAreaFormacao.setEnabled(false);
+//            jCurriculoLattes.setEnabled(false);
+//            jDataAtualizacao.setEnabled(false);
+//            jCoordenador.setEnabled(false);
+//            
+//            jMatricula.setEnabled(false);
+//            jDataAdmissao.setEnabled(false);
+//            jHorasNDE.setEnabled(false);
+//            jOrientacaoTCC.setEnabled(false);
+//            jCoordenacaoCurso.setEnabled(false);
+//            jCoordenacaoOutrosCursos.setEnabled(false);
+//            jPesquisa.setEnabled(false);
+//            jAtividadeExtraClasseCurso.setEnabled(false);
+//            jAtividadeExtraClasseOutrosCursos.setEnabled(false);
+//            jQtdeHorasCurso.setEnabled(false);
+//            jQtdeHorasOutroCurso.setEnabled(false);
+//            
+//            jMembroNde.setEnabled(false);
+//            jMembroColegiado.setEnabled(false);
+//            jDocente.setEnabled(false);
+//            jTempoVinculoData.setEnabled(false);
+//            jTempoVinculoTotal.setEnabled(false);
+//            jTempoMagisterioData.setEnabled(false);
+//            jTempoMagisterioTotal.setEnabled(false);
+//            jExperienciaDistanciaData.setEnabled(false);
+//            jExperienciaDistanciaTotal.setEnabled(false);
+//            jTempoExperienciaData.setEnabled(false);
+//            jTempoExperienciaTotal.setEnabled(false);
+//                     
+//            jArtigosPublicadosArea.setEnabled(false);
+//            jArtigosPublicadosOutrasAreas.setEnabled(false);
+//            jLivrosCapitulosArea.setEnabled(false);
+//            jLivrosCapitulosOutrasAreas.setEnabled(false);
+//            jTrabalhosPublicadosCompletos.setEnabled(false);
+//            jTrabalhosPublicadosResumos.setEnabled(false);
+//            jPropriedadeIntelectualDepositada.setEnabled(false);
+//            jPropriedadeIntelectualRegistrada.setEnabled(false);
+//            jOutrasPublicacoesTraducoes.setEnabled(false);
+//            jOutrasPublicacoesProjetos.setEnabled(false);
+//            jOutrasPublicacoesProducao.setEnabled(false);
+
+              jSalvar.setEnabled(false);
+              jSalvarAtuacaoProfissional.setEnabled(false);
+              jSalvarDadosGerais.setEnabled(false);
+              jSalvarPublicacoes.setEnabled(false);
+              jIncluirDisciplinasCurso.setEnabled(false);
+              jIncluirDisciplinasOutrosCursos.setEnabled(false);
+              jRemoverDisciplinaCurso.setEnabled(false);
+              jRemoverDisciplinaOutrosCursos.setEnabled(false);
             
-            jMatricula.setEnabled(false);
-            jDataAdmissao.setEnabled(false);
-            jHorasNDE.setEnabled(false);
-            jOrientacaoTCC.setEnabled(false);
-            jCoordenacaoCurso.setEnabled(false);
-            jCoordenacaoOutrosCursos.setEnabled(false);
-            jPesquisa.setEnabled(false);
-            jAtividadeExtraClasseCurso.setEnabled(false);
-            jAtividadeExtraClasseOutrosCursos.setEnabled(false);
-            jQtdeHorasCurso.setEnabled(false);
-            jQtdeHorasOutroCurso.setEnabled(false);
+            //Preenche a table de Disciplinas ministradas no curso, aba Geral
+            DefaultTableModel modeloTabelaDisciplinaCursos =(DefaultTableModel) jTabelaDisciplinasCurso.getModel();
+            for(ProfessorDisciplinasCurso professorDisciplinasCurso : professorDisciplinasCursoDao.getLista(professorDao.getIdProfessor(cpf))){
+                modeloTabelaDisciplinaCursos.addRow(new Object[]{
+                    professorDisciplinasCurso.getDisciplina(),
+                    professorDisciplinasCurso.getCargaHoraria()
+                });
+            }
             
-            jMembroNde.setEnabled(false);
-            jMembroColegiado.setEnabled(false);
-            jDocente.setEnabled(false);
-            jTempoVinculoData.setEnabled(false);
-            jTempoVinculoTotal.setEnabled(false);
-            jTempoMagisterioData.setEnabled(false);
-            jTempoMagisterioTotal.setEnabled(false);
-            jExperienciaDistanciaData.setEnabled(false);
-            jExperienciaDistanciaTotal.setEnabled(false);
-            jTempoExperienciaData.setEnabled(false);
-            jTempoExperienciaTotal.setEnabled(false);
-                     
-            jArtigosPublicadosArea.setEnabled(false);
-            jArtigosPublicadosOutrasAreas.setEnabled(false);
-            jLivrosCapitulosArea.setEnabled(false);
-            jLivrosCapitulosOutrasAreas.setEnabled(false);
-            jTrabalhosPublicadosCompletos.setEnabled(false);
-            jTrabalhosPublicadosResumos.setEnabled(false);
-            jPropriedadeIntelectualDepositada.setEnabled(false);
-            jPropriedadeIntelectualRegistrada.setEnabled(false);
-            jOutrasPublicacoesTraducoes.setEnabled(false);
-            jOutrasPublicacoesProjetos.setEnabled(false);
-            jOutrasPublicacoesProducao.setEnabled(false);
-            
-            
+            //Preenche a table de Disciplinas ministradas no curso, aba Geral
+            DefaultTableModel modeloTabelaDisciplinaOutrosCursos =(DefaultTableModel) jTabelaDisciplinasOutroCurso.getModel();
+            for(ProfessorDisciplinasOutrosCursos professorDisciplinasOutrosCursos : professorDisciplinasOutrosCursosDao.getLista(professorDao.getIdProfessor(cpf))){
+                modeloTabelaDisciplinaOutrosCursos.addRow(new Object[]{
+                    professorDisciplinasOutrosCursos.getDisciplina(),
+                    professorDisciplinasOutrosCursos.getCargaHoraria()
+                });
+            }   
             
             
             jTabbedPane1.setEnabledAt(1, true);
@@ -2021,25 +2278,25 @@ public class CadastroProfessor extends javax.swing.JDialog {
     private javax.swing.JButton jButton10;
     private javax.swing.JButton jButton12;
     private javax.swing.JButton jButton13;
-    private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton5;
-    private javax.swing.JButton jButton6;
-    private javax.swing.JButton jButton7;
     private javax.swing.JButton jButton9;
     private javax.swing.JFormattedTextField jCPF;
+    private javax.swing.JTextField jCargaHorariaCurso;
+    private javax.swing.JTextField jCargaHorariaOutroCurso;
     private javax.swing.JCheckBox jCheckBox1;
-    private javax.swing.JComboBox<String> jComboBox1;
-    private javax.swing.JComboBox<String> jComboBox2;
     private javax.swing.JTextField jCoordenacaoCurso;
     private javax.swing.JTextField jCoordenacaoOutrosCursos;
     private javax.swing.JCheckBox jCoordenador;
     private javax.swing.JTextField jCurriculoLattes;
     private javax.swing.JFormattedTextField jDataAdmissao;
     private javax.swing.JFormattedTextField jDataAtualizacao;
+    private javax.swing.JComboBox<String> jDisciplinasCurso;
+    private javax.swing.JComboBox<String> jDisciplinasOutroCurso;
     private javax.swing.JCheckBox jDocente;
     private javax.swing.JFormattedTextField jExperienciaDistanciaData;
     private javax.swing.JTextField jExperienciaDistanciaTotal;
     private javax.swing.JTextField jHorasNDE;
+    private javax.swing.JButton jIncluirDisciplinasCurso;
+    private javax.swing.JButton jIncluirDisciplinasOutrosCursos;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -2086,7 +2343,6 @@ public class CadastroProfessor extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
-    private javax.swing.JList<String> jList1;
     private javax.swing.JTextField jLivrosCapitulosArea;
     private javax.swing.JTextField jLivrosCapitulosOutrasAreas;
     private javax.swing.JTextField jMaiorTitulacao;
@@ -2119,6 +2375,8 @@ public class CadastroProfessor extends javax.swing.JDialog {
     private javax.swing.JTextField jPropriedadeIntelectualRegistrada;
     private javax.swing.JTextField jQtdeHorasCurso;
     private javax.swing.JTextField jQtdeHorasOutroCurso;
+    private javax.swing.JButton jRemoverDisciplinaCurso;
+    private javax.swing.JButton jRemoverDisciplinaOutrosCursos;
     private javax.swing.JButton jSair;
     private javax.swing.JButton jSalvar;
     private javax.swing.JButton jSalvarAtuacaoProfissional;
@@ -2126,12 +2384,13 @@ public class CadastroProfessor extends javax.swing.JDialog {
     private javax.swing.JButton jSalvarPublicacoes;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTabbedPane jTabbedPane2;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JTable jTable2;
+    private javax.swing.JTable jTabelaDisciplinasCurso;
+    private javax.swing.JTable jTabelaDisciplinasCurso1;
+    private javax.swing.JTable jTabelaDisciplinasOutroCurso;
     private javax.swing.JTable jTable3;
     private javax.swing.JFormattedTextField jTempoExperienciaData;
     private javax.swing.JTextField jTempoExperienciaTotal;
@@ -2139,8 +2398,6 @@ public class CadastroProfessor extends javax.swing.JDialog {
     private javax.swing.JTextField jTempoMagisterioTotal;
     private javax.swing.JFormattedTextField jTempoVinculoData;
     private javax.swing.JTextField jTempoVinculoTotal;
-    private javax.swing.JTextField jTextField16;
-    private javax.swing.JTextField jTextField17;
     private javax.swing.JTextField jTextField23;
     private javax.swing.JTextField jTrabalhosPublicadosCompletos;
     private javax.swing.JTextField jTrabalhosPublicadosResumos;
