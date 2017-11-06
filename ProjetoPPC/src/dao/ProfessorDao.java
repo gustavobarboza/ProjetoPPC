@@ -254,6 +254,65 @@ public class ProfessorDao {
             return null;
         }
     }
+    
+ public List<Professor> getCoordenadores(){
+        conexaoDb = new ConexaoDb().getConexao();
+        List<Professor> listaCoordenadores = new ArrayList<Professor>();
+            String sql ="SELECT nome,cpf,area_formacao FROM PROFESSOR WHERE coordenador=1";
+            
+            PreparedStatement stmt;
+        try {
+            stmt = conexaoDb.prepareStatement(sql);
+            ResultSet rs = stmt.executeQuery();
+            while(rs.next()){
+                
+            Professor professor = new Professor();
+            
+            professor.setNome(rs.getString("nome"));
+            professor.setCpf(rs.getString("cpf"));
+            professor.setAreaFormacao(rs.getString("area_formacao"));
+            
+            listaCoordenadores.add(professor);
+            
+            }
+            return listaCoordenadores;
+        
+        } catch (SQLException ex) {
+            Logger.getLogger(DisciplinaDao.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
+        }
+    }    
+ public Professor getCoordenador(String nome){
+        conexaoDb = new ConexaoDb().getConexao();
+        Professor professor = new Professor();
+
+        String sql= "SELECT cpf, maior_titulacao, area_formacao  FROM PROFESSOR WHERE nome=?";
+            try {
+                PreparedStatement stmt = conexaoDb.prepareStatement(sql);
+                stmt.setString(1, nome);
+
+                ResultSet rs = stmt.executeQuery();
+                while(rs.next()){
+                    professor.setCpf(rs.getString("cpf"));
+                    professor.setMaiorTitulacao("maior_titulacao");
+                    professor.setAreaFormacao(rs.getString("area_formacao"));
+                }
+
+
+                rs.close();
+
+                return professor;
+            } catch (SQLException ex) {
+                Logger.getLogger(DisciplinaDao.class.getName()).log(Level.SEVERE, null, ex);
+                return null;
+            }finally{
+            try {
+                conexaoDb.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(DisciplinaDao.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            }
+        }
     public Professor getProfessor(String cpf){
         conexaoDb = new ConexaoDb().getConexao();
         Professor professor = new Professor();

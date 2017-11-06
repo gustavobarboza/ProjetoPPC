@@ -59,6 +59,11 @@ public class GestaoCurso extends javax.swing.JDialog {
         jLabel1.setText("Cursos Cadastrados:");
 
         jButton1.setText("Cadastrar novo Curso");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jButton2.setText("Consultar");
 
@@ -107,6 +112,11 @@ public class GestaoCurso extends javax.swing.JDialog {
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        CadastroCurso cadastroCurso = new CadastroCurso(new javax.swing.JFrame(), true);
+        cadastroCurso.setVisible(true);
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
