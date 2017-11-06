@@ -11,7 +11,15 @@ package entity;
  */
 public class ProfessorParticipacaoEventos {
     private int idProfessorParticipacaoEventos;
-    private int quantidade;
-    private int comprovantes;
+    private String comprovantes;
+
+    public String getComprovantes() {
+        return comprovantes;
+    }
+
+    public void setComprovantes(String comprovantes) {
+        this.comprovantes = comprovantes;
+    }
+    
     
 }

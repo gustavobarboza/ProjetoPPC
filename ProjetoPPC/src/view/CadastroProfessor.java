@@ -162,13 +162,13 @@ public class CadastroProfessor extends javax.swing.JDialog {
         jLabel34 = new javax.swing.JLabel();
         jTempoExperienciaTotal = new javax.swing.JTextField();
         jPanel12 = new javax.swing.JPanel();
-        jTextField23 = new javax.swing.JTextField();
+        jQuantidadeComprovantes = new javax.swing.JTextField();
         jLabel37 = new javax.swing.JLabel();
         jLabel38 = new javax.swing.JLabel();
-        jButton9 = new javax.swing.JButton();
-        jButton10 = new javax.swing.JButton();
+        jIncluirComprovanteEvento = new javax.swing.JButton();
+        jRemoverComprovanteEvento = new javax.swing.JButton();
         jScrollPane4 = new javax.swing.JScrollPane();
-        jTabelaDisciplinasCurso1 = new javax.swing.JTable();
+        jTabelaComprovantesEventos = new javax.swing.JTable();
         jSalvarAtuacaoProfissional = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
         jPanel13 = new javax.swing.JPanel();
@@ -198,11 +198,11 @@ public class CadastroProfessor extends javax.swing.JDialog {
         jLabel39 = new javax.swing.JLabel();
         jTrabalhosPublicadosResumos = new javax.swing.JTextField();
         jLabel40 = new javax.swing.JLabel();
-        jButton12 = new javax.swing.JButton();
-        jButton13 = new javax.swing.JButton();
+        jIncluirComprovante = new javax.swing.JButton();
+        jRemoverComprovante = new javax.swing.JButton();
         jLabel52 = new javax.swing.JLabel();
         jScrollPane5 = new javax.swing.JScrollPane();
-        jTable3 = new javax.swing.JTable();
+        jTabelaComprovantes = new javax.swing.JTable();
         jSalvarPublicacoes = new javax.swing.JButton();
 
         jCheckBox1.setText("jCheckBox1");
@@ -942,9 +942,9 @@ public class CadastroProfessor extends javax.swing.JDialog {
 
         jPanel12.setBorder(javax.swing.BorderFactory.createTitledBorder("Participação em eventos"));
 
-        jTextField23.addKeyListener(new java.awt.event.KeyAdapter() {
+        jQuantidadeComprovantes.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
-                jTextField23KeyTyped(evt);
+                jQuantidadeComprovantesKeyTyped(evt);
             }
         });
 
@@ -952,11 +952,21 @@ public class CadastroProfessor extends javax.swing.JDialog {
 
         jLabel38.setText("Anexar Comprovantes");
 
-        jButton9.setText("Incluir");
+        jIncluirComprovanteEvento.setText("Incluir");
+        jIncluirComprovanteEvento.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jIncluirComprovanteEventoActionPerformed(evt);
+            }
+        });
 
-        jButton10.setText("Remover");
+        jRemoverComprovanteEvento.setText("Remover");
+        jRemoverComprovanteEvento.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jRemoverComprovanteEventoActionPerformed(evt);
+            }
+        });
 
-        jTabelaDisciplinasCurso1.setModel(new javax.swing.table.DefaultTableModel(
+        jTabelaComprovantesEventos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -964,7 +974,7 @@ public class CadastroProfessor extends javax.swing.JDialog {
                 "Comprovantes"
             }
         ));
-        jScrollPane4.setViewportView(jTabelaDisciplinasCurso1);
+        jScrollPane4.setViewportView(jTabelaComprovantesEventos);
 
         javax.swing.GroupLayout jPanel12Layout = new javax.swing.GroupLayout(jPanel12);
         jPanel12.setLayout(jPanel12Layout);
@@ -977,15 +987,15 @@ public class CadastroProfessor extends javax.swing.JDialog {
                 .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel12Layout.createSequentialGroup()
                         .addGap(4, 4, 4)
-                        .addComponent(jTextField23, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jQuantidadeComprovantes, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel37))
                     .addGroup(jPanel12Layout.createSequentialGroup()
                         .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 281, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jButton9, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButton10))))
+                            .addComponent(jIncluirComprovanteEvento, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jRemoverComprovanteEvento))))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel12Layout.setVerticalGroup(
@@ -993,16 +1003,16 @@ public class CadastroProfessor extends javax.swing.JDialog {
             .addGroup(jPanel12Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField23, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jQuantidadeComprovantes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel37))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel38)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel12Layout.createSequentialGroup()
-                        .addComponent(jButton9)
+                        .addComponent(jIncluirComprovanteEvento)
                         .addGap(18, 18, 18)
-                        .addComponent(jButton10))
+                        .addComponent(jRemoverComprovanteEvento))
                     .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(23, 23, 23))
         );
@@ -1324,24 +1334,31 @@ public class CadastroProfessor extends javax.swing.JDialog {
                 .addGap(0, 16, Short.MAX_VALUE))
         );
 
-        jButton12.setText("Incluir");
+        jIncluirComprovante.setText("Incluir");
+        jIncluirComprovante.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jIncluirComprovanteActionPerformed(evt);
+            }
+        });
 
-        jButton13.setText("Remover");
+        jRemoverComprovante.setText("Remover");
+        jRemoverComprovante.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jRemoverComprovanteActionPerformed(evt);
+            }
+        });
 
         jLabel52.setText("Anexar Comprovantes");
 
-        jTable3.setModel(new javax.swing.table.DefaultTableModel(
+        jTabelaComprovantes.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null}
+
             },
             new String [] {
                 "Comprovante", "Data", "Local de Publicação"
             }
         ));
-        jScrollPane5.setViewportView(jTable3);
+        jScrollPane5.setViewportView(jTabelaComprovantes);
 
         jSalvarPublicacoes.setText("Salvar");
         jSalvarPublicacoes.addActionListener(new java.awt.event.ActionListener() {
@@ -1378,8 +1395,8 @@ public class CadastroProfessor extends javax.swing.JDialog {
                         .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(15, 15, 15)
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jButton13)
-                            .addComponent(jButton12, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jRemoverComprovante)
+                            .addComponent(jIncluirComprovante, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(0, 0, Short.MAX_VALUE))))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -1404,9 +1421,9 @@ public class CadastroProfessor extends javax.swing.JDialog {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addComponent(jButton12)
+                        .addComponent(jIncluirComprovante)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton13))
+                        .addComponent(jRemoverComprovante))
                     .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 40, Short.MAX_VALUE)
                 .addComponent(jSalvarPublicacoes, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -1623,10 +1640,25 @@ public class CadastroProfessor extends javax.swing.JDialog {
             professor.setExperienciaDistanciaTotal(jExperienciaDistanciaTotal.getText());
             professor.setTempoExperienciaData(jTempoExperienciaData.getText());
             professor.setTempoExperienciaTotal(jTempoExperienciaTotal.getText());
+            professor.setQuantidadeComprovantes(Integer.parseInt(jQuantidadeComprovantes.getText()));
 
             int idProfessor = professorDao.getIdProfessor(professor.getCpf());
 
             if (professorDao.InsereAtuacaoProfissional(professor, idProfessor)){
+                DefaultTableModel modeloComprovantesEventos = (DefaultTableModel) jTabelaComprovantesEventos.getModel();
+                    
+                //Preenche o array com os dados da tabela de participação em eventos para enviar a base de dados
+                for(int i=0; i<modeloComprovantesEventos.getRowCount(); i++){
+                    ProfessorParticipacaoEventos professorParticipacaoEventos = new ProfessorParticipacaoEventos();
+                    professorParticipacaoEventos.setComprovantes(modeloComprovantesEventos.getValueAt(i, 0).toString());
+                    listaProfessorParticipacaoEventos.add(professorParticipacaoEventos);
+                }
+                
+                professorParticipacaoEventosDao.Remove(idProfessor);
+                for (int i = 0; i<listaProfessorParticipacaoEventos.size(); i++){
+                    professorParticipacaoEventosDao.Cria(idProfessor, listaProfessorParticipacaoEventos.get(i));
+                }
+                
                 JOptionPane.showMessageDialog(this, "Dados salvos com sucesso!");
             }
             else{
@@ -1746,8 +1778,25 @@ public class CadastroProfessor extends javax.swing.JDialog {
             professor.setOutrasPublicacoesProducao(Integer.parseInt(jOutrasPublicacoesProducao.getText()));
 
             int idProfessor = professorDao.getIdProfessor(professor.getCpf());
-
+            
             if (professorDao.InserePublicacoes(professor, idProfessor)){
+                DefaultTableModel modeloComprovantes = (DefaultTableModel) jTabelaComprovantes.getModel();
+                
+                //Preenche o array com os dados da tabela de participação em eventos para enviar a base de dados
+                for(int i=0; i<modeloComprovantes.getRowCount(); i++){
+                    ProfessorComprovantes professorComprovantes = new ProfessorComprovantes();
+                    professorComprovantes.setComprovante(modeloComprovantes.getValueAt(i, 0).toString());
+                    professorComprovantes.setData(modeloComprovantes.getValueAt(i, 1).toString());
+                    professorComprovantes.setLocal(modeloComprovantes.getValueAt(i, 2).toString());
+
+                    listaProfessorComprovantes.add(professorComprovantes);
+                }
+                
+                professorComprovantesDao.Remove(idProfessor);
+                for (int i = 0; i<listaProfessorComprovantes.size(); i++){
+                    professorComprovantesDao.Cria(idProfessor, listaProfessorComprovantes.get(i));
+                }
+                
                 JOptionPane.showMessageDialog(this, "Dados salvos com sucesso!");
             }else{
             JOptionPane.showMessageDialog(this, "Erro ao salvar.");
@@ -1836,12 +1885,12 @@ public class CadastroProfessor extends javax.swing.JDialog {
         }
     }//GEN-LAST:event_jCargaHorariaOutroCursoKeyTyped
 
-    private void jTextField23KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField23KeyTyped
+    private void jQuantidadeComprovantesKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jQuantidadeComprovantesKeyTyped
         String caracteres="0987654321";
         if(!caracteres.contains(evt.getKeyChar()+"")){
         evt.consume();
         }
-    }//GEN-LAST:event_jTextField23KeyTyped
+    }//GEN-LAST:event_jQuantidadeComprovantesKeyTyped
 
     private void jArtigosPublicadosAreaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jArtigosPublicadosAreaKeyTyped
         String caracteres="0987654321";
@@ -2015,6 +2064,64 @@ public class CadastroProfessor extends javax.swing.JDialog {
     private void jSairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jSairActionPerformed
         dispose();
     }//GEN-LAST:event_jSairActionPerformed
+
+    private void jIncluirComprovanteEventoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jIncluirComprovanteEventoActionPerformed
+        IncluirComprovanteEventos incluirComprovanteEventos = new IncluirComprovanteEventos(new javax.swing.JFrame(), true);
+        
+            ProfessorParticipacaoEventos professorParticipacaoEventos = new ProfessorParticipacaoEventos();
+            professorParticipacaoEventos.setComprovantes(incluirComprovanteEventos.retornaComprovante());
+
+            DefaultTableModel modeloComprovantesEventos = (DefaultTableModel) jTabelaComprovantesEventos.getModel();
+
+            modeloComprovantesEventos.addRow(new Object[]{
+                professorParticipacaoEventos.getComprovantes(),
+            });
+        
+        
+    }//GEN-LAST:event_jIncluirComprovanteEventoActionPerformed
+
+    private void jIncluirComprovanteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jIncluirComprovanteActionPerformed
+        IncluirComprovantes incluirComprovantes = new IncluirComprovantes(new javax.swing.JFrame(), true);
+        
+        ProfessorComprovantes professorComprovantes = incluirComprovantes.retornaComprovante();
+        
+        DefaultTableModel modeloComprovantes = (DefaultTableModel) jTabelaComprovantes.getModel();
+        
+        modeloComprovantes.addRow(new Object[]{
+            professorComprovantes.getComprovante(),
+            professorComprovantes.getData(),
+            professorComprovantes.getLocal()
+        });
+        
+    }//GEN-LAST:event_jIncluirComprovanteActionPerformed
+
+    private void jRemoverComprovanteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRemoverComprovanteActionPerformed
+        int index=-1;
+        
+        DefaultTableModel modeloComprovantes = (DefaultTableModel) jTabelaComprovantes.getModel();
+        
+        index=jTabelaComprovantes.getSelectedRow();
+      
+        if(index!=-1){
+            modeloComprovantes.removeRow(index);
+            }else{
+            JOptionPane.showMessageDialog(this, "Selecione um item para excluir");
+        }
+    }//GEN-LAST:event_jRemoverComprovanteActionPerformed
+
+    private void jRemoverComprovanteEventoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRemoverComprovanteEventoActionPerformed
+        int index=-1;
+        
+        DefaultTableModel modeloComprovantesParticipacao = (DefaultTableModel) jTabelaComprovantesEventos.getModel();
+        
+        index=jTabelaComprovantesEventos.getSelectedRow();
+      
+        if(index!=-1){
+            modeloComprovantesParticipacao.removeRow(index);
+            }else{
+            JOptionPane.showMessageDialog(this, "Selecione um item para excluir");
+        }
+    }//GEN-LAST:event_jRemoverComprovanteEventoActionPerformed
     public void alteraProfessor(String cpf){
 
         professor = professorDao.getProfessor(cpf);
@@ -2053,7 +2160,8 @@ public class CadastroProfessor extends javax.swing.JDialog {
             jExperienciaDistanciaTotal.setText(professor.getExperienciaDistanciaTotal());
             jTempoExperienciaData.setText(professor.getTempoExperienciaData());
             jTempoExperienciaTotal.setText(professor.getTempoExperienciaTotal());
-                     
+            jQuantidadeComprovantes.setText(String.valueOf(professor.getQuantidadeComprovantes()));         
+            
             jArtigosPublicadosArea.setText(String.valueOf(professor.getArtigosPublicadosArea()));
             jArtigosPublicadosOutrasAreas.setText(String.valueOf(professor.getArtigosPublicadosOutrasAreas()));
             jLivrosCapitulosArea.setText(String.valueOf(professor.getLivrosCapitulosArea()));
@@ -2081,6 +2189,24 @@ public class CadastroProfessor extends javax.swing.JDialog {
                 modeloTabelaDisciplinaOutrosCursos.addRow(new Object[]{
                     professorDisciplinasOutrosCursos.getDisciplina(),
                     professorDisciplinasOutrosCursos.getCargaHoraria()
+                });
+            }
+            
+            //Preenche a table de Participacao em eventos, aba Atuacao Profissional
+            DefaultTableModel modeloTabelaComprovantesEventos =(DefaultTableModel) jTabelaComprovantesEventos.getModel();
+            for(ProfessorParticipacaoEventos professorParticipacaoEventos : professorParticipacaoEventosDao.getLista(professorDao.getIdProfessor(cpf))){
+                modeloTabelaComprovantesEventos.addRow(new Object[]{
+                professorParticipacaoEventos.getComprovantes()
+                    
+                });
+            }
+            //Preenche a table de Participacao em eventos, aba Atuacao Profissional
+            DefaultTableModel modeloComprovantes =(DefaultTableModel) jTabelaComprovantes.getModel();
+            for(ProfessorComprovantes professorComprovantes : professorComprovantesDao.getLista(professorDao.getIdProfessor(cpf))){
+                modeloComprovantes.addRow(new Object[]{
+                    professorComprovantes.getComprovante(),
+                    professorComprovantes.getData(),
+                    professorComprovantes.getLocal()
                 });
             }
             
@@ -2132,7 +2258,8 @@ public class CadastroProfessor extends javax.swing.JDialog {
             jExperienciaDistanciaTotal.setText(professor.getExperienciaDistanciaTotal());
             jTempoExperienciaData.setText(professor.getTempoExperienciaData());
             jTempoExperienciaTotal.setText(professor.getTempoExperienciaTotal());
-                     
+            jQuantidadeComprovantes.setText(String.valueOf(professor.getQuantidadeComprovantes()));
+            
             jArtigosPublicadosArea.setText(String.valueOf(professor.getArtigosPublicadosArea()));
             jArtigosPublicadosOutrasAreas.setText(String.valueOf(professor.getArtigosPublicadosOutrasAreas()));
             jLivrosCapitulosArea.setText(String.valueOf(professor.getLivrosCapitulosArea()));
@@ -2145,59 +2272,21 @@ public class CadastroProfessor extends javax.swing.JDialog {
             jOutrasPublicacoesProjetos.setText(String.valueOf(professor.getOutrasPublicacoesProjetos()));
             jOutrasPublicacoesProducao.setText(String.valueOf(professor.getOutrasPublicacoesProducao()));
             
+            /*Desabilita os botões do formulario, garantido que não é possível realizar a alteração de dados,
+            apenas consulta*/
             
-//            jNome.setEnabled(false);
-//            jCPF.setEnabled(false);
-//            jMaiorTitulacao.setEnabled(false);
-//            jAreaFormacao.setEnabled(false);
-//            jCurriculoLattes.setEnabled(false);
-//            jDataAtualizacao.setEnabled(false);
-//            jCoordenador.setEnabled(false);
-//            
-//            jMatricula.setEnabled(false);
-//            jDataAdmissao.setEnabled(false);
-//            jHorasNDE.setEnabled(false);
-//            jOrientacaoTCC.setEnabled(false);
-//            jCoordenacaoCurso.setEnabled(false);
-//            jCoordenacaoOutrosCursos.setEnabled(false);
-//            jPesquisa.setEnabled(false);
-//            jAtividadeExtraClasseCurso.setEnabled(false);
-//            jAtividadeExtraClasseOutrosCursos.setEnabled(false);
-//            jQtdeHorasCurso.setEnabled(false);
-//            jQtdeHorasOutroCurso.setEnabled(false);
-//            
-//            jMembroNde.setEnabled(false);
-//            jMembroColegiado.setEnabled(false);
-//            jDocente.setEnabled(false);
-//            jTempoVinculoData.setEnabled(false);
-//            jTempoVinculoTotal.setEnabled(false);
-//            jTempoMagisterioData.setEnabled(false);
-//            jTempoMagisterioTotal.setEnabled(false);
-//            jExperienciaDistanciaData.setEnabled(false);
-//            jExperienciaDistanciaTotal.setEnabled(false);
-//            jTempoExperienciaData.setEnabled(false);
-//            jTempoExperienciaTotal.setEnabled(false);
-//                     
-//            jArtigosPublicadosArea.setEnabled(false);
-//            jArtigosPublicadosOutrasAreas.setEnabled(false);
-//            jLivrosCapitulosArea.setEnabled(false);
-//            jLivrosCapitulosOutrasAreas.setEnabled(false);
-//            jTrabalhosPublicadosCompletos.setEnabled(false);
-//            jTrabalhosPublicadosResumos.setEnabled(false);
-//            jPropriedadeIntelectualDepositada.setEnabled(false);
-//            jPropriedadeIntelectualRegistrada.setEnabled(false);
-//            jOutrasPublicacoesTraducoes.setEnabled(false);
-//            jOutrasPublicacoesProjetos.setEnabled(false);
-//            jOutrasPublicacoesProducao.setEnabled(false);
-
-              jSalvar.setEnabled(false);
-              jSalvarAtuacaoProfissional.setEnabled(false);
-              jSalvarDadosGerais.setEnabled(false);
-              jSalvarPublicacoes.setEnabled(false);
-              jIncluirDisciplinasCurso.setEnabled(false);
-              jIncluirDisciplinasOutrosCursos.setEnabled(false);
-              jRemoverDisciplinaCurso.setEnabled(false);
-              jRemoverDisciplinaOutrosCursos.setEnabled(false);
+            jSalvar.setEnabled(false);
+            jSalvarAtuacaoProfissional.setEnabled(false);
+            jSalvarDadosGerais.setEnabled(false);
+            jSalvarPublicacoes.setEnabled(false);
+            jIncluirDisciplinasCurso.setEnabled(false);
+            jIncluirDisciplinasOutrosCursos.setEnabled(false);
+            jRemoverDisciplinaCurso.setEnabled(false);
+            jRemoverDisciplinaOutrosCursos.setEnabled(false);
+            jIncluirComprovante.setEnabled(false);
+            jIncluirComprovanteEvento.setEnabled(false);
+            jRemoverComprovante.setEnabled(false);
+            jRemoverComprovanteEvento.setEnabled(false);
             
             //Preenche a table de Disciplinas ministradas no curso, aba Geral
             DefaultTableModel modeloTabelaDisciplinaCursos =(DefaultTableModel) jTabelaDisciplinasCurso.getModel();
@@ -2216,7 +2305,24 @@ public class CadastroProfessor extends javax.swing.JDialog {
                     professorDisciplinasOutrosCursos.getCargaHoraria()
                 });
             }   
+            //Preenche a table de Participacao em eventos, aba Atuacao Profissional
+            DefaultTableModel modeloTabelaComprovantesEventos =(DefaultTableModel) jTabelaComprovantesEventos.getModel();
+            for(ProfessorParticipacaoEventos professorParticipacaoEventos : professorParticipacaoEventosDao.getLista(professorDao.getIdProfessor(cpf))){
+                modeloTabelaComprovantesEventos.addRow(new Object[]{
+                professorParticipacaoEventos.getComprovantes()
+                    
+                });
+            }
             
+            //Preenche a table de Participacao em eventos, aba Atuacao Profissional
+            DefaultTableModel modeloComprovantes =(DefaultTableModel) jTabelaComprovantes.getModel();
+            for(ProfessorComprovantes professorComprovantes : professorComprovantesDao.getLista(professorDao.getIdProfessor(cpf))){
+                modeloComprovantes.addRow(new Object[]{
+                    professorComprovantes.getComprovante(),
+                    professorComprovantes.getData(),
+                    professorComprovantes.getLocal()
+                });
+            }
             
             jTabbedPane1.setEnabledAt(1, true);
             
@@ -2275,10 +2381,6 @@ public class CadastroProfessor extends javax.swing.JDialog {
     private javax.swing.JTextField jArtigosPublicadosOutrasAreas;
     private javax.swing.JTextField jAtividadeExtraClasseCurso;
     private javax.swing.JTextField jAtividadeExtraClasseOutrosCursos;
-    private javax.swing.JButton jButton10;
-    private javax.swing.JButton jButton12;
-    private javax.swing.JButton jButton13;
-    private javax.swing.JButton jButton9;
     private javax.swing.JFormattedTextField jCPF;
     private javax.swing.JTextField jCargaHorariaCurso;
     private javax.swing.JTextField jCargaHorariaOutroCurso;
@@ -2295,6 +2397,8 @@ public class CadastroProfessor extends javax.swing.JDialog {
     private javax.swing.JFormattedTextField jExperienciaDistanciaData;
     private javax.swing.JTextField jExperienciaDistanciaTotal;
     private javax.swing.JTextField jHorasNDE;
+    private javax.swing.JButton jIncluirComprovante;
+    private javax.swing.JButton jIncluirComprovanteEvento;
     private javax.swing.JButton jIncluirDisciplinasCurso;
     private javax.swing.JButton jIncluirDisciplinasOutrosCursos;
     private javax.swing.JLabel jLabel1;
@@ -2375,6 +2479,9 @@ public class CadastroProfessor extends javax.swing.JDialog {
     private javax.swing.JTextField jPropriedadeIntelectualRegistrada;
     private javax.swing.JTextField jQtdeHorasCurso;
     private javax.swing.JTextField jQtdeHorasOutroCurso;
+    private javax.swing.JTextField jQuantidadeComprovantes;
+    private javax.swing.JButton jRemoverComprovante;
+    private javax.swing.JButton jRemoverComprovanteEvento;
     private javax.swing.JButton jRemoverDisciplinaCurso;
     private javax.swing.JButton jRemoverDisciplinaOutrosCursos;
     private javax.swing.JButton jSair;
@@ -2388,17 +2495,16 @@ public class CadastroProfessor extends javax.swing.JDialog {
     private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTabbedPane jTabbedPane2;
+    private javax.swing.JTable jTabelaComprovantes;
+    private javax.swing.JTable jTabelaComprovantesEventos;
     private javax.swing.JTable jTabelaDisciplinasCurso;
-    private javax.swing.JTable jTabelaDisciplinasCurso1;
     private javax.swing.JTable jTabelaDisciplinasOutroCurso;
-    private javax.swing.JTable jTable3;
     private javax.swing.JFormattedTextField jTempoExperienciaData;
     private javax.swing.JTextField jTempoExperienciaTotal;
     private javax.swing.JFormattedTextField jTempoMagisterioData;
     private javax.swing.JTextField jTempoMagisterioTotal;
     private javax.swing.JFormattedTextField jTempoVinculoData;
     private javax.swing.JTextField jTempoVinculoTotal;
-    private javax.swing.JTextField jTextField23;
     private javax.swing.JTextField jTrabalhosPublicadosCompletos;
     private javax.swing.JTextField jTrabalhosPublicadosResumos;
     // End of variables declaration//GEN-END:variables

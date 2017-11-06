@@ -14,7 +14,7 @@ import java.util.Date;
 public class ProfessorComprovantes {
     private int idProfessorComprovantes;
     private String comprovante;
-    private Date data;
+    private String data;
     private String local;
 
     public int getIdProfessorComprovantes() {
@@ -33,11 +33,11 @@ public class ProfessorComprovantes {
         this.comprovante = comprovante;
     }
 
-    public Date getData() {
+    public String getData() {
         return data;
     }
 
-    public void setData(Date data) {
+    public void setData(String data) {
         this.data = data;
     }
 

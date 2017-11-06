@@ -133,7 +133,7 @@ public class ProfessorDao {
          conexaoDb = new ConexaoDb().getConexao();
         String sql="UPDATE PROFESSOR SET membro_nde=?,membro_colegiado=?, docente_capacitacao=?,tempo_vinculo_data=?,"
                 + "tempo_vinculo_total=?, tempo_magisterio_data=?, tempo_magisterio_total=?, experiencia_distancia_data=?,"
-                + "experiencia_distancia_total=?, tempo_experiencia_data=?, tempo_experiencia_total=? WHERE id_professor=?";
+                + "experiencia_distancia_total=?, tempo_experiencia_data=?, tempo_experiencia_total=?, quantidade_comprovantes=? WHERE id_professor=?";
         try {
             PreparedStatement stmt = conexaoDb.prepareStatement(sql);
             stmt.setBoolean(1, professor.isMembroNde());
@@ -147,8 +147,9 @@ public class ProfessorDao {
             stmt.setString(9, professor.getExperienciaDistanciaTotal());
             stmt.setString(10, professor.getTempoExperienciaData());
             stmt.setString(11, professor.getTempoExperienciaTotal());
+            stmt.setInt(12, professor.getQuantidadeComprovantes());
             
-            stmt.setInt(12, idProfessor);
+            stmt.setInt(13, idProfessor);
 
             stmt.execute();
             stmt.close();
@@ -293,6 +294,7 @@ public class ProfessorDao {
                     professor.setExperienciaDistanciaTotal(rs.getString("experiencia_distancia_total"));
                     professor.setTempoExperienciaData(rs.getString("tempo_experiencia_data"));
                     professor.setTempoExperienciaTotal(rs.getString("tempo_experiencia_total"));
+                    professor.setQuantidadeComprovantes(rs.getInt("quantidade_comprovantes"));
                     professor.setArtigosPublicadosArea(rs.getInt("artigos_publicados_area"));
                     professor.setArtigosPublicadosOutrasAreas(rs.getInt("artigos_publicados_outras_areas"));
                     professor.setLivrosCapitulosArea(rs.getInt("livros_capitulos_area"));

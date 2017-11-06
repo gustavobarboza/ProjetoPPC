@@ -31,6 +31,7 @@ public class Professor {
     private int atividadeExtraClasseOutrosCursos;
     private int qtdeHorasCurso;
     private int qtdeHorasOutroCurso;
+    private int quantidadeComprovantes;
     private boolean membroNde;
     private boolean membroColegiado;
     private boolean docenteCapacitacao;
@@ -294,6 +295,15 @@ public class Professor {
 
     public void setTempoExperienciaTotal(String tempoExperienciaTotal) {
         this.tempoExperienciaTotal = tempoExperienciaTotal;
+    }
+    
+    
+    public int getQuantidadeComprovantes() {
+        return quantidadeComprovantes;
+    }
+
+    public void setQuantidadeComprovantes(int quantidade) {
+        this.quantidadeComprovantes = quantidade;
     }
 
     public int getArtigosPublicadosArea() {
