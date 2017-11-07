@@ -332,6 +332,11 @@ public class CadastroCurso extends javax.swing.JDialog {
         });
 
         jSair.setText("Sair");
+        jSair.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jSairActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -371,7 +376,10 @@ public class CadastroCurso extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
-        listaCoordenadores();
+       if(novo){
+            listaCoordenadores();
+       }
+   
     }//GEN-LAST:event_formWindowOpened
 
     private void jLabel16MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel16MouseClicked
@@ -405,6 +413,8 @@ public class CadastroCurso extends javax.swing.JDialog {
         
         if (dadosValidos){
             Curso curso = new Curso();
+            ProfessorDao professorDao = new ProfessorDao();
+            
             curso.setTipoCurso(jTipoCurso.getText());
             curso.setModalidade(jModalidade.getText());
             curso.setDenominacao(jDenominacao.getText());
@@ -415,8 +425,7 @@ public class CadastroCurso extends javax.swing.JDialog {
             curso.setCargaHoraria(jCargaHoraria.getText());
             curso.setRegime(jRegimeLetivo.getText());
             curso.setPeriodos(jPeriodos.getText());
-            
-            ProfessorDao professorDao = new ProfessorDao();
+            curso.setFk_id_professor(professorDao.getIdProfessor(jCpf.getText()));
             
             int idProfessor = professorDao.getIdProfessor(jCpf.getText());
             
@@ -460,6 +469,10 @@ public class CadastroCurso extends javax.swing.JDialog {
         }
     }//GEN-LAST:event_jNumVagasKeyTyped
 
+    private void jSairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jSairActionPerformed
+        dispose();
+    }//GEN-LAST:event_jSairActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -501,15 +514,78 @@ public class CadastroCurso extends javax.swing.JDialog {
             }
         });
     }
-public void listaCoordenadores(){
+    public void listaCoordenadores(){
         ProfessorDao professorDao = new ProfessorDao();
         List<Professor> listaCoordenadores = professorDao.getCoordenadores();
-        
+
         jListaCoordenadores.removeAllItems();
-        
+
         for(int i=0; i<listaCoordenadores.size(); i++){
             jListaCoordenadores.addItem(listaCoordenadores.get(i).getNome());
-        }}
+        }
+    }
+    
+    public void AlteraCurso(String denominacao){
+        CursoDao cursoDao = new CursoDao();
+        ProfessorDao professorDao = new ProfessorDao();
+        Curso curso = new Curso();
+        
+        curso = cursoDao.getCurso(cursoDao.getIdCurso(denominacao));
+        
+        if(!curso.getDenominacao().isEmpty()){
+            
+            jTipoCurso.setText(curso.getTipoCurso());
+            jModalidade.setText(curso.getModalidade());
+            jDenominacao.setText(curso.getDenominacao());
+            jHabilitacao.setText(curso.getHabilitacao());
+            jLocalOferta.setText(curso.getLocalOferta());
+            jTurnos.setText(curso.getTurnosFuncionamento());
+            jNumVagas.setText(curso.getNumeroVagas());
+            jCargaHoraria.setText(curso.getCargaHoraria());
+            jRegimeLetivo.setText(curso.getRegime());
+            jPeriodos.setText(curso.getPeriodos());
+            
+            listaCoordenadores();
+            
+            String coordenador = professorDao.getNomeCoordenador(curso.getFk_id_professor());
+            jListaCoordenadores.setSelectedItem(coordenador);
+            novo=false;
+        }else{
+            JOptionPane.showMessageDialog(this, "Erro ao consultar o curso");
+        }
+        
+    }
+    public void ConsultaCurso(String denominacao){
+        CursoDao cursoDao = new CursoDao();
+        ProfessorDao professorDao = new ProfessorDao();
+        Curso curso = new Curso();
+        
+        curso = cursoDao.getCurso(cursoDao.getIdCurso(denominacao));
+        
+        if(!curso.getDenominacao().isEmpty()){
+            
+            jTipoCurso.setText(curso.getTipoCurso());
+            jModalidade.setText(curso.getModalidade());
+            jDenominacao.setText(curso.getDenominacao());
+            jHabilitacao.setText(curso.getHabilitacao());
+            jLocalOferta.setText(curso.getLocalOferta());
+            jTurnos.setText(curso.getTurnosFuncionamento());
+            jNumVagas.setText(curso.getNumeroVagas());
+            jCargaHoraria.setText(curso.getCargaHoraria());
+            jRegimeLetivo.setText(curso.getRegime());
+            jPeriodos.setText(curso.getPeriodos());
+            
+            jListaCoordenadores.setSelectedItem(professorDao.getNomeCoordenador(curso.getFk_id_professor()));
+            
+            jSalvar.setEnabled(false);
+            
+            
+            novo=false;
+        }else{
+            JOptionPane.showMessageDialog(this, "Erro ao consultar o curso");
+        }
+        
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField jAreaFormacao;

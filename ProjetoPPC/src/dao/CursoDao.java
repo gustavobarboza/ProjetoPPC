@@ -60,7 +60,7 @@ public class CursoDao {
     public boolean Altera(Integer idCurso, Curso curso){
         conexaoDb = new ConexaoDb().getConexao();
         String sql = "UPDATE CURSOS SET tipo_curso=?, modalidade=?, denominacao=?, habilitacao=?, local_oferta=?,"
-                + " turnos_funcionamento=?, numero_vagas=?, carga_horaria=?, regime=?, periodos=?"
+                + " turnos_funcionamento=?, numero_vagas=?, carga_horaria=?, regime=?, periodos=?, fk_id_professor=?"
                 + " WHERE id_curso=? ";
         
         try {
@@ -75,8 +75,9 @@ public class CursoDao {
             stmt.setString(8, curso.getCargaHoraria());
             stmt.setString(9, curso.getRegime());
             stmt.setString(10, curso.getPeriodos());
+            stmt.setInt(11, curso.getFk_id_professor());
             
-            stmt.setInt(11, idCurso);
+            stmt.setInt(12, idCurso);
                         
             stmt.executeUpdate();
             return true;
@@ -149,7 +150,7 @@ public class CursoDao {
         
         return listaCursos;
     }
-    public Curso getCurso(String idCurso){
+    public Curso getCurso(Integer idCurso){
         conexaoDb = new ConexaoDb().getConexao();
         Curso  curso = new Curso();
     
@@ -157,7 +158,7 @@ public class CursoDao {
 
         try {
             PreparedStatement stmt = conexaoDb.prepareStatement(sql);
-            stmt.setString(1, idCurso);
+            stmt.setInt(1, idCurso);
 
             ResultSet rs = stmt.executeQuery();
 
@@ -172,6 +173,7 @@ public class CursoDao {
             curso.setCargaHoraria(rs.getString("carga_horaria"));
             curso.setRegime(rs.getString("regime"));
             curso.setPeriodos(rs.getString("periodos")); 
+            curso.setFk_id_professor(rs.getInt("fk_id_professor"));
             }
 
 

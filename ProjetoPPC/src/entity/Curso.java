@@ -12,7 +12,8 @@ public class Curso {
     private String cargaHoraria;
     private String regime;
     private String periodos;
-
+    private int fk_id_professor;
+    
     public int getIdCurso() {
         return idCurso;
     }
@@ -99,6 +100,14 @@ public class Curso {
 
     public void setPeriodos(String periodos) {
         this.periodos = periodos;
+    }
+
+    public int getFk_id_professor() {
+        return fk_id_professor;
+    }
+
+    public void setFk_id_professor(int fk_id_professor) {
+        this.fk_id_professor = fk_id_professor;
     }
     
 }

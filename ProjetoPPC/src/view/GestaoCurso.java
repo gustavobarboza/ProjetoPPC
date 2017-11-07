@@ -6,6 +6,11 @@
 
 package view;
 
+import dao.CursoDao;
+import entity.Curso;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author Gustavo
@@ -37,17 +42,15 @@ public class GestaoCurso extends javax.swing.JDialog {
         jButton4 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                formWindowOpened(evt);
+            }
+        });
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null}
+
             },
             new String [] {
                 "Tipo de Curso", "Modalidade", "Denominação do Curso"
@@ -66,10 +69,25 @@ public class GestaoCurso extends javax.swing.JDialog {
         });
 
         jButton2.setText("Consultar");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         jButton3.setText("Alterar");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
 
         jButton4.setText("Excluir");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -106,7 +124,7 @@ public class GestaoCurso extends javax.swing.JDialog {
                     .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, 33, Short.MAX_VALUE)
                     .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(43, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -116,8 +134,84 @@ public class GestaoCurso extends javax.swing.JDialog {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         CadastroCurso cadastroCurso = new CadastroCurso(new javax.swing.JFrame(), true);
         cadastroCurso.setVisible(true);
+        ListaCursos();
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+        ListaCursos();
+    }//GEN-LAST:event_formWindowOpened
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        CadastroCurso cadastroCurso = new CadastroCurso(new javax.swing.JFrame(), true);
+        
+        int index=-1;
+        
+        index=jTable1.getSelectedRow();
+      
+        if(index!=-1){
+        String denominacao = jTable1.getValueAt(jTable1.getSelectedRow(), 2).toString();
+        cadastroCurso.AlteraCurso(denominacao);
+        cadastroCurso.setVisible(true);
+        
+        ListaCursos();
+       }else{
+           JOptionPane.showMessageDialog(this, "Selecione um curso para alterar");
+       }
+    }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        CadastroCurso cadastroCurso = new CadastroCurso(new javax.swing.JFrame(), true);
+        
+        int index=-1;
+        
+        index=jTable1.getSelectedRow();
+      
+        if(index!=-1){
+        String denominacao = jTable1.getValueAt(jTable1.getSelectedRow(), 2).toString();
+        cadastroCurso.ConsultaCurso(denominacao);
+        
+        cadastroCurso.setVisible(true);
+        
+        ListaCursos();
+       }else{
+           JOptionPane.showMessageDialog(this, "Selecione um curso para consultar");
+       }
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        int index=-1;
+        
+        index=jTable1.getSelectedRow();
+      
+        if(JOptionPane.showConfirmDialog(null, "Tem certeza que deseja excluir o curso?"
+                + "", "Excluir curso", JOptionPane.YES_NO_OPTION)==JOptionPane.YES_OPTION){
+            if(index!=-1){
+              String denominacao= jTable1.getValueAt(jTable1.getSelectedRow(), 2).toString();
+              CursoDao cursoDao = new CursoDao();
+
+              cursoDao.Remove(cursoDao.getIdCurso(denominacao));
+              JOptionPane.showMessageDialog(this, "Curso excluído!");
+              ListaCursos();
+           }else{
+               JOptionPane.showMessageDialog(this, "Selecione um curso para excluir");
+           } 
+        }
+    }//GEN-LAST:event_jButton4ActionPerformed
+    public void ListaCursos(){
+        CursoDao cursoDao = new CursoDao();
+        
+        DefaultTableModel modelo = (DefaultTableModel) jTable1.getModel();
+        
+        modelo.setNumRows(0);
+        
+        for(Curso curso : cursoDao.getCursos()){
+            modelo.addRow(new Object[]{
+                curso.getTipoCurso(),
+                curso.getModalidade(),
+                curso.getDenominacao(),
+            });
+        }
+    }
     /**
      * @param args the command line arguments
      */

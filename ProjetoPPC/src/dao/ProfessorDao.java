@@ -254,8 +254,7 @@ public class ProfessorDao {
             return null;
         }
     }
-    
- public List<Professor> getCoordenadores(){
+    public List<Professor> getCoordenadores(){
         conexaoDb = new ConexaoDb().getConexao();
         List<Professor> listaCoordenadores = new ArrayList<Professor>();
             String sql ="SELECT nome,cpf,area_formacao FROM PROFESSOR WHERE coordenador=1";
@@ -282,7 +281,7 @@ public class ProfessorDao {
             return null;
         }
     }    
- public Professor getCoordenador(String nome){
+    public Professor getCoordenador(String nome){
         conexaoDb = new ConexaoDb().getConexao();
         Professor professor = new Professor();
 
@@ -302,6 +301,34 @@ public class ProfessorDao {
                 rs.close();
 
                 return professor;
+            } catch (SQLException ex) {
+                Logger.getLogger(DisciplinaDao.class.getName()).log(Level.SEVERE, null, ex);
+                return null;
+            }finally{
+            try {
+                conexaoDb.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(DisciplinaDao.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            }
+        }
+    public String getNomeCoordenador(Integer idProfessor){
+        conexaoDb = new ConexaoDb().getConexao();
+        String nome;
+
+        String sql= "SELECT nome FROM PROFESSOR WHERE id_professor=?";
+            try {
+                PreparedStatement stmt = conexaoDb.prepareStatement(sql);
+                stmt.setInt(1, idProfessor);
+
+                ResultSet rs = stmt.executeQuery();
+                
+                nome = rs.getString("nome");
+
+                rs.close();
+
+                return nome;
+                
             } catch (SQLException ex) {
                 Logger.getLogger(DisciplinaDao.class.getName()).log(Level.SEVERE, null, ex);
                 return null;
