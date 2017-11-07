@@ -159,7 +159,7 @@ public class GestaoDisciplina extends javax.swing.JDialog {
         index=jTable1.getSelectedRow();
       
         if(index!=-1){
-        String codigo = jTable1.getValueAt(jTable1.getSelectedRow(), 2).toString();
+        String codigo = jTable1.getValueAt(jTable1.getSelectedRow(), 0).toString();
         cadastroDisciplina.consultaDisciplina(codigo);
         
         cadastroDisciplina.setVisible(true);
@@ -168,9 +168,6 @@ public class GestaoDisciplina extends javax.swing.JDialog {
        }else{
            JOptionPane.showMessageDialog(this, "Seleciona uma disciplina para visualizar");
        }
-       
-        
-
     }//GEN-LAST:event_jConsultarActionPerformed
 
     private void jAlterarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jAlterarActionPerformed
@@ -180,7 +177,7 @@ public class GestaoDisciplina extends javax.swing.JDialog {
         index=jTable1.getSelectedRow();
       
         if(index!=-1){
-        String codigo = jTable1.getValueAt(jTable1.getSelectedRow(), 2).toString();
+        String codigo = jTable1.getValueAt(jTable1.getSelectedRow(), 0).toString();
         cadastroDisciplina.alteraDisciplina(codigo);
         
         cadastroDisciplina.setVisible(true);
@@ -200,7 +197,7 @@ public class GestaoDisciplina extends javax.swing.JDialog {
         index=jTable1.getSelectedRow();
         if (index!=-1){
 
-            String codigo = jTable1.getValueAt(jTable1.getSelectedRow(), 2).toString();
+            String codigo = jTable1.getValueAt(jTable1.getSelectedRow(), 0).toString();
             if(JOptionPane.showConfirmDialog(null, "Tem certeza que deseja excluir a disciplina?", "Excluir Disciplina", JOptionPane.YES_NO_OPTION)==JOptionPane.YES_OPTION){
                 DisciplinaDao disciplinaDao = new DisciplinaDao();
                 
