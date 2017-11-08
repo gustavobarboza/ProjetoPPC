@@ -575,7 +575,10 @@ public class CadastroCurso extends javax.swing.JDialog {
             jRegimeLetivo.setText(curso.getRegime());
             jPeriodos.setText(curso.getPeriodos());
             
-            jListaCoordenadores.setSelectedItem(professorDao.getNomeCoordenador(curso.getFk_id_professor()));
+            listaCoordenadores();
+            
+            String coordenador = professorDao.getNomeCoordenador(curso.getFk_id_professor());
+            jListaCoordenadores.setSelectedItem(coordenador);
             
             jSalvar.setEnabled(false);
             

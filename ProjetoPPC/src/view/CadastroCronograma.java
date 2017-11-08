@@ -5,20 +5,28 @@
  */
 package view;
 
+import dao.CronogramaAtividadesDao;
+import dao.CronogramaDao;
+import entity.Cronograma;
+import entity.CronogramaAtividades;
+import java.util.ArrayList;
+import java.util.List;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author Gustavo
  */
 public class CadastroCronograma extends javax.swing.JDialog {
-
-    /**
-     * Creates new form CadastrarCronogramaAtividades
-     */
+    String identificadorAntigo;
+    boolean novo=true;
     public CadastroCronograma(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
     }
-
+    
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -29,16 +37,17 @@ public class CadastroCronograma extends javax.swing.JDialog {
     private void initComponents() {
 
         jLabel20 = new javax.swing.JLabel();
-        jTextField11 = new javax.swing.JTextField();
-        jTextField10 = new javax.swing.JTextField();
+        jAula = new javax.swing.JTextField();
+        jConteudo = new javax.swing.JTextField();
         jLabel21 = new javax.swing.JLabel();
-        jButton3 = new javax.swing.JButton();
+        jIncluir = new javax.swing.JButton();
         jScrollPane6 = new javax.swing.JScrollPane();
-        jTable2 = new javax.swing.JTable();
+        jTabelaCronograma = new javax.swing.JTable();
         jLabel22 = new javax.swing.JLabel();
-        jTextField12 = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        jIdentificador = new javax.swing.JTextField();
+        jSalvar = new javax.swing.JButton();
+        jSair = new javax.swing.JButton();
+        jRemover = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -46,27 +55,58 @@ public class CadastroCronograma extends javax.swing.JDialog {
 
         jLabel21.setText("Conteudo");
 
-        jButton3.setText("Incluir");
+        jIncluir.setText("Incluir");
+        jIncluir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jIncluirActionPerformed(evt);
+            }
+        });
 
-        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+        jTabelaCronograma.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null}
+
             },
             new String [] {
                 "Aula", "Conteúdo"
             }
-        ));
-        jScrollPane6.setViewportView(jTable2);
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane6.setViewportView(jTabelaCronograma);
+        if (jTabelaCronograma.getColumnModel().getColumnCount() > 0) {
+            jTabelaCronograma.getColumnModel().getColumn(0).setMinWidth(100);
+            jTabelaCronograma.getColumnModel().getColumn(0).setPreferredWidth(100);
+            jTabelaCronograma.getColumnModel().getColumn(0).setMaxWidth(100);
+        }
 
         jLabel22.setText("Identificador");
 
-        jButton1.setText("Salvar");
+        jSalvar.setText("Salvar");
+        jSalvar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jSalvarActionPerformed(evt);
+            }
+        });
 
-        jButton2.setText("Cancelar");
+        jSair.setText("Sair");
+        jSair.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jSairActionPerformed(evt);
+            }
+        });
+
+        jRemover.setText("Remover");
+        jRemover.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jRemoverActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -76,24 +116,27 @@ public class CadastroCronograma extends javax.swing.JDialog {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jTextField11, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextField10, javax.swing.GroupLayout.PREFERRED_SIZE, 337, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton3))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel20)
-                        .addGap(31, 31, 31)
-                        .addComponent(jLabel21))
-                    .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 456, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel22)
-                    .addComponent(jTextField12, javax.swing.GroupLayout.PREFERRED_SIZE, 198, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton1)
-                .addGap(18, 18, 18)
-                .addComponent(jButton2)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jAula, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jConteudo, javax.swing.GroupLayout.PREFERRED_SIZE, 337, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jIncluir))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel20)
+                                .addGap(31, 31, 31)
+                                .addComponent(jLabel21))
+                            .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 456, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel22)
+                            .addComponent(jIdentificador, javax.swing.GroupLayout.PREFERRED_SIZE, 198, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(jRemover)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jSalvar)
+                        .addGap(18, 18, 18)
+                        .addComponent(jSair)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -102,22 +145,23 @@ public class CadastroCronograma extends javax.swing.JDialog {
                 .addContainerGap()
                 .addComponent(jLabel22)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextField12, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jIdentificador, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(8, 8, 8)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel20)
                     .addComponent(jLabel21))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton3))
+                    .addComponent(jAula, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jConteudo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jIncluir))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
-                    .addComponent(jButton2))
+                    .addComponent(jSalvar)
+                    .addComponent(jSair)
+                    .addComponent(jRemover))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -125,6 +169,175 @@ public class CadastroCronograma extends javax.swing.JDialog {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
+    private void jIncluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jIncluirActionPerformed
+    
+        if(!jAula.getText().isEmpty() || !jConteudo.getText().isEmpty()){
+            
+            CronogramaAtividades cronogramaAtividades = new CronogramaAtividades();
+            
+            cronogramaAtividades.setAula(jAula.getText());
+            cronogramaAtividades.setConteudo(jConteudo.getText());
+            
+            DefaultTableModel modeloTabela = (DefaultTableModel) jTabelaCronograma.getModel();
+            
+            modeloTabela.addRow(new Object[]{
+                cronogramaAtividades.getAula(),
+                cronogramaAtividades.getConteudo()
+            });
+        }else{
+            JOptionPane.showMessageDialog(this, "Preencha os campos!");
+        }
+    }//GEN-LAST:event_jIncluirActionPerformed
+
+    private void jSairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jSairActionPerformed
+        dispose();
+    }//GEN-LAST:event_jSairActionPerformed
+
+    private void jSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jSalvarActionPerformed
+        boolean dadosValidos=true;
+        
+        if(!jIdentificador.getText().isEmpty()){
+            dadosValidos=false;
+        }
+        
+        if(!dadosValidos){
+            Cronograma cronograma = new Cronograma();
+            CronogramaDao cronogramaDao = new CronogramaDao();
+            cronograma.setIdentificador(jIdentificador.getText());
+            
+            //caso esteja sendo criado um novo registro
+            if (novo){
+                if(cronogramaDao.Insere(cronograma)){
+
+                    CronogramaAtividadesDao cronogramaAtividadesDao = new CronogramaAtividadesDao();
+                    List<CronogramaAtividades> listaCronogramaAtividades = new ArrayList<>();
+
+                    int id = cronogramaDao.getIdCronograma(cronograma.getIdentificador());
+                    DefaultTableModel modeloTabela = (DefaultTableModel) jTabelaCronograma.getModel();
+
+                    for (int i = 0; i < modeloTabela.getRowCount(); i++) {
+                        CronogramaAtividades cronogramaAtividades = new CronogramaAtividades();
+                        cronogramaAtividades.setAula(modeloTabela.getValueAt(i, 0).toString());
+                        cronogramaAtividades.setConteudo(modeloTabela.getValueAt(i, 1).toString());
+                        listaCronogramaAtividades.add(cronogramaAtividades);
+                    }
+
+                    for (int i = 0; i < listaCronogramaAtividades.size(); i++) {
+                        cronogramaAtividadesDao.Cria(id, listaCronogramaAtividades.get(i));
+                    }
+                    JOptionPane.showMessageDialog(this, "Cronograma cadastrado com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+
+                }else{
+                    JOptionPane.showMessageDialog(this, "Erro ao cadastrar o cronograma.", "Erro ao cadastrar", JOptionPane.WARNING_MESSAGE);
+                }                
+            }else{ //caso esteja sendo atualizado um registro existente
+                int idCronograma = cronogramaDao.getIdCronograma(identificadorAntigo);
+                
+                //Alterar o registro selecionado na base de dados
+                if(cronogramaDao.Altera(idCronograma, cronograma)){
+
+                    CronogramaAtividadesDao cronogramaAtividadesDao = new CronogramaAtividadesDao();
+                    List<CronogramaAtividades> listaCronogramaAtividades = new ArrayList<>();
+
+                    DefaultTableModel modeloTabela = (DefaultTableModel) jTabelaCronograma.getModel();
+                    
+                    //Alimenta a lista que sera enviada para a tabela CRONOGRAMA_ATIVIDADES
+                    for (int i = 0; i < modeloTabela.getRowCount(); i++) {
+                        CronogramaAtividades cronogramaAtividades = new CronogramaAtividades();
+                        cronogramaAtividades.setAula(modeloTabela.getValueAt(i, 0).toString());
+                        cronogramaAtividades.setConteudo(modeloTabela.getValueAt(i, 1).toString());
+                        listaCronogramaAtividades.add(cronogramaAtividades);
+                    }
+
+                    cronogramaAtividadesDao.Remove(idCronograma);
+                    //Inclui os registros na tabela CRONOGRAMA_ATIVIDADES
+                    for (int i = 0; i < listaCronogramaAtividades.size(); i++) {
+                        cronogramaAtividadesDao.Cria(idCronograma, listaCronogramaAtividades.get(i));
+                    }
+                    JOptionPane.showMessageDialog(this, "Cronograma alterado com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+
+                }else{
+                    JOptionPane.showMessageDialog(this, "Erro ao alterar o cronograma.", "Erro ao alterar", JOptionPane.WARNING_MESSAGE);
+                }
+            }
+
+        }else{
+            JOptionPane.showMessageDialog(this, "Preencha os campos!");
+        }
+    }//GEN-LAST:event_jSalvarActionPerformed
+
+    private void jRemoverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRemoverActionPerformed
+                int index=-1;
+        
+        DefaultTableModel modeloTabela = (DefaultTableModel) jTabelaCronograma.getModel();
+        
+        index=jTabelaCronograma.getSelectedRow();
+      
+        if(index!=-1){
+            modeloTabela.removeRow(index);
+            }else{
+            JOptionPane.showMessageDialog(this, "Selecione um item para excluir");
+        }
+    }//GEN-LAST:event_jRemoverActionPerformed
+    public void AlteraCronograma(String identificador){
+        CronogramaDao cronogramaDao = new CronogramaDao();
+        Cronograma cronograma = new Cronograma();
+        CronogramaAtividadesDao cronogramaAtividadesDao = new CronogramaAtividadesDao();
+        
+        int idCronograma = cronogramaDao.getIdCronograma(identificador);
+        
+        cronograma= cronogramaDao.getCronograma(idCronograma);
+                
+        if(!cronograma.getIdentificador().isEmpty()){
+           jIdentificador.setText(cronograma.getIdentificador());
+           
+           //Variável utilizada na hora de recuperar o id do cronograma baseado no identificador original.
+           identificadorAntigo= jIdentificador.getText();
+           
+           DefaultTableModel modeloTabela = (DefaultTableModel) jTabelaCronograma.getModel();
+           
+           for(CronogramaAtividades cronogramaAtividades : cronogramaAtividadesDao.getLista(idCronograma)){
+               modeloTabela.addRow(new Object[]{
+                   cronogramaAtividades.getAula(),
+                   cronogramaAtividades.getConteudo()
+               });
+           }
+           
+           novo=false;
+        
+        }else{
+            JOptionPane.showMessageDialog(this, "Erro ao buscar cronograma.");
+        }
+    }
+     public void ConsultaCronograma(String identificador){
+        CronogramaDao cronogramaDao = new CronogramaDao();
+        Cronograma cronograma = new Cronograma();
+        CronogramaAtividadesDao cronogramaAtividadesDao = new CronogramaAtividadesDao();
+        
+        int idCronograma = cronogramaDao.getIdCronograma(identificador);
+        
+        cronograma= cronogramaDao.getCronograma(idCronograma);
+                
+        if(!cronograma.getIdentificador().isEmpty()){
+           jIdentificador.setText(cronograma.getIdentificador());
+           
+           DefaultTableModel modeloTabela = (DefaultTableModel) jTabelaCronograma.getModel();
+           
+           for(CronogramaAtividades cronogramaAtividades : cronogramaAtividadesDao.getLista(idCronograma)){
+               modeloTabela.addRow(new Object[]{
+                   cronogramaAtividades.getAula(),
+                   cronogramaAtividades.getConteudo()
+               });
+           }
+           jSalvar.setEnabled(false);
+           jIncluir.setEnabled(false);
+           jRemover.setEnabled(false);
+           novo=false;
+        
+        }else{
+            JOptionPane.showMessageDialog(this, "Erro ao buscar cronograma.");
+        }
+    }
     /**
      * @param args the command line arguments
      */
@@ -169,16 +382,17 @@ public class CadastroCronograma extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
+    private javax.swing.JTextField jAula;
+    private javax.swing.JTextField jConteudo;
+    private javax.swing.JTextField jIdentificador;
+    private javax.swing.JButton jIncluir;
     private javax.swing.JLabel jLabel20;
     private javax.swing.JLabel jLabel21;
     private javax.swing.JLabel jLabel22;
+    private javax.swing.JButton jRemover;
+    private javax.swing.JButton jSair;
+    private javax.swing.JButton jSalvar;
     private javax.swing.JScrollPane jScrollPane6;
-    private javax.swing.JTable jTable2;
-    private javax.swing.JTextField jTextField10;
-    private javax.swing.JTextField jTextField11;
-    private javax.swing.JTextField jTextField12;
+    private javax.swing.JTable jTabelaCronograma;
     // End of variables declaration//GEN-END:variables
 }

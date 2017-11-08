@@ -11,8 +11,9 @@ package entity;
  */
 public class CronogramaAtividades {
     private int idCronogramaAtividades;
-    private int aula;
+    private String aula;
     private String conteudo;
+    private int fk_id_cronograma;
 
     public int getIdCronogramaAtividades() {
         return idCronogramaAtividades;
@@ -22,11 +23,11 @@ public class CronogramaAtividades {
         this.idCronogramaAtividades = idCronogramaAtividades;
     }
 
-    public int getAula() {
+    public String getAula() {
         return aula;
     }
 
-    public void setAula(int aula) {
+    public void setAula(String aula) {
         this.aula = aula;
     }
 
@@ -36,6 +37,14 @@ public class CronogramaAtividades {
 
     public void setConteudo(String conteudo) {
         this.conteudo = conteudo;
+    }
+
+    public int getFk_id_cronograma() {
+        return fk_id_cronograma;
+    }
+
+    public void setFk_id_cronograma(int fk_id_cronograma) {
+        this.fk_id_cronograma = fk_id_cronograma;
     }
     
 }
