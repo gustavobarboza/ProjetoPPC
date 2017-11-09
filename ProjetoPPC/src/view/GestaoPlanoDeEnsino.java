@@ -47,17 +47,10 @@ public class GestaoPlanoDeEnsino extends javax.swing.JDialog {
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null}
+
             },
             new String [] {
-                "Plano de Ensino", "Curso", "Ano"
+                "Plano de Ensino", "Ano", "Periodo"
             }
         ));
         jTable1.setToolTipText("");

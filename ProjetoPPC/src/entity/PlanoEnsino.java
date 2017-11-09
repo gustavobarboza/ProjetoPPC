@@ -13,7 +13,7 @@ import java.util.Date;
  */
 public class PlanoEnsino {
     private int planoEnsino;
-    private Date ano;
+    private String ano;
     private String semestre;
     private int cargaHoraria;
     private String periodo;
@@ -22,6 +22,7 @@ public class PlanoEnsino {
     private String metodologia;
     private String avaliacao;
     private String bibliografia;
+    private String identificador;
 
     public int getPlanoEnsino() {
         return planoEnsino;
@@ -31,11 +32,11 @@ public class PlanoEnsino {
         this.planoEnsino = planoEnsino;
     }
 
-    public Date getAno() {
+    public String getAno() {
         return ano;
     }
 
-    public void setAno(Date ano) {
+    public void setAno(String ano) {
         this.ano = ano;
     }
 
@@ -101,6 +102,14 @@ public class PlanoEnsino {
 
     public void setBibliografia(String bibliografia) {
         this.bibliografia = bibliografia;
+    }
+
+    public String getIdentificador() {
+        return identificador;
+    }
+
+    public void setIdentificador(String identificador) {
+        this.identificador = identificador;
     }
     
 }
