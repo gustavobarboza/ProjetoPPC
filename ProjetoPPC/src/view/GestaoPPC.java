@@ -5,6 +5,11 @@
  */
 package view;
 
+import dao.PPCDao;
+import entity.PPC;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author Gustavo
@@ -30,44 +35,59 @@ public class GestaoPPC extends javax.swing.JDialog {
 
         jLabel1 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        jTabelaPPC = new javax.swing.JTable();
+        jCadastrar = new javax.swing.JButton();
+        jConsultar = new javax.swing.JButton();
+        jAlterar = new javax.swing.JButton();
+        jExcluir = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                formWindowOpened(evt);
+            }
+        });
 
         jLabel1.setText("PPC's Cadastrados:");
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        jTabelaPPC.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null}
+
             },
             new String [] {
-                "Tipo de Curso", "Modalidade", "Denominação do Curso"
+                "Identificador", "Perfil Curso", "Perfil Egresso"
             }
         ));
-        jTable1.setToolTipText("");
-        jScrollPane1.setViewportView(jTable1);
+        jTabelaPPC.setToolTipText("");
+        jScrollPane1.setViewportView(jTabelaPPC);
 
-        jButton1.setText("Cadastrar novo Curso");
+        jCadastrar.setText("Cadastrar novo PPC");
+        jCadastrar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jCadastrarActionPerformed(evt);
+            }
+        });
 
-        jButton2.setText("Consultar");
+        jConsultar.setText("Consultar");
+        jConsultar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jConsultarActionPerformed(evt);
+            }
+        });
 
-        jButton3.setText("Alterar");
+        jAlterar.setText("Alterar");
+        jAlterar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jAlterarActionPerformed(evt);
+            }
+        });
 
-        jButton4.setText("Excluir");
-
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jExcluir.setText("Excluir");
+        jExcluir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jExcluirActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -77,37 +97,35 @@ public class GestaoPPC extends javax.swing.JDialog {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jButton2)
+                        .addComponent(jConsultar)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jButton3)
+                        .addComponent(jAlterar)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jButton4))
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jLabel1)
-                                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 272, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jButton1))
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 544, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jExcluir))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addGap(321, 321, 321)
+                        .addComponent(jCadastrar)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 544, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(18, 18, 18)
-                .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(9, 9, 9)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(jCadastrar, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jConsultar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jAlterar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jExcluir, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -115,6 +133,85 @@ public class GestaoPPC extends javax.swing.JDialog {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
+    private void jCadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCadastrarActionPerformed
+        CadastroPPC cadastroPPC = new CadastroPPC(new javax.swing.JFrame(), true);
+        cadastroPPC.setVisible(true);
+        ListaPPC();
+    }//GEN-LAST:event_jCadastrarActionPerformed
+
+    private void jAlterarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jAlterarActionPerformed
+     CadastroPPC cadastroPPC = new CadastroPPC(new javax.swing.JFrame(), true);
+        
+        int index=-1;
+        
+        index=jTabelaPPC.getSelectedRow();
+      
+        if(index!=-1){
+        String identificador = jTabelaPPC.getValueAt(jTabelaPPC.getSelectedRow(), 0).toString();
+        cadastroPPC.AlteraPPC(identificador);
+        cadastroPPC.setVisible(true);
+        
+        ListaPPC();
+       }else{
+           JOptionPane.showMessageDialog(this, "Selecione um PPC para alterar");
+       }        
+    }//GEN-LAST:event_jAlterarActionPerformed
+
+    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+        ListaPPC();
+    }//GEN-LAST:event_formWindowOpened
+
+    private void jConsultarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jConsultarActionPerformed
+        CadastroPPC cadastroPPC = new CadastroPPC(new javax.swing.JFrame(), true);
+        
+        int index=-1;
+        
+        index=jTabelaPPC.getSelectedRow();
+      
+        if(index!=-1){
+        String identificador = jTabelaPPC.getValueAt(jTabelaPPC.getSelectedRow(), 0).toString();
+        cadastroPPC.ConsultaPPC(identificador);
+        cadastroPPC.setVisible(true);
+        
+       }else{
+           JOptionPane.showMessageDialog(this, "Selecione um PPC para alterar");
+       }  
+    }//GEN-LAST:event_jConsultarActionPerformed
+
+    private void jExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jExcluirActionPerformed
+          int index=-1;
+        
+        index=jTabelaPPC.getSelectedRow();
+      
+        if(JOptionPane.showConfirmDialog(null, "Tem certeza que deseja excluir o PPC?"
+                + "", "Excluir PPC", JOptionPane.YES_NO_OPTION)==JOptionPane.YES_OPTION){
+            if(index!=-1){
+              String identificador= jTabelaPPC.getValueAt(jTabelaPPC.getSelectedRow(), 0).toString();
+              PPCDao ppcDAO = new PPCDao();
+
+              ppcDAO.Remove(ppcDAO.getIdPPC(identificador));
+              JOptionPane.showMessageDialog(this, "PPC excluído!");
+              ListaPPC();
+           }else{
+               JOptionPane.showMessageDialog(this, "Selecione um PPC para excluir");
+           } 
+        }
+    }//GEN-LAST:event_jExcluirActionPerformed
+
+    public void ListaPPC(){
+        PPCDao ppcDao = new PPCDao();
+        
+        DefaultTableModel modelo = (DefaultTableModel) jTabelaPPC.getModel();
+        
+        modelo.setNumRows(0);
+        for(PPC ppc : ppcDao.getPPCs()){
+            modelo.addRow(new Object[]{
+                ppc.getIdentificador(),
+                ppc.getPerfilCurso(),
+                ppc.getPerfilEgresso()
+            });
+        }
+    }
     /**
      * @param args the command line arguments
      */
@@ -159,13 +256,12 @@ public class GestaoPPC extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
-    private javax.swing.JComboBox<String> jComboBox1;
+    private javax.swing.JButton jAlterar;
+    private javax.swing.JButton jCadastrar;
+    private javax.swing.JButton jConsultar;
+    private javax.swing.JButton jExcluir;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JTable jTabelaPPC;
     // End of variables declaration//GEN-END:variables
 }

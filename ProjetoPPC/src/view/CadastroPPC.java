@@ -5,12 +5,20 @@
  */
 package view;
 
+import dao.CursoDao;
+import dao.PPCDao;
+import entity.Curso;
+import entity.PPC;
+import java.util.List;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author Gustavo
  */
 public class CadastroPPC extends javax.swing.JDialog {
-
+    boolean novo=true;
+    String identificadorAntigo;
     /**
      * Creates new form CadastroPPC
      */
@@ -29,83 +37,87 @@ public class CadastroPPC extends javax.swing.JDialog {
     private void initComponents() {
 
         jLabel1 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        jListaCursos = new javax.swing.JComboBox<>();
         jLabel2 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
+        jPerfilCurso = new javax.swing.JTextArea();
         jLabel3 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTextArea2 = new javax.swing.JTextArea();
+        jPerfilEgresso = new javax.swing.JTextArea();
         jLabel4 = new javax.swing.JLabel();
         jScrollPane3 = new javax.swing.JScrollPane();
-        jTextArea3 = new javax.swing.JTextArea();
+        jFormaAcessoCurso = new javax.swing.JTextArea();
         jScrollPane4 = new javax.swing.JScrollPane();
-        jTextArea4 = new javax.swing.JTextArea();
+        jRepresentaçãoPerfilFormação = new javax.swing.JTextArea();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         jScrollPane5 = new javax.swing.JScrollPane();
-        jTextArea5 = new javax.swing.JTextArea();
+        jSistemaAvaliacaoProcessoEnsino = new javax.swing.JTextArea();
         jScrollPane6 = new javax.swing.JScrollPane();
-        jTextArea6 = new javax.swing.JTextArea();
+        jSistemaAvaliacaoProjetoCurso = new javax.swing.JTextArea();
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        jTrabalhoConclusaoCurso = new javax.swing.JTextField();
         jLabel9 = new javax.swing.JLabel();
-        jTextField2 = new javax.swing.JTextField();
+        jEstagioCurricular = new javax.swing.JTextField();
         jScrollPane7 = new javax.swing.JScrollPane();
-        jTextArea7 = new javax.swing.JTextArea();
+        jPoliticaAtendimentoDeficientes = new javax.swing.JTextArea();
         jLabel10 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
+        jSalvar = new javax.swing.JButton();
+        jSair = new javax.swing.JButton();
+        jLabel11 = new javax.swing.JLabel();
+        jIdentificador = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                formWindowOpened(evt);
+            }
+        });
 
         jLabel1.setText("Cursos");
-
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         jLabel2.setText("Perfil Curso");
 
         jScrollPane1.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 
-        jTextArea1.setColumns(20);
-        jTextArea1.setFont(new java.awt.Font("Tahoma", 0, 11)); // NOI18N
-        jTextArea1.setLineWrap(true);
-        jTextArea1.setRows(3);
-        jTextArea1.setWrapStyleWord(true);
-        jScrollPane1.setViewportView(jTextArea1);
+        jPerfilCurso.setColumns(20);
+        jPerfilCurso.setFont(new java.awt.Font("Tahoma", 0, 11)); // NOI18N
+        jPerfilCurso.setLineWrap(true);
+        jPerfilCurso.setRows(3);
+        jPerfilCurso.setWrapStyleWord(true);
+        jScrollPane1.setViewportView(jPerfilCurso);
 
         jLabel3.setText("Perfil do Egresso");
 
         jScrollPane2.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 
-        jTextArea2.setColumns(20);
-        jTextArea2.setFont(new java.awt.Font("Tahoma", 0, 11)); // NOI18N
-        jTextArea2.setLineWrap(true);
-        jTextArea2.setRows(3);
-        jTextArea2.setWrapStyleWord(true);
-        jScrollPane2.setViewportView(jTextArea2);
+        jPerfilEgresso.setColumns(20);
+        jPerfilEgresso.setFont(new java.awt.Font("Tahoma", 0, 11)); // NOI18N
+        jPerfilEgresso.setLineWrap(true);
+        jPerfilEgresso.setRows(3);
+        jPerfilEgresso.setWrapStyleWord(true);
+        jScrollPane2.setViewportView(jPerfilEgresso);
 
         jLabel4.setText("Forma de Acesso Curso");
 
         jScrollPane3.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 
-        jTextArea3.setColumns(20);
-        jTextArea3.setFont(new java.awt.Font("Tahoma", 0, 11)); // NOI18N
-        jTextArea3.setLineWrap(true);
-        jTextArea3.setRows(3);
-        jTextArea3.setWrapStyleWord(true);
-        jScrollPane3.setViewportView(jTextArea3);
+        jFormaAcessoCurso.setColumns(20);
+        jFormaAcessoCurso.setFont(new java.awt.Font("Tahoma", 0, 11)); // NOI18N
+        jFormaAcessoCurso.setLineWrap(true);
+        jFormaAcessoCurso.setRows(3);
+        jFormaAcessoCurso.setWrapStyleWord(true);
+        jScrollPane3.setViewportView(jFormaAcessoCurso);
 
         jScrollPane4.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 
-        jTextArea4.setColumns(20);
-        jTextArea4.setFont(new java.awt.Font("Tahoma", 0, 11)); // NOI18N
-        jTextArea4.setLineWrap(true);
-        jTextArea4.setRows(3);
-        jTextArea4.setWrapStyleWord(true);
-        jScrollPane4.setViewportView(jTextArea4);
+        jRepresentaçãoPerfilFormação.setColumns(20);
+        jRepresentaçãoPerfilFormação.setFont(new java.awt.Font("Tahoma", 0, 11)); // NOI18N
+        jRepresentaçãoPerfilFormação.setLineWrap(true);
+        jRepresentaçãoPerfilFormação.setRows(3);
+        jRepresentaçãoPerfilFormação.setWrapStyleWord(true);
+        jScrollPane4.setViewportView(jRepresentaçãoPerfilFormação);
 
         jLabel5.setText("Representação Gráfica de um Perfil de Formação");
 
@@ -113,21 +125,21 @@ public class CadastroPPC extends javax.swing.JDialog {
 
         jScrollPane5.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 
-        jTextArea5.setColumns(20);
-        jTextArea5.setFont(new java.awt.Font("Tahoma", 0, 11)); // NOI18N
-        jTextArea5.setLineWrap(true);
-        jTextArea5.setRows(3);
-        jTextArea5.setWrapStyleWord(true);
-        jScrollPane5.setViewportView(jTextArea5);
+        jSistemaAvaliacaoProcessoEnsino.setColumns(20);
+        jSistemaAvaliacaoProcessoEnsino.setFont(new java.awt.Font("Tahoma", 0, 11)); // NOI18N
+        jSistemaAvaliacaoProcessoEnsino.setLineWrap(true);
+        jSistemaAvaliacaoProcessoEnsino.setRows(3);
+        jSistemaAvaliacaoProcessoEnsino.setWrapStyleWord(true);
+        jScrollPane5.setViewportView(jSistemaAvaliacaoProcessoEnsino);
 
         jScrollPane6.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 
-        jTextArea6.setColumns(20);
-        jTextArea6.setFont(new java.awt.Font("Tahoma", 0, 11)); // NOI18N
-        jTextArea6.setLineWrap(true);
-        jTextArea6.setRows(3);
-        jTextArea6.setWrapStyleWord(true);
-        jScrollPane6.setViewportView(jTextArea6);
+        jSistemaAvaliacaoProjetoCurso.setColumns(20);
+        jSistemaAvaliacaoProjetoCurso.setFont(new java.awt.Font("Tahoma", 0, 11)); // NOI18N
+        jSistemaAvaliacaoProjetoCurso.setLineWrap(true);
+        jSistemaAvaliacaoProjetoCurso.setRows(3);
+        jSistemaAvaliacaoProjetoCurso.setWrapStyleWord(true);
+        jScrollPane6.setViewportView(jSistemaAvaliacaoProjetoCurso);
 
         jLabel7.setText("Sistema de Avaliação do Projeto do Curso");
 
@@ -137,25 +149,30 @@ public class CadastroPPC extends javax.swing.JDialog {
 
         jScrollPane7.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 
-        jTextArea7.setColumns(20);
-        jTextArea7.setFont(new java.awt.Font("Tahoma", 0, 11)); // NOI18N
-        jTextArea7.setLineWrap(true);
-        jTextArea7.setRows(3);
-        jTextArea7.setWrapStyleWord(true);
-        jScrollPane7.setViewportView(jTextArea7);
+        jPoliticaAtendimentoDeficientes.setColumns(20);
+        jPoliticaAtendimentoDeficientes.setFont(new java.awt.Font("Tahoma", 0, 11)); // NOI18N
+        jPoliticaAtendimentoDeficientes.setLineWrap(true);
+        jPoliticaAtendimentoDeficientes.setRows(3);
+        jPoliticaAtendimentoDeficientes.setWrapStyleWord(true);
+        jScrollPane7.setViewportView(jPoliticaAtendimentoDeficientes);
 
         jLabel10.setText("Política de Atendimendo à pessoas com Deficiência e/ou mobilidade reduzida");
 
-        jButton1.setText("Salvar");
-
-        jButton2.setText("Limpar");
-
-        jButton3.setText("Alterar");
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
+        jSalvar.setText("Salvar");
+        jSalvar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
+                jSalvarActionPerformed(evt);
             }
         });
+
+        jSair.setText("Sair");
+        jSair.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jSairActionPerformed(evt);
+            }
+        });
+
+        jLabel11.setText("Identificador");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -165,11 +182,9 @@ public class CadastroPPC extends javax.swing.JDialog {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jLabel1)
-                            .addComponent(jComboBox1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel2)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 331, Short.MAX_VALUE))
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 331, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 331, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -193,39 +208,50 @@ public class CadastroPPC extends javax.swing.JDialog {
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(jSalvar, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jSair, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                 .addGroup(layout.createSequentialGroup()
                                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                         .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(jTextField1))
+                                        .addComponent(jTrabalhoConclusaoCurso))
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                         .addComponent(jLabel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                        .addComponent(jEstagioCurricular, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                 .addComponent(jLabel10)
                                 .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 686, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(0, 10, Short.MAX_VALUE)))
+                        .addGap(0, 10, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel11)
+                            .addComponent(jIdentificador, javax.swing.GroupLayout.PREFERRED_SIZE, 255, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jListaCursos, javax.swing.GroupLayout.PREFERRED_SIZE, 331, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel1))))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel1)
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jLabel11)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jListaCursos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jIdentificador, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(22, 22, 22)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel3)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jLabel2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -254,31 +280,174 @@ public class CadastroPPC extends javax.swing.JDialog {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel8)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jTrabalhoConclusaoCurso, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel9)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jEstagioCurricular, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel10)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(16, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jSalvar)
+                    .addComponent(jSair, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton3ActionPerformed
+    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+        if (novo){
+            ListaCursos();
+        }
+    }//GEN-LAST:event_formWindowOpened
 
+    private void jSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jSalvarActionPerformed
+       boolean dadosValidos=true;
+       
+       //Verifica se o curso foi selecionado
+        if(jListaCursos.getSelectedItem().equals("Selecione")){
+            JOptionPane.showMessageDialog(this, "Selecione um curso!");
+            dadosValidos=false;
+        }
+        
+        //Verifica se todos os campos foram preenchidos
+        if(jIdentificador.getText().isEmpty() || jPerfilCurso.getText().isEmpty() || jPerfilEgresso.getText().isEmpty() ||
+        jFormaAcessoCurso.getText().isEmpty() || jRepresentaçãoPerfilFormação.getText().isEmpty() || jSistemaAvaliacaoProcessoEnsino.getText().isEmpty() ||
+        jSistemaAvaliacaoProjetoCurso.getText().isEmpty() || jTrabalhoConclusaoCurso.getText().isEmpty() || 
+        jEstagioCurricular.getText().isEmpty() || jPoliticaAtendimentoDeficientes.getText().isEmpty()){
+            dadosValidos=false;
+        }
+        
+        if (dadosValidos){
+            PPCDao ppcDAO = new PPCDao();
+            CursoDao cursoDao = new CursoDao();
+
+            int idCurso = cursoDao.getIdCurso(jListaCursos.getSelectedItem().toString());
+
+            PPC ppc = new PPC();
+
+            ppc.setIdentificador(jIdentificador.getText());
+            ppc.setPerfilCurso(jPerfilCurso.getText());
+            ppc.setPerfilEgresso(jPerfilEgresso.getText());
+            ppc.setFormaAcessoCurso(jFormaAcessoCurso.getText());
+            ppc.setRepresentacaoPerfilFormacao(jRepresentaçãoPerfilFormação.getText());
+            ppc.setSistemaAvaliacaoProcessoEnsinoAprendizagem(jSistemaAvaliacaoProcessoEnsino.getText());
+            ppc.setSistemaAvaliacaoProjetoCurso(jSistemaAvaliacaoProjetoCurso.getText());
+            ppc.setTrabalhoConclusaoCurso(jTrabalhoConclusaoCurso.getText());
+            ppc.setEstagioCurricular(jEstagioCurricular.getText());
+            ppc.setPoliticaAtendimentoDeficientes(jPoliticaAtendimentoDeficientes.getText());
+            
+            if(novo){
+                //Código executado caso seja um novo cadastro
+                if(ppcDAO.Insere(idCurso, ppc)){
+                    JOptionPane.showMessageDialog(this, "PPC cadastrado com sucesso");
+                }else{
+                    JOptionPane.showMessageDialog(this, "Erro ao cadastrar o PPC");
+                }
+                    
+            }else{
+                //Caso seja alteração de um cadastro existente
+                int idPPC = ppcDAO.getIdPPC(identificadorAntigo);
+                    if(ppcDAO.Altera(idPPC, idCurso, ppc)){
+                    JOptionPane.showMessageDialog(this, "PPC alterado com sucesso");
+                }else{
+                    JOptionPane.showMessageDialog(this, "Erro ao alterar o PPC");
+                }
+            }
+        }else{
+            JOptionPane.showMessageDialog(this, "Preencha todos os campos!");
+        }
+    }//GEN-LAST:event_jSalvarActionPerformed
+
+    private void jSairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jSairActionPerformed
+        dispose();
+    }//GEN-LAST:event_jSairActionPerformed
+    public void ListaCursos(){
+        CursoDao cursoDao = new CursoDao();
+        List<Curso> listaCurso = cursoDao.getCursos();
+        
+        jListaCursos.removeAllItems();
+        jListaCursos.addItem("Selecione");
+        for (int i = 0; i < listaCurso.size(); i++) {
+            jListaCursos.addItem(listaCurso.get(i).getDenominacao());
+        }
+    }
+    public void AlteraPPC(String identificador){
+        
+        PPCDao ppcDao = new PPCDao();
+        CursoDao cursoDao = new CursoDao();
+
+        PPC ppc = ppcDao.getPPC(ppcDao.getIdPPC(identificador));
+        
+        if(!ppc.getIdentificador().isEmpty()){
+            ListaCursos();
+            
+            //Preenche o combobox curso
+            Curso curso = cursoDao.getCurso(ppc.getFk_id_curso());
+            jListaCursos.setSelectedItem(curso.getDenominacao());
+            
+            
+            //Preenche os campos de texto
+            jIdentificador.setText(ppc.getIdentificador());
+            jPerfilCurso.setText(ppc.getPerfilCurso());
+            jPerfilEgresso.setText(ppc.getPerfilEgresso());
+            jFormaAcessoCurso.setText(ppc.getFormaAcessoCurso());
+            jRepresentaçãoPerfilFormação.setText(ppc.getRepresentacaoPerfilFormacao());
+            jSistemaAvaliacaoProcessoEnsino.setText(ppc.getSistemaAvaliacaoProcessoEnsinoAprendizagem());
+            jSistemaAvaliacaoProjetoCurso.setText(ppc.getSistemaAvaliacaoProjetoCurso());
+            jTrabalhoConclusaoCurso.setText(ppc.getTrabalhoConclusaoCurso());
+            jEstagioCurricular.setText(ppc.getEstagioCurricular());
+            jPoliticaAtendimentoDeficientes.setText(ppc.getPoliticaAtendimentoDeficientes());
+
+            //Atribui o valor do identificador recuperado da base de dados à váriavel identificadorAntigo, utilizada ao salvar a alteração
+            identificadorAntigo=jIdentificador.getText();
+                       
+            novo=false;
+        }else{
+            JOptionPane.showMessageDialog(this, "Erro ao buscar o PPC");
+        }
+    }
+    
+        public void ConsultaPPC(String identificador){
+        
+        PPCDao ppcDao = new PPCDao();
+        CursoDao cursoDao = new CursoDao();
+
+        PPC ppc = ppcDao.getPPC(ppcDao.getIdPPC(identificador));
+        
+        if(!ppc.getIdentificador().isEmpty()){
+            ListaCursos();
+            
+            //Preenche o combobox curso
+            Curso curso = cursoDao.getCurso(ppc.getFk_id_curso());
+            jListaCursos.setSelectedItem(curso.getDenominacao());
+            
+            
+            //Preenche os campos de texto
+            jIdentificador.setText(ppc.getIdentificador());
+            jPerfilCurso.setText(ppc.getPerfilCurso());
+            jPerfilEgresso.setText(ppc.getPerfilEgresso());
+            jFormaAcessoCurso.setText(ppc.getFormaAcessoCurso());
+            jRepresentaçãoPerfilFormação.setText(ppc.getRepresentacaoPerfilFormacao());
+            jSistemaAvaliacaoProcessoEnsino.setText(ppc.getSistemaAvaliacaoProcessoEnsinoAprendizagem());
+            jSistemaAvaliacaoProjetoCurso.setText(ppc.getSistemaAvaliacaoProjetoCurso());
+            jTrabalhoConclusaoCurso.setText(ppc.getTrabalhoConclusaoCurso());
+            jEstagioCurricular.setText(ppc.getEstagioCurricular());
+            jPoliticaAtendimentoDeficientes.setText(ppc.getPoliticaAtendimentoDeficientes());
+            
+            jSalvar.setEnabled(false);
+            jListaCursos.setEnabled(false);
+                       
+            novo=false;
+        }else{
+            JOptionPane.showMessageDialog(this, "Erro ao buscar o PPC");
+        }
+    }
     /**
      * @param args the command line arguments
      */
@@ -322,12 +491,12 @@ public class CadastroPPC extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JComboBox<String> jComboBox1;
+    private javax.swing.JTextField jEstagioCurricular;
+    private javax.swing.JTextArea jFormaAcessoCurso;
+    private javax.swing.JTextField jIdentificador;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -336,6 +505,13 @@ public class CadastroPPC extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
+    private javax.swing.JComboBox<String> jListaCursos;
+    private javax.swing.JTextArea jPerfilCurso;
+    private javax.swing.JTextArea jPerfilEgresso;
+    private javax.swing.JTextArea jPoliticaAtendimentoDeficientes;
+    private javax.swing.JTextArea jRepresentaçãoPerfilFormação;
+    private javax.swing.JButton jSair;
+    private javax.swing.JButton jSalvar;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
@@ -343,14 +519,8 @@ public class CadastroPPC extends javax.swing.JDialog {
     private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JScrollPane jScrollPane6;
     private javax.swing.JScrollPane jScrollPane7;
-    private javax.swing.JTextArea jTextArea1;
-    private javax.swing.JTextArea jTextArea2;
-    private javax.swing.JTextArea jTextArea3;
-    private javax.swing.JTextArea jTextArea4;
-    private javax.swing.JTextArea jTextArea5;
-    private javax.swing.JTextArea jTextArea6;
-    private javax.swing.JTextArea jTextArea7;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
+    private javax.swing.JTextArea jSistemaAvaliacaoProcessoEnsino;
+    private javax.swing.JTextArea jSistemaAvaliacaoProjetoCurso;
+    private javax.swing.JTextField jTrabalhoConclusaoCurso;
     // End of variables declaration//GEN-END:variables
 }

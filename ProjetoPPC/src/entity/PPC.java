@@ -11,6 +11,7 @@ package entity;
  */
 public class PPC {
     private int idPpc;
+    private String identificador;
     private String perfilCurso;
     private String perfilEgresso;
     private String formaAcessoCurso;
@@ -20,7 +21,16 @@ public class PPC {
     private String trabalhoConclusaoCurso;
     private String estagioCurricular;
     private String politicaAtendimentoDeficientes;
+    private int fk_id_curso;
 
+    public String getIdentificador() {
+        return identificador;
+    }
+
+    public void setIdentificador(String identificador) {
+        this.identificador = identificador;
+    }
+    
     public int getIdPpc() {
         return idPpc;
     }
@@ -99,6 +109,14 @@ public class PPC {
 
     public void setPoliticaAtendimentoDeficientes(String politicaAtendimentoDeficientes) {
         this.politicaAtendimentoDeficientes = politicaAtendimentoDeficientes;
+    }
+
+    public int getFk_id_curso() {
+        return fk_id_curso;
+    }
+
+    public void setFk_id_curso(int fk_id_curso) {
+        this.fk_id_curso = fk_id_curso;
     }
     
 }
