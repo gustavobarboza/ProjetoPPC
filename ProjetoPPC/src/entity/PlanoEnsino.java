@@ -23,6 +23,9 @@ public class PlanoEnsino {
     private String avaliacao;
     private String bibliografia;
     private String identificador;
+    private int fk_id_curso;
+    private int fk_id_disciplina;
+    private int fk_id_cronograma;
 
     public int getPlanoEnsino() {
         return planoEnsino;
@@ -110,6 +113,30 @@ public class PlanoEnsino {
 
     public void setIdentificador(String identificador) {
         this.identificador = identificador;
+    }
+
+    public int getFk_id_curso() {
+        return fk_id_curso;
+    }
+
+    public void setFk_id_curso(int fk_id_curso) {
+        this.fk_id_curso = fk_id_curso;
+    }
+
+    public int getFk_id_disciplina() {
+        return fk_id_disciplina;
+    }
+
+    public void setFk_id_disciplina(int fk_id_disciplina) {
+        this.fk_id_disciplina = fk_id_disciplina;
+    }
+
+    public int getFk_id_cronograma() {
+        return fk_id_cronograma;
+    }
+
+    public void setFk_id_cronograma(int fk_id_cronograma) {
+        this.fk_id_cronograma = fk_id_cronograma;
     }
     
 }

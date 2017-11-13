@@ -155,6 +155,42 @@ public class DisciplinaDao {
     
     
     }
+    
+    public Disciplina getNomeDisciplina(Integer idDisciplina){
+        conexaoDb = new ConexaoDb().getConexao();
+    Disciplina  disciplina = new Disciplina();
+    
+    String sql= "SELECT * FROM DISCIPLINAS WHERE id_disciplina=?";
+        try {
+            PreparedStatement stmt = conexaoDb.prepareStatement(sql);
+            stmt.setInt(1, idDisciplina);
+            
+            ResultSet rs = stmt.executeQuery();
+            while(rs.next()){
+                disciplina.setNome(rs.getString("nome"));
+                disciplina.setDescricao(rs.getString("descricao"));
+                disciplina.setCodigo(rs.getString("codigo"));
+                disciplina.setSemestre(rs.getString("semestre"));
+                disciplina.setCargaHoraria(rs.getInt("carga_horaria"));
+            }
+
+            
+            rs.close();
+            
+            return disciplina;
+        } catch (SQLException ex) {
+            Logger.getLogger(DisciplinaDao.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
+        }finally{
+        try {
+            conexaoDb.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(DisciplinaDao.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        }
+    
+    
+    }
         public Integer getIdDisciplina(String nome){
         conexaoDb = new ConexaoDb().getConexao();
         

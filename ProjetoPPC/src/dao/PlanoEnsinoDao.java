@@ -175,7 +175,11 @@ public class PlanoEnsinoDao {
             planoEnsino.setMetodologia(rs.getString("metodologia"));
             planoEnsino.setAvaliacao(rs.getString("avaliacao"));
             planoEnsino.setBibliografia(rs.getString("bibliografia"));
-            planoEnsino.setIdentificador(rs.getString("identificador"));      
+            planoEnsino.setIdentificador(rs.getString("identificador"));
+            planoEnsino.setFk_id_curso(rs.getInt("fk_id_curso"));
+            planoEnsino.setFk_id_disciplina(rs.getInt("fk_id_disciplina"));
+            planoEnsino.setFk_id_cronograma(rs.getInt("fk_id_cronograma"));
+            
             }
 
 

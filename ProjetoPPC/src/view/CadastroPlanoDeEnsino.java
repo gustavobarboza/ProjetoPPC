@@ -155,6 +155,12 @@ public class CadastroPlanoDeEnsino extends javax.swing.JDialog {
 
         jLabel18.setText("Ano");
 
+        jCargaHoraria.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jCargaHorariaKeyTyped(evt);
+            }
+        });
+
         jLabel19.setText("Período do Curso");
 
         jAvaliacao.setColumns(20);
@@ -173,7 +179,7 @@ public class CadastroPlanoDeEnsino extends javax.swing.JDialog {
         jBibliografia.setWrapStyleWord(true);
         jScrollPane11.setViewportView(jBibliografia);
 
-        jCadastrar.setText("Cadastrar");
+        jCadastrar.setText("Salvar");
         jCadastrar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jCadastrarActionPerformed(evt);
@@ -354,21 +360,18 @@ public class CadastroPlanoDeEnsino extends javax.swing.JDialog {
         
         if(jListaCronograma.getSelectedItem().toString()!="Selecione"){
             
-        int idCronograma= cronogramaDao.getIdCronograma(jListaCronograma.getSelectedItem().toString());
-        
-        
-        DefaultTableModel modeloTabela = (DefaultTableModel) jTabelaCronograma.getModel();
-        modeloTabela.setNumRows(0);
-        for(CronogramaAtividades cronogramaAtividades : cronogramaAtividadesDAO.getLista(idCronograma)){
-            modeloTabela.addRow(new Object[]{
-                cronogramaAtividades.getAula(),
-                cronogramaAtividades.getConteudo()
-            });
-        }
-        
-        }
+            int idCronograma= cronogramaDao.getIdCronograma(jListaCronograma.getSelectedItem().toString());
 
-        
+
+            DefaultTableModel modeloTabela = (DefaultTableModel) jTabelaCronograma.getModel();
+            modeloTabela.setNumRows(0);
+            for(CronogramaAtividades cronogramaAtividades : cronogramaAtividadesDAO.getLista(idCronograma)){
+                modeloTabela.addRow(new Object[]{
+                    cronogramaAtividades.getAula(),
+                    cronogramaAtividades.getConteudo()
+                });
+            }
+        }
     }//GEN-LAST:event_jListaCronogramaItemStateChanged
 
     private void jCadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCadastrarActionPerformed
@@ -428,7 +431,7 @@ public class CadastroPlanoDeEnsino extends javax.swing.JDialog {
             
             if(novo){
                 if(planoEnsinoDao.Insere(idCurso, idDisciplina, idCronograma, planoEnsino)){
-                    JOptionPane.showMessageDialog(this, "Plano de Ensino criado com sucesso!");
+                    JOptionPane.showMessageDialog(this, "Plano de ensino criado com sucesso!");
                 }else{
                     JOptionPane.showMessageDialog(this, "Erro ao criar o plano de ensino!");
                 }
@@ -440,14 +443,19 @@ public class CadastroPlanoDeEnsino extends javax.swing.JDialog {
                     JOptionPane.showMessageDialog(this, "Erro ao alterar o plano de ensino!");
                 }
             }
-                
-            
         }
     }//GEN-LAST:event_jCadastrarActionPerformed
 
     private void jSairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jSairActionPerformed
         dispose();
     }//GEN-LAST:event_jSairActionPerformed
+
+    private void jCargaHorariaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jCargaHorariaKeyTyped
+        String caracteres="0987654321";
+        if(!caracteres.contains(evt.getKeyChar()+"")){
+        evt.consume();
+        }      
+    }//GEN-LAST:event_jCargaHorariaKeyTyped
 
     public void listaCursos(){
         CursoDao cursoDao = new CursoDao();
@@ -479,7 +487,103 @@ public class CadastroPlanoDeEnsino extends javax.swing.JDialog {
             jListaCronograma.addItem(listaCronogramas.get(i).getIdentificador());
         }
     }
+    
+    public void AlteraPlano(String identificador){
+       
+        PlanoEnsinoDao planoEnsinoDao = new PlanoEnsinoDao();
+        PlanoEnsino planoEnsino = new PlanoEnsino();
+        CursoDao cursoDao = new CursoDao();
+        DisciplinaDao disciplinaDao = new DisciplinaDao();
+        CronogramaDao cronogramaDao = new CronogramaDao();
         
+        planoEnsino= planoEnsinoDao.getPlanoEnsino(planoEnsinoDao.getIdPlanoEnsino(identificador));
+        
+        if(!planoEnsino.getIdentificador().isEmpty()){
+            listaCursos();
+            listaDisciplinas();
+            listaCronogramas();
+            
+            //Preenche o combobox curso
+            Curso curso = cursoDao.getCurso(planoEnsino.getFk_id_curso());
+            jListaCursos.setSelectedItem(curso.getDenominacao());
+            
+            //Preenche o combobox disciplina
+            Disciplina disciplina = disciplinaDao.getNomeDisciplina(planoEnsino.getFk_id_disciplina());
+            jListaDisciplina.setSelectedItem(disciplina.getNome());
+            
+            //Preenche o combobox cronograma
+            Cronograma cronograma = cronogramaDao.getCronograma(planoEnsino.getFk_id_cronograma());
+            jListaCronograma.setSelectedItem(cronograma.getIdentificador());
+            
+            //Preenche os campos de texto
+            jAno.setText(planoEnsino.getAno());
+            jSemestre.setText(planoEnsino.getSemestre());
+            jCargaHoraria.setText(String.valueOf(planoEnsino.getCargaHoraria()));
+            jPeriodos.setText(planoEnsino.getPeriodo());
+            jEmenta.setText(planoEnsino.getEmenta());
+            jCompetencias.setText(planoEnsino.getCompetencias());
+            jMetodologia.setText(planoEnsino.getMetodologia());
+            jAvaliacao.setText(planoEnsino.getAvaliacao());
+            jBibliografia.setText(planoEnsino.getBibliografia());
+            jIdentificador.setText(planoEnsino.getIdentificador());
+            
+            //Atribui o valor do identificador recuperado da base de dados à váriavel identificadorAntigo, utilizada ao salvar a alteração
+            identificadorAntigo=jIdentificador.getText();
+                       
+            novo=false;
+        }else{
+            JOptionPane.showMessageDialog(this, "Erro ao buscar o plano de ensino");
+        }
+    }
+    public void ConsultaPlano(String identificador){
+        PlanoEnsinoDao planoEnsinoDao = new PlanoEnsinoDao();
+        PlanoEnsino planoEnsino = new PlanoEnsino();
+        CursoDao cursoDao = new CursoDao();
+        DisciplinaDao disciplinaDao = new DisciplinaDao();
+        CronogramaDao cronogramaDao = new CronogramaDao();
+        
+        planoEnsino= planoEnsinoDao.getPlanoEnsino(planoEnsinoDao.getIdPlanoEnsino(identificador));
+        
+        if(!planoEnsino.getIdentificador().isEmpty()){
+            listaCursos();
+            listaDisciplinas();
+            listaCronogramas();
+            
+            //Preenche o combobox curso
+            Curso curso = cursoDao.getCurso(planoEnsino.getFk_id_curso());
+            jListaCursos.setSelectedItem(curso.getDenominacao());
+            
+            //Preenche o combobox disciplina
+            Disciplina disciplina = disciplinaDao.getNomeDisciplina(planoEnsino.getFk_id_disciplina());
+            jListaDisciplina.setSelectedItem(disciplina.getNome());
+            
+            //Preenche o combobox cronograma
+            Cronograma cronograma = cronogramaDao.getCronograma(planoEnsino.getFk_id_cronograma());
+            jListaCronograma.setSelectedItem(cronograma.getIdentificador());
+            
+            //Preenche os campos de texto
+            jAno.setText(planoEnsino.getAno());
+            jSemestre.setText(planoEnsino.getSemestre());
+            jCargaHoraria.setText(String.valueOf(planoEnsino.getCargaHoraria()));
+            jPeriodos.setText(planoEnsino.getPeriodo());
+            jEmenta.setText(planoEnsino.getEmenta());
+            jCompetencias.setText(planoEnsino.getCompetencias());
+            jMetodologia.setText(planoEnsino.getMetodologia());
+            jAvaliacao.setText(planoEnsino.getAvaliacao());
+            jBibliografia.setText(planoEnsino.getBibliografia());
+            jIdentificador.setText(planoEnsino.getIdentificador());
+            
+            //Desabilita botoes do formulario
+            jListaCursos.setEnabled(false);
+            jListaCronograma.setEnabled(false);
+            jListaDisciplina.setEnabled(false);
+            jCadastrar.setEnabled(false);
+            
+            novo=false;
+        }else{
+            JOptionPane.showMessageDialog(this, "Erro ao buscar o plano de ensino");
+        }
+    }
     /**
      * @param args the command line arguments
      */

@@ -5,6 +5,11 @@
  */
 package view;
 
+import dao.PlanoEnsinoDao;
+import entity.PlanoEnsino;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author Gustavo
@@ -30,22 +35,32 @@ public class GestaoPlanoDeEnsino extends javax.swing.JDialog {
 
         jLabel2 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
+        jCadastrar = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
+        jTabelaPlanos = new javax.swing.JTable();
+        jConsultar = new javax.swing.JButton();
+        jAlterar = new javax.swing.JButton();
+        jExcluir = new javax.swing.JButton();
 
         jLabel2.setText("jLabel2");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                formWindowOpened(evt);
+            }
+        });
 
         jLabel1.setText("Planos de Ensino Cadastrados");
 
-        jButton1.setText("Cadastrar Plano de Ensino");
+        jCadastrar.setText("Cadastrar Plano de Ensino");
+        jCadastrar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jCadastrarActionPerformed(evt);
+            }
+        });
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        jTabelaPlanos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -53,14 +68,29 @@ public class GestaoPlanoDeEnsino extends javax.swing.JDialog {
                 "Plano de Ensino", "Ano", "Periodo"
             }
         ));
-        jTable1.setToolTipText("");
-        jScrollPane1.setViewportView(jTable1);
+        jTabelaPlanos.setToolTipText("");
+        jScrollPane1.setViewportView(jTabelaPlanos);
 
-        jButton2.setText("Consultar");
+        jConsultar.setText("Consultar");
+        jConsultar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jConsultarActionPerformed(evt);
+            }
+        });
 
-        jButton3.setText("Alterar");
+        jAlterar.setText("Alterar");
+        jAlterar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jAlterarActionPerformed(evt);
+            }
+        });
 
-        jButton4.setText("Excluir");
+        jExcluir.setText("Excluir");
+        jExcluir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jExcluirActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -70,16 +100,16 @@ public class GestaoPlanoDeEnsino extends javax.swing.JDialog {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jButton2)
+                        .addComponent(jConsultar)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jButton3)
+                        .addComponent(jAlterar)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jButton4))
+                        .addComponent(jExcluir))
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                         .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                             .addComponent(jLabel1)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jButton1))
+                            .addComponent(jCadastrar))
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 544, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -89,14 +119,14 @@ public class GestaoPlanoDeEnsino extends javax.swing.JDialog {
                 .addGap(18, 18, 18)
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jCadastrar, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jConsultar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jAlterar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jExcluir, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -104,6 +134,86 @@ public class GestaoPlanoDeEnsino extends javax.swing.JDialog {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
+    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+        ListaPlanos();
+    }//GEN-LAST:event_formWindowOpened
+
+    private void jAlterarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jAlterarActionPerformed
+        CadastroPlanoDeEnsino cadastroPlano = new CadastroPlanoDeEnsino(new javax.swing.JFrame(), true);
+        
+        int index=-1;
+        
+        index=jTabelaPlanos.getSelectedRow();
+      
+        if(index!=-1){
+        String identificador = jTabelaPlanos.getValueAt(jTabelaPlanos.getSelectedRow(), 0).toString();
+        cadastroPlano.AlteraPlano(identificador);
+        cadastroPlano.setVisible(true);
+        
+        ListaPlanos();
+       }else{
+           JOptionPane.showMessageDialog(this, "Selecione um plano de ensino para alterar");
+       }
+    }//GEN-LAST:event_jAlterarActionPerformed
+
+    private void jConsultarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jConsultarActionPerformed
+        CadastroPlanoDeEnsino cadastroPlano = new CadastroPlanoDeEnsino(new javax.swing.JFrame(), true);
+        
+        int index=-1;
+        
+        index=jTabelaPlanos.getSelectedRow();
+      
+        if(index!=-1){
+        String identificador = jTabelaPlanos.getValueAt(jTabelaPlanos.getSelectedRow(), 0).toString();
+        cadastroPlano.ConsultaPlano(identificador);
+        cadastroPlano.setVisible(true);
+        
+        ListaPlanos();
+       }else{
+           JOptionPane.showMessageDialog(this, "Selecione um plano de ensino para alterar");
+       }
+    }//GEN-LAST:event_jConsultarActionPerformed
+
+    private void jCadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCadastrarActionPerformed
+        CadastroPlanoDeEnsino cadastroPlano = new CadastroPlanoDeEnsino(new javax.swing.JFrame(), true);
+        cadastroPlano.setVisible(true);
+        ListaPlanos();
+    }//GEN-LAST:event_jCadastrarActionPerformed
+
+    private void jExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jExcluirActionPerformed
+                int index=-1;
+        
+        index=jTabelaPlanos.getSelectedRow();
+      
+       if(index!=-1){ 
+            if(JOptionPane.showConfirmDialog(null, "Tem certeza que deseja excluir o plano de ensino?"
+                + "", "Excluir plano", JOptionPane.YES_NO_OPTION)==JOptionPane.YES_OPTION){
+
+              String identificador= jTabelaPlanos.getValueAt(jTabelaPlanos.getSelectedRow(), 0).toString();
+              PlanoEnsinoDao planoEnsinoDao = new PlanoEnsinoDao();
+
+              planoEnsinoDao.Remove(planoEnsinoDao.getIdPlanoEnsino(identificador));
+              JOptionPane.showMessageDialog(this, "Plano de ensino excluído!");
+              ListaPlanos();        
+            }  
+        }else{
+            JOptionPane.showMessageDialog(this, "Selecione um plano de ensino para excluir");
+        }   
+    }//GEN-LAST:event_jExcluirActionPerformed
+    public void ListaPlanos(){
+        PlanoEnsinoDao planoEnsinoDao = new PlanoEnsinoDao();
+        
+        DefaultTableModel modelo = (DefaultTableModel) jTabelaPlanos.getModel();
+        
+        modelo.setNumRows(0);
+        for(PlanoEnsino planoEnsino : planoEnsinoDao.getPlanosEnsino()){
+            modelo.addRow(new Object[]{
+                planoEnsino.getIdentificador(),
+                planoEnsino.getAno(),
+                planoEnsino.getPeriodo()
+            });
+        }
+    }
     /**
      * @param args the command line arguments
      */
@@ -148,13 +258,13 @@ public class GestaoPlanoDeEnsino extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
+    private javax.swing.JButton jAlterar;
+    private javax.swing.JButton jCadastrar;
+    private javax.swing.JButton jConsultar;
+    private javax.swing.JButton jExcluir;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JTable jTabelaPlanos;
     // End of variables declaration//GEN-END:variables
 }

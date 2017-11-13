@@ -325,6 +325,9 @@
             <Component class="javax.swing.JTextField" name="jSemestre">
             </Component>
             <Component class="javax.swing.JTextField" name="jCargaHoraria">
+              <Events>
+                <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="jCargaHorariaKeyTyped"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JLabel" name="jLabel19">
               <Properties>
@@ -379,7 +382,7 @@
             </Container>
             <Component class="javax.swing.JButton" name="jCadastrar">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Cadastrar"/>
+                <Property name="text" type="java.lang.String" value="Salvar"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jCadastrarActionPerformed"/>
