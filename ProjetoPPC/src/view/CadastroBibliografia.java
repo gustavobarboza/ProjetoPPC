@@ -5,15 +5,24 @@
  */
 package view;
 
+import dao.BibliografiaDao;
+import dao.CursoDao;
+import dao.DisciplinaDao;
+import entity.Bibliografia;
+import entity.Curso;
+import entity.Disciplina;
+import java.util.List;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author Gustavo
  */
 public class CadastroBibliografia extends javax.swing.JDialog {
 
-    /**
-     * Creates new form CadastroBibliografia
-     */
+
+    boolean novo = true;
+    String tituloAntigo;
     public CadastroBibliografia(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
@@ -29,32 +38,33 @@ public class CadastroBibliografia extends javax.swing.JDialog {
     private void initComponents() {
 
         jLabel1 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        jListaCursos = new javax.swing.JComboBox<>();
         jLabel2 = new javax.swing.JLabel();
-        jComboBox2 = new javax.swing.JComboBox<>();
+        jListaDisciplinas = new javax.swing.JComboBox<>();
         jPanel1 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        jTitulo = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
-        jTextField2 = new javax.swing.JTextField();
+        jAutor = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
-        jTextField3 = new javax.swing.JTextField();
+        jIsbn = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
-        jTextField4 = new javax.swing.JTextField();
+        jAno = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
-        jTextField5 = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        jEditora = new javax.swing.JTextField();
+        jSalvar = new javax.swing.JButton();
+        jSair = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                formWindowOpened(evt);
+            }
+        });
 
         jLabel1.setText("Curso");
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
         jLabel2.setText("Disciplina");
-
-        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Referência Bibliográfica"));
 
@@ -78,11 +88,11 @@ public class CadastroBibliografia extends javax.swing.JDialog {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel3)
                         .addGap(18, 18, 18)
-                        .addComponent(jTextField1))
+                        .addComponent(jTitulo))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel7)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jTextField5))
+                        .addComponent(jEditora))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel4)
@@ -90,13 +100,13 @@ public class CadastroBibliografia extends javax.swing.JDialog {
                         .addGap(18, 18, 18)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jIsbn, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jLabel6)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jAno, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(0, 0, Short.MAX_VALUE))
-                            .addComponent(jTextField2))))
+                            .addComponent(jAutor))))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -105,27 +115,38 @@ public class CadastroBibliografia extends javax.swing.JDialog {
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jTitulo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jAutor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
                     .addComponent(jLabel6)
-                    .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jAno, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jIsbn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel7)
-                    .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jEditora, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jButton1.setText("Cadastrar");
+        jSalvar.setText("Salvar");
+        jSalvar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jSalvarActionPerformed(evt);
+            }
+        });
 
-        jButton2.setText("Cancelar");
+        jSair.setText("Sair");
+        jSair.setToolTipText("");
+        jSair.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jSairActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -138,16 +159,16 @@ public class CadastroBibliografia extends javax.swing.JDialog {
                         .addGroup(layout.createSequentialGroup()
                             .addComponent(jLabel1)
                             .addGap(18, 18, 18)
-                            .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 370, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jListaCursos, javax.swing.GroupLayout.PREFERRED_SIZE, 370, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGroup(layout.createSequentialGroup()
                             .addComponent(jLabel2)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, 370, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jListaDisciplinas, javax.swing.GroupLayout.PREFERRED_SIZE, 370, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jButton1)
+                        .addComponent(jSalvar)
                         .addGap(28, 28, 28)
-                        .addComponent(jButton2)))
+                        .addComponent(jSair)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -156,17 +177,17 @@ public class CadastroBibliografia extends javax.swing.JDialog {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jListaCursos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 34, Short.MAX_VALUE)
+                    .addComponent(jListaDisciplinas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 22, Short.MAX_VALUE)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
-                    .addComponent(jButton2))
+                    .addComponent(jSalvar)
+                    .addComponent(jSair))
                 .addGap(17, 17, 17))
         );
 
@@ -174,6 +195,165 @@ public class CadastroBibliografia extends javax.swing.JDialog {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
+    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+        if (novo){
+           listaCursos();
+           listaDisciplinas();
+        }
+    }//GEN-LAST:event_formWindowOpened
+
+    private void jSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jSalvarActionPerformed
+        boolean dadosValidos=true;
+        
+        if(jListaCursos.getSelectedItem().equals("Selecione")){
+            JOptionPane.showMessageDialog(this, "Selecione o Curso", "Curso não selecionado", JOptionPane.WARNING_MESSAGE);
+            dadosValidos=false;
+        }
+        
+        if(jListaDisciplinas.getSelectedItem().equals("Selecione")){
+            JOptionPane.showMessageDialog(this, "Selecione a Disciplina", "Disciplina não selecionada", JOptionPane.WARNING_MESSAGE);
+            dadosValidos=false;
+        }
+        
+        if (jTitulo.getText().isEmpty() || jAutor.getText().isEmpty() || jIsbn.getText().isEmpty() || 
+            jAno.getText().isEmpty() || jEditora.getText().isEmpty()){
+             JOptionPane.showMessageDialog(this, "Preencha todos os campos", "Preenchimento incompleto", JOptionPane.WARNING_MESSAGE);
+            dadosValidos=false;
+        }
+        
+        if(dadosValidos){
+            //Recupera o id do curso
+            CursoDao cursoDao= new CursoDao();
+            int idCurso= cursoDao.getIdCurso(jListaCursos.getSelectedItem().toString());
+            
+            DisciplinaDao disciplinaDao = new DisciplinaDao();
+            int idDisciplina = disciplinaDao.getIdDisciplina(jListaDisciplinas.getSelectedItem().toString());
+            
+            Bibliografia bibliografia = new Bibliografia();
+            bibliografia.setTitulo(jTitulo.getText());
+            bibliografia.setAutor(jAutor.getText());
+            bibliografia.setIsbn(jIsbn.getText());
+            bibliografia.setAno(jAno.getText());
+            bibliografia.setEditora(jEditora.getText());
+            
+            BibliografiaDao bibliografiaDao = new BibliografiaDao();
+            //Código executado caso seja um novo registro
+            if (novo){
+                if(bibliografiaDao.Insere(idCurso, idDisciplina, bibliografia)){
+                    JOptionPane.showMessageDialog(this, "Bibliografia cadastrada com sucesso", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+                }else{
+                    JOptionPane.showMessageDialog(this, "Erro ao cadastrar a bibliografia", "Erro", JOptionPane.WARNING_MESSAGE);
+                }
+            //Código executado quando se está atualizando um registro existente    
+            }else{
+                int idBibliografia = bibliografiaDao.getIdBibliografia(tituloAntigo);
+                
+                if(bibliografiaDao.Altera(idBibliografia, idCurso, idDisciplina, bibliografia)){
+                    JOptionPane.showMessageDialog(this, "Bibliografia alterada com sucesso", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+                }else{
+                     JOptionPane.showMessageDialog(this, "Erro ao alterar a bibliografia", "Erro", JOptionPane.WARNING_MESSAGE);
+                }
+            }
+        }
+    }//GEN-LAST:event_jSalvarActionPerformed
+
+    private void jSairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jSairActionPerformed
+        dispose();
+    }//GEN-LAST:event_jSairActionPerformed
+    
+    public void listaCursos(){
+        CursoDao cursoDao = new CursoDao();
+        List<Curso> listaCurso = cursoDao.getCursos();
+        
+        jListaCursos.removeAllItems();
+        jListaCursos.addItem("Selecione");
+        for (int i = 0; i < listaCurso.size(); i++) {
+            jListaCursos.addItem(listaCurso.get(i).getDenominacao());
+        }
+    }
+    public void listaDisciplinas(){
+        DisciplinaDao disciplinaDao = new DisciplinaDao();
+        List<Disciplina> listaDisciplina = disciplinaDao.getDisciplinas();
+        
+        jListaDisciplinas.removeAllItems();
+        jListaDisciplinas.addItem("Selecione");
+        for (int i = 0; i < listaDisciplina.size(); i++) {
+            jListaDisciplinas.addItem(listaDisciplina.get(i).getNome());
+        }
+    }
+    
+    public void alteraBibliografia(String titulo){
+        BibliografiaDao bibliografiaDao = new BibliografiaDao();
+        Bibliografia bibliografia = new Bibliografia();
+        CursoDao cursoDao = new CursoDao();
+        DisciplinaDao disciplinaDao = new DisciplinaDao();
+        
+        bibliografia= bibliografiaDao.getBibliografia(bibliografiaDao.getIdBibliografia(titulo));
+        
+        if(!bibliografia.getTitulo().isEmpty()){
+            listaCursos();
+            listaDisciplinas();
+            
+            //Preenche o combobox curso
+            Curso curso = cursoDao.getCurso(bibliografia.getFk_id_curso());
+            jListaCursos.setSelectedItem(curso.getDenominacao());
+            
+            //Preenche o combobox disciplina
+            Disciplina disciplina = disciplinaDao.getNomeDisciplina(bibliografia.getFk_id_disciplina());
+            jListaDisciplinas.setSelectedItem(disciplina.getNome());
+            
+            //Preenche os campos de texto
+            jTitulo.setText(bibliografia.getTitulo());
+            jAutor.setText(bibliografia.getAutor());
+            jIsbn.setText(bibliografia.getIsbn());
+            jAno.setText(bibliografia.getAno());
+            jEditora.setText(bibliografia.getEditora());
+            
+            //Atribui o valor do identificador recuperado da base de dados à váriavel identificadorAntigo, utilizada ao salvar a alteração
+            tituloAntigo=jTitulo.getText();
+                       
+            novo=false;
+        }else{
+            JOptionPane.showMessageDialog(this, "Erro ao buscar a bibliografia");
+        }
+    }
+    public void consultaBibliografia(String titulo){
+        BibliografiaDao bibliografiaDao = new BibliografiaDao();
+        Bibliografia bibliografia = new Bibliografia();
+        CursoDao cursoDao = new CursoDao();
+        DisciplinaDao disciplinaDao = new DisciplinaDao();
+        
+        bibliografia= bibliografiaDao.getBibliografia(bibliografiaDao.getIdBibliografia(titulo));
+        
+        if(!bibliografia.getTitulo().isEmpty()){
+            listaCursos();
+            listaDisciplinas();
+            
+            //Preenche o combobox curso
+            Curso curso = cursoDao.getCurso(bibliografia.getFk_id_curso());
+            jListaCursos.setSelectedItem(curso.getDenominacao());
+            
+            //Preenche o combobox disciplina
+            Disciplina disciplina = disciplinaDao.getNomeDisciplina(bibliografia.getFk_id_disciplina());
+            jListaDisciplinas.setSelectedItem(disciplina.getNome());
+            
+            //Preenche os campos de texto
+            jTitulo.setText(bibliografia.getTitulo());
+            jAutor.setText(bibliografia.getAutor());
+            jIsbn.setText(bibliografia.getIsbn());
+            jAno.setText(bibliografia.getAno());
+            jEditora.setText(bibliografia.getEditora());
+            
+            jSalvar.setEnabled(false);
+            jListaCursos.setEnabled(false);
+            jListaDisciplinas.setEnabled(false);
+            
+                       
+            novo=false;
+        }else{
+            JOptionPane.showMessageDialog(this, "Erro ao buscar a bibliografia");
+        }
+    }
     /**
      * @param args the command line arguments
      */
@@ -217,10 +397,10 @@ public class CadastroBibliografia extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JComboBox<String> jComboBox1;
-    private javax.swing.JComboBox<String> jComboBox2;
+    private javax.swing.JTextField jAno;
+    private javax.swing.JTextField jAutor;
+    private javax.swing.JTextField jEditora;
+    private javax.swing.JTextField jIsbn;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -228,11 +408,11 @@ public class CadastroBibliografia extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
+    private javax.swing.JComboBox<String> jListaCursos;
+    private javax.swing.JComboBox<String> jListaDisciplinas;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
-    private javax.swing.JTextField jTextField4;
-    private javax.swing.JTextField jTextField5;
+    private javax.swing.JButton jSair;
+    private javax.swing.JButton jSalvar;
+    private javax.swing.JTextField jTitulo;
     // End of variables declaration//GEN-END:variables
 }

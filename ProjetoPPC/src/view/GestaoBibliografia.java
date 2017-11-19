@@ -5,6 +5,11 @@
  */
 package view;
 
+import dao.BibliografiaDao;
+import entity.Bibliografia;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author Gustavo
@@ -29,42 +34,60 @@ public class GestaoBibliografia extends javax.swing.JDialog {
     private void initComponents() {
 
         jLabel1 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
+        jCadastrar = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
+        JtabelaBibliografia = new javax.swing.JTable();
+        jConsultar = new javax.swing.JButton();
+        jAlterar = new javax.swing.JButton();
+        jExcluir = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                formWindowOpened(evt);
+            }
+        });
 
         jLabel1.setText("Bibliografias Cadastradas:");
 
-        jButton1.setText("Cadastrar Bibliografia");
+        jCadastrar.setText("Cadastrar Bibliografia");
+        jCadastrar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jCadastrarActionPerformed(evt);
+            }
+        });
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        JtabelaBibliografia.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+
             },
             new String [] {
-                "Título", "Autor", "Editora", "Curso"
+                "Título", "Autor", "Editora"
             }
         ));
-        jTable1.setToolTipText("");
-        jScrollPane1.setViewportView(jTable1);
+        JtabelaBibliografia.setToolTipText("");
+        jScrollPane1.setViewportView(JtabelaBibliografia);
 
-        jButton2.setText("Consultar");
+        jConsultar.setText("Consultar");
+        jConsultar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jConsultarActionPerformed(evt);
+            }
+        });
 
-        jButton3.setText("Alterar");
+        jAlterar.setText("Alterar");
+        jAlterar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jAlterarActionPerformed(evt);
+            }
+        });
 
-        jButton4.setText("Excluir");
+        jExcluir.setText("Excluir");
+        jExcluir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jExcluirActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -73,34 +96,34 @@ public class GestaoBibliografia extends javax.swing.JDialog {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jButton2)
+                        .addComponent(jConsultar)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jButton3)
+                        .addComponent(jAlterar)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jButton4)
-                        .addGap(0, 467, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton1)))
-                .addContainerGap())
+                        .addComponent(jExcluir))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                            .addComponent(jLabel1)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jCadastrar))
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 562, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(9, 9, 9)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jCadastrar, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel1))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, 33, Short.MAX_VALUE)
-                    .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jConsultar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jAlterar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jExcluir, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -108,6 +131,90 @@ public class GestaoBibliografia extends javax.swing.JDialog {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
+    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+        listaBibliografias();
+    }//GEN-LAST:event_formWindowOpened
+
+    private void jAlterarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jAlterarActionPerformed
+        CadastroBibliografia cadastroBibliografia = new CadastroBibliografia(new javax.swing.JFrame(), true);
+        
+        int index=-1;
+        
+        index=JtabelaBibliografia.getSelectedRow();
+      
+        if(index!=-1){
+        String titulo = JtabelaBibliografia.getValueAt(JtabelaBibliografia.getSelectedRow(), 0).toString();
+        cadastroBibliografia.alteraBibliografia(titulo);
+        cadastroBibliografia.setVisible(true);
+        
+        listaBibliografias();
+       }else{
+           JOptionPane.showMessageDialog(this, "Selecione uma bibliografia para alterar");
+        }
+    }//GEN-LAST:event_jAlterarActionPerformed
+
+    private void jCadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCadastrarActionPerformed
+        CadastroBibliografia cadastroBibliografia = new CadastroBibliografia(new javax.swing.JFrame(), true);
+        cadastroBibliografia.setVisible(true);
+        listaBibliografias();
+        
+    }//GEN-LAST:event_jCadastrarActionPerformed
+
+    private void jConsultarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jConsultarActionPerformed
+        CadastroBibliografia cadastroBibliografia = new CadastroBibliografia(new javax.swing.JFrame(), true);
+        
+        int index=-1;
+        
+        index=JtabelaBibliografia.getSelectedRow();
+      
+        if(index!=-1){
+        String titulo = JtabelaBibliografia.getValueAt(JtabelaBibliografia.getSelectedRow(), 0).toString();
+        cadastroBibliografia.consultaBibliografia(titulo);
+        cadastroBibliografia.setVisible(true);
+        
+        listaBibliografias();
+       }else{
+           JOptionPane.showMessageDialog(this, "Selecione uma bibliografia para consultar");
+        }
+    }//GEN-LAST:event_jConsultarActionPerformed
+
+    private void jExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jExcluirActionPerformed
+        int index=-1;
+        
+        index=JtabelaBibliografia.getSelectedRow();
+      
+       if(index!=-1){ 
+            if(JOptionPane.showConfirmDialog(null, "Tem certeza que deseja excluir a bibliografia?",
+                "Excluir", JOptionPane.YES_NO_OPTION)==JOptionPane.YES_OPTION){
+
+                String titulo= JtabelaBibliografia.getValueAt(JtabelaBibliografia.getSelectedRow(), 0).toString();
+                BibliografiaDao bibliografiaDao = new BibliografiaDao();
+
+                if (bibliografiaDao.Remove(bibliografiaDao.getIdBibliografia(titulo))){
+                   JOptionPane.showMessageDialog(this, "Bibliografia excluída!");
+                   listaBibliografias();        
+                }else{
+                   JOptionPane.showMessageDialog(this, "Erro ao excluir a bibliografia.");
+                }
+            }  
+        }else{
+            JOptionPane.showMessageDialog(this, "Selecione uma bibliografia para excluir");
+        } 
+    }//GEN-LAST:event_jExcluirActionPerformed
+    public void listaBibliografias(){
+        BibliografiaDao bibliografiaDao = new BibliografiaDao();
+        
+        DefaultTableModel modelo = (DefaultTableModel) JtabelaBibliografia.getModel();
+        modelo.setNumRows(0);
+        
+        for(Bibliografia bibliografia : bibliografiaDao.getBibliografias()){
+            modelo.addRow(new Object[]{
+                bibliografia.getTitulo(),
+                bibliografia.getAno(),
+                bibliografia.getEditora()
+            });
+        }
+    }
     /**
      * @param args the command line arguments
      */
@@ -152,12 +259,12 @@ public class GestaoBibliografia extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
+    private javax.swing.JTable JtabelaBibliografia;
+    private javax.swing.JButton jAlterar;
+    private javax.swing.JButton jCadastrar;
+    private javax.swing.JButton jConsultar;
+    private javax.swing.JButton jExcluir;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
     // End of variables declaration//GEN-END:variables
 }
