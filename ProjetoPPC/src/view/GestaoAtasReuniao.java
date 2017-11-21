@@ -5,6 +5,12 @@
  */
 package view;
 
+import dao.AtaParticipantesDao;
+import dao.AtaReuniaoDao;
+import entity.AtaReuniao;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author Gustavo
@@ -29,53 +35,60 @@ public class GestaoAtasReuniao extends javax.swing.JDialog {
     private void initComponents() {
 
         jLabel1 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
+        jCadastrar = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
-        jTextField1 = new javax.swing.JTextField();
-        jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
-        jTextField2 = new javax.swing.JTextField();
-        jButton5 = new javax.swing.JButton();
+        jTabelaAtas = new javax.swing.JTable();
+        jConsultar = new javax.swing.JButton();
+        jAlterar = new javax.swing.JButton();
+        jExcluir = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                formWindowOpened(evt);
+            }
+        });
 
         jLabel1.setText("Atas de Reunião");
 
-        jButton1.setText("Cadastrar Ata");
+        jCadastrar.setText("Cadastrar Ata");
+        jCadastrar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jCadastrarActionPerformed(evt);
+            }
+        });
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        jTabelaAtas.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null}
+
             },
             new String [] {
                 "Identificador", "Data", "Local"
             }
         ));
-        jTable1.setToolTipText("");
-        jScrollPane1.setViewportView(jTable1);
+        jTabelaAtas.setToolTipText("");
+        jScrollPane1.setViewportView(jTabelaAtas);
 
-        jButton2.setText("Consultar");
+        jConsultar.setText("Consultar");
+        jConsultar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jConsultarActionPerformed(evt);
+            }
+        });
 
-        jButton3.setText("Alterar");
+        jAlterar.setText("Alterar");
+        jAlterar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jAlterarActionPerformed(evt);
+            }
+        });
 
-        jButton4.setText("Excluir");
-
-        jLabel2.setText("Data Inicial");
-
-        jLabel3.setText("Data Final");
-
-        jButton5.setText("Pesquisar");
+        jExcluir.setText("Excluir");
+        jExcluir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jExcluirActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -88,27 +101,16 @@ public class GestaoAtasReuniao extends javax.swing.JDialog {
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jButton2)
+                                .addComponent(jConsultar)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jButton3)
+                                .addComponent(jAlterar)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jButton4))
+                                .addComponent(jExcluir))
                             .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 544, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jLabel3)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jButton5)
-                        .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton1)))
+                        .addComponent(jCadastrar)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -116,29 +118,107 @@ public class GestaoAtasReuniao extends javax.swing.JDialog {
             .addGroup(layout.createSequentialGroup()
                 .addGap(9, 9, 9)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jCadastrar, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel1))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel3)
-                    .addComponent(jButton5))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 16, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(7, 7, 7))
+                    .addComponent(jConsultar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jAlterar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jExcluir, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
+    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+        listaAtas();
+    }//GEN-LAST:event_formWindowOpened
+
+    private void jAlterarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jAlterarActionPerformed
+        CadastroAtaReuniao cadastroAtaReuniao = new CadastroAtaReuniao(new javax.swing.JFrame(), true);
+        int index=-1;
+        index=jTabelaAtas.getSelectedRow();
+        
+        if(index!=-1){
+            String identificador =jTabelaAtas.getValueAt(index, 0).toString();
+            cadastroAtaReuniao.alteraAta(identificador);
+            
+            cadastroAtaReuniao.setVisible(true);
+            listaAtas();
+        }else{
+            JOptionPane.showMessageDialog(this, "Selecione a ata para alterar.");
+        }
+    }//GEN-LAST:event_jAlterarActionPerformed
+
+    private void jConsultarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jConsultarActionPerformed
+        CadastroAtaReuniao cadastroAtaReuniao = new CadastroAtaReuniao(new javax.swing.JFrame(), true);
+        int index=-1;
+        index=jTabelaAtas.getSelectedRow();
+        
+        if(index!=-1){
+            String identificador =jTabelaAtas.getValueAt(index, 0).toString();
+            cadastroAtaReuniao.consultaAta(identificador);
+            
+            cadastroAtaReuniao.setVisible(true);
+            listaAtas();
+        }else{
+            JOptionPane.showMessageDialog(this, "Selecione a ata para consultar.");
+        }    
+    }//GEN-LAST:event_jConsultarActionPerformed
+
+    private void jCadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCadastrarActionPerformed
+        CadastroAtaReuniao cadastroAtaReuniao = new CadastroAtaReuniao(new javax.swing.JFrame(), true);
+        
+        cadastroAtaReuniao.setVisible(true);
+        listaAtas();
+
+    }//GEN-LAST:event_jCadastrarActionPerformed
+
+    private void jExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jExcluirActionPerformed
+        int index=-1;
+        index=jTabelaAtas.getSelectedRow();
+        
+        if(index!=-1){
+            String identificador =jTabelaAtas.getValueAt(index, 0).toString();
+            if(JOptionPane.showConfirmDialog(null, "Tem certeza que deseja excluir a ata?", 
+               "Excluir professor", JOptionPane.YES_NO_OPTION)==JOptionPane.YES_OPTION){
+                
+                AtaReuniaoDao ataReuniaoDao = new AtaReuniaoDao();
+                AtaParticipantesDao ataParticipantesDao = new AtaParticipantesDao();
+                
+                int idAta = ataReuniaoDao.getIdAta(identificador);
+                
+                if(ataReuniaoDao.Remove(idAta)){
+                    ataParticipantesDao.Remove(idAta);
+                    JOptionPane.showMessageDialog(this, "Ata removida com sucesso.");
+                     listaAtas();
+                }else{
+                    JOptionPane.showMessageDialog(this, "Erro ao excluir a Ata.");
+                }
+            }
+        }else{
+            JOptionPane.showMessageDialog(this, "Selecione a ata para alterar.");
+        }
+    }//GEN-LAST:event_jExcluirActionPerformed
+
+    public void listaAtas(){
+        AtaReuniaoDao ataReuniaoDao = new AtaReuniaoDao();
+        
+        DefaultTableModel modelo = (DefaultTableModel) jTabelaAtas.getModel();
+        
+        modelo.setNumRows(0);
+        for(AtaReuniao ataReuniao : ataReuniaoDao.getAtas()){
+            modelo.addRow(new Object[]{
+                ataReuniao.getIdentificador(),
+                ataReuniao.getData(),
+                ataReuniao.getLocal()
+            });
+        }
+    }
     /**
      * @param args the command line arguments
      */
@@ -183,17 +263,12 @@ public class GestaoAtasReuniao extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton5;
+    private javax.swing.JButton jAlterar;
+    private javax.swing.JButton jCadastrar;
+    private javax.swing.JButton jConsultar;
+    private javax.swing.JButton jExcluir;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
+    private javax.swing.JTable jTabelaAtas;
     // End of variables declaration//GEN-END:variables
 }

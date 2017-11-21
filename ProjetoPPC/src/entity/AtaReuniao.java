@@ -13,9 +13,10 @@ import java.util.Date;
  */
 public class AtaReuniao {
     private int idAtaReuniao;
-    private Date data;
+    private String data;
     private String local;
     private String deliberacoes;
+    private String identificador;
 
     public int getIdAtaReuniao() {
         return idAtaReuniao;
@@ -25,11 +26,11 @@ public class AtaReuniao {
         this.idAtaReuniao = idAtaReuniao;
     }
 
-    public Date getData() {
+    public String getData() {
         return data;
     }
 
-    public void setData(Date data) {
+    public void setData(String data) {
         this.data = data;
     }
 
@@ -47,6 +48,14 @@ public class AtaReuniao {
 
     public void setDeliberacoes(String deliberacoes) {
         this.deliberacoes = deliberacoes;
+    }
+
+    public String getIdentificador() {
+        return identificador;
+    }
+
+    public void setIdentificador(String identificador) {
+        this.identificador = identificador;
     }
     
     

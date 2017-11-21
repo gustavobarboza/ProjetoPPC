@@ -5,15 +5,29 @@
  */
 package view;
 
+import dao.AtaParticipantesDao;
+import dao.AtaReuniaoDao;
+import entity.AtaParticipantes;
+import entity.AtaReuniao;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author Gustavo
  */
 public class CadastroAtaReuniao extends javax.swing.JDialog {
 
-    /**
-     * Creates new form CadastroAtaDeReuniao
-     */
+    boolean novo=true;
+    String identificadorAntigo;
+    
     public CadastroAtaReuniao(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
@@ -29,153 +43,363 @@ public class CadastroAtaReuniao extends javax.swing.JDialog {
     private void initComponents() {
 
         jLabel1 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
-        jTextField2 = new javax.swing.JTextField();
+        jLocalReuniao = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
-        jTextField3 = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jList1 = new javax.swing.JList<>();
-        jButton2 = new javax.swing.JButton();
+        jParticipantes = new javax.swing.JTextField();
+        jAdicionar = new javax.swing.JButton();
+        jRemover = new javax.swing.JButton();
         jLabel4 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
-        jButton3 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
+        jDeliberacoes = new javax.swing.JTextArea();
+        jSalvar = new javax.swing.JButton();
+        jSair = new javax.swing.JButton();
+        jScrollPane6 = new javax.swing.JScrollPane();
+        jTabelaParticipantes = new javax.swing.JTable();
+        jLabel5 = new javax.swing.JLabel();
+        jIdentificador = new javax.swing.JTextField();
+        jDataReuniao = new javax.swing.JFormattedTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jLabel1.setText("Data da reunião");
 
-        jTextField1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField1ActionPerformed(evt);
-            }
-        });
-
         jLabel2.setText("Local da reunião");
 
-        jTextField2.addActionListener(new java.awt.event.ActionListener() {
+        jLocalReuniao.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField2ActionPerformed(evt);
+                jLocalReuniaoActionPerformed(evt);
             }
         });
 
         jLabel3.setText("Participantes");
 
-        jTextField3.addActionListener(new java.awt.event.ActionListener() {
+        jParticipantes.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField3ActionPerformed(evt);
+                jParticipantesActionPerformed(evt);
             }
         });
 
-        jButton1.setText("Adicionar");
-
-        jList1.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
+        jAdicionar.setText("Adicionar");
+        jAdicionar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jAdicionarActionPerformed(evt);
+            }
         });
-        jScrollPane1.setViewportView(jList1);
 
-        jButton2.setText("Remover");
+        jRemover.setText("Remover");
+        jRemover.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jRemoverActionPerformed(evt);
+            }
+        });
 
         jLabel4.setText("Deliberações");
 
-        jTextArea1.setColumns(20);
-        jTextArea1.setLineWrap(true);
-        jTextArea1.setRows(5);
-        jTextArea1.setWrapStyleWord(true);
-        jScrollPane2.setViewportView(jTextArea1);
+        jDeliberacoes.setColumns(20);
+        jDeliberacoes.setLineWrap(true);
+        jDeliberacoes.setRows(5);
+        jDeliberacoes.setWrapStyleWord(true);
+        jScrollPane2.setViewportView(jDeliberacoes);
 
-        jButton3.setText("Salvar");
+        jSalvar.setText("Salvar");
+        jSalvar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jSalvarActionPerformed(evt);
+            }
+        });
 
-        jButton4.setText("Cancelar");
+        jSair.setText("Sair");
+        jSair.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jSairActionPerformed(evt);
+            }
+        });
+
+        jTabelaParticipantes.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Participantes"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane6.setViewportView(jTabelaParticipantes);
+
+        jLabel5.setText("Identificador");
+
+        jIdentificador.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jIdentificadorActionPerformed(evt);
+            }
+        });
+
+        try {
+            jDataReuniao.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("##/##/####")));
+        } catch (java.text.ParseException ex) {
+            ex.printStackTrace();
+        }
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addGroup(layout.createSequentialGroup()
+                    .addComponent(jLabel4)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel5)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jIdentificador, javax.swing.GroupLayout.PREFERRED_SIZE, 207, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                             .addComponent(jLabel1)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jDataReuniao, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                             .addComponent(jLabel2)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(jTextField2))
-                        .addComponent(jLabel4)
-                        .addGroup(layout.createSequentialGroup()
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLocalReuniao))
+                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                 .addGroup(layout.createSequentialGroup()
                                     .addComponent(jLabel3)
                                     .addGap(18, 18, 18)
-                                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 345, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 345, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(jParticipantes))
+                                .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 386, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jButton1)
-                                .addComponent(jButton2))))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jButton3)
-                        .addGap(35, 35, 35)
-                        .addComponent(jButton4))
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 506, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addComponent(jAdicionar)
+                                .addComponent(jRemover))))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addGroup(layout.createSequentialGroup()
+                            .addComponent(jSalvar)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                            .addComponent(jSair))
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 467, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel5)
+                    .addComponent(jIdentificador, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel2)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLocalReuniao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jDataReuniao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
-                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton1))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addComponent(jParticipantes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jAdicionar))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(43, 43, 43)
-                        .addComponent(jButton2)))
-                .addGap(13, 13, 13)
+                    .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jRemover))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel4)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton3)
-                    .addComponent(jButton4))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jSalvar)
+                    .addComponent(jSair))
+                .addContainerGap())
         );
 
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jTextField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField2ActionPerformed
+    private void jLocalReuniaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jLocalReuniaoActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField2ActionPerformed
+    }//GEN-LAST:event_jLocalReuniaoActionPerformed
 
-    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
+    private void jParticipantesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jParticipantesActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField1ActionPerformed
+    }//GEN-LAST:event_jParticipantesActionPerformed
 
-    private void jTextField3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField3ActionPerformed
+    private void jIdentificadorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jIdentificadorActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField3ActionPerformed
+    }//GEN-LAST:event_jIdentificadorActionPerformed
 
+    private void jAdicionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jAdicionarActionPerformed
+        if(!jParticipantes.getText().isEmpty()){
+            AtaParticipantes ataParticipantes = new AtaParticipantes();
+            ataParticipantes.setParticipante(jParticipantes.getText());
+            DefaultTableModel modelo = (DefaultTableModel) jTabelaParticipantes.getModel();
+            
+            modelo.addRow(new Object[]{
+                ataParticipantes.getParticipante()
+            });
+        }else{
+            JOptionPane.showMessageDialog(this, "Informe o nome do participante!");
+        }
+    }//GEN-LAST:event_jAdicionarActionPerformed
+
+    private void jRemoverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRemoverActionPerformed
+        int index =-1;
+        
+        index=jTabelaParticipantes.getSelectedRow();
+        
+        if(index!=-1){
+            DefaultTableModel modelo = (DefaultTableModel) jTabelaParticipantes.getModel();
+            modelo.removeRow(index);
+        }else{
+            JOptionPane.showMessageDialog(this, "Selecione o participante!");
+        }
+                
+    }//GEN-LAST:event_jRemoverActionPerformed
+
+    private void jSairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jSairActionPerformed
+        dispose();
+    }//GEN-LAST:event_jSairActionPerformed
+
+    private void jSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jSalvarActionPerformed
+        boolean dadosValidos=true;
+        
+        if(jIdentificador.getText().isEmpty() || jDataReuniao.getText().isEmpty() || jLocalReuniao.getText().isEmpty() 
+           || jDeliberacoes.getText().isEmpty()){
+            dadosValidos=false;
+        }
+        
+        SimpleDateFormat formatador = new SimpleDateFormat("dd/MM/yyyy");
+        Date data = new Date();
+        
+        //Verifica se a data é valida
+        try {
+            data = formatador.parse(jDataReuniao.getText());
+        } catch (ParseException ex) {
+                dadosValidos=false;
+        }
+        
+        if (dadosValidos){
+            AtaReuniao ataReuniao = new AtaReuniao();
+            
+            ataReuniao.setIdentificador(jIdentificador.getText());
+            ataReuniao.setData(jDataReuniao.getText());
+            ataReuniao.setLocal(jLocalReuniao.getText());
+            ataReuniao.setDeliberacoes(jDeliberacoes.getText());
+            
+            AtaReuniaoDao ataReuniaoDao = new AtaReuniaoDao();
+            AtaParticipantesDao ataParticipantesDao = new AtaParticipantesDao();
+            
+            List<AtaParticipantes> listaParticipantes = new ArrayList<>();
+            DefaultTableModel modelo = (DefaultTableModel) jTabelaParticipantes.getModel();
+            
+            //Cria uma lista de objetos com os participantes inseridos na tabela do formulário
+            for(int i=0; i<modelo.getRowCount();i++){
+                AtaParticipantes ataParticipantes = new AtaParticipantes();
+                ataParticipantes.setParticipante(modelo.getValueAt(i, 0).toString());
+                listaParticipantes.add(ataParticipantes);
+            }
+            
+            if(novo){
+                if(ataReuniaoDao.Insere(ataReuniao)){
+                    int idAta = ataReuniaoDao.getIdAta(jIdentificador.getText());
+
+                    //Cadastra a lista de participantes
+                    for(int i=0;i< listaParticipantes.size();i++ ){
+                        ataParticipantesDao.Cria(idAta, listaParticipantes.get(i));
+                    }
+                    JOptionPane.showMessageDialog(this, "Ata cadastrada com sucesso.");
+                    
+                }else{
+                    JOptionPane.showMessageDialog(this, "Erro ao salvar a ata.");
+                }
+            }else{
+                int idAta = ataReuniaoDao.getIdAta(identificadorAntigo);
+
+                if(ataReuniaoDao.Altera(idAta, ataReuniao)){
+
+                    //Cadastra a lista de participantes
+                    ataParticipantesDao.Remove(idAta);
+                    for(int i=0;i< listaParticipantes.size();i++ ){
+                        ataParticipantesDao.Cria(idAta, listaParticipantes.get(i));
+                    }
+                    JOptionPane.showMessageDialog(this, "Ata alterada com sucesso.");
+                }else{   
+                    JOptionPane.showMessageDialog(this, "Erro ao alterar a ata.");
+                }
+            }
+        }
+    }//GEN-LAST:event_jSalvarActionPerformed
+    public void alteraAta(String identificador){
+        AtaReuniaoDao ataReuniaoDao = new AtaReuniaoDao();
+        AtaReuniao ataReuniao = new AtaReuniao();
+        
+        int idAta = ataReuniaoDao.getIdAta(identificador);
+        ataReuniao=ataReuniaoDao.getAta(idAta);
+        
+        if(!ataReuniao.getIdentificador().isEmpty()){
+            jIdentificador.setText(ataReuniao.getIdentificador());
+            jDataReuniao.setText(ataReuniao.getData());
+            jLocalReuniao.setText(ataReuniao.getLocal());
+            jDeliberacoes.setText(ataReuniao.getDeliberacoes());
+            
+            //Preenche a tabela participantes
+            AtaParticipantesDao ataParticipantesDao = new AtaParticipantesDao();
+            List<AtaParticipantes> ataParticipantes = ataParticipantesDao.getLista(idAta);
+            DefaultTableModel modelo = (DefaultTableModel) jTabelaParticipantes.getModel();
+            
+            for(int i=0;i<ataParticipantes.size(); i++){
+                modelo.addRow(new Object[]{
+                    ataParticipantes.get(i).getParticipante()
+                });
+            }
+            
+            novo=false;
+            identificadorAntigo = ataReuniao.getIdentificador();
+        }else{
+            JOptionPane.showMessageDialog(this, "Não foi possível exibir a Ata");
+        }
+    }
+    public void consultaAta(String identificador){
+        AtaReuniaoDao ataReuniaoDao = new AtaReuniaoDao();
+        AtaReuniao ataReuniao = new AtaReuniao();
+        
+        int idAta = ataReuniaoDao.getIdAta(identificador);
+        ataReuniao=ataReuniaoDao.getAta(idAta);
+        
+        if(!ataReuniao.getIdentificador().isEmpty()){
+            jIdentificador.setText(ataReuniao.getIdentificador());
+            jDataReuniao.setText(ataReuniao.getData());
+            jLocalReuniao.setText(ataReuniao.getLocal());
+            jDeliberacoes.setText(ataReuniao.getDeliberacoes());
+            
+            //Preenche a tabela participantes
+            AtaParticipantesDao ataParticipantesDao = new AtaParticipantesDao();
+            List<AtaParticipantes> ataParticipantes = ataParticipantesDao.getLista(idAta);
+            DefaultTableModel modelo = (DefaultTableModel) jTabelaParticipantes.getModel();
+            
+            for(int i=0;i<ataParticipantes.size(); i++){
+                modelo.addRow(new Object[]{
+                    ataParticipantes.get(i).getParticipante()
+                });
+            }
+            
+            jSalvar.setEnabled(false);
+            jAdicionar.setEnabled(false);
+            jRemover.setEnabled(false);
+            
+        }else{
+            JOptionPane.showMessageDialog(this, "Não foi possível exibir a Ata");
+        }
+    }
     /**
      * @param args the command line arguments
      */
@@ -220,20 +444,22 @@ public class CadastroAtaReuniao extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
+    private javax.swing.JButton jAdicionar;
+    private javax.swing.JFormattedTextField jDataReuniao;
+    private javax.swing.JTextArea jDeliberacoes;
+    private javax.swing.JTextField jIdentificador;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JList<String> jList1;
-    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JTextField jLocalReuniao;
+    private javax.swing.JTextField jParticipantes;
+    private javax.swing.JButton jRemover;
+    private javax.swing.JButton jSair;
+    private javax.swing.JButton jSalvar;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTextArea jTextArea1;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
+    private javax.swing.JScrollPane jScrollPane6;
+    private javax.swing.JTable jTabelaParticipantes;
     // End of variables declaration//GEN-END:variables
 }

@@ -266,7 +266,7 @@ public class GestaoProfessor extends javax.swing.JDialog {
         });
     }
         public void listaProfessores(){
-            ProfessorDao professorDao = new ProfessorDao();
+        ProfessorDao professorDao = new ProfessorDao();
         
         DefaultTableModel modelo = (DefaultTableModel) jTable1.getModel();
         

@@ -5,7 +5,7 @@
  */
 package dao;
 
-import entity.CronogramaAtividades;
+import entity.AtaParticipantes;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -19,25 +19,25 @@ import java.util.logging.Logger;
  *
  * @author Gustavo
  */
-public class CronogramaAtividadesDao {
-    private  Connection conexaoDb;
-    public boolean Cria(Integer idCronograma, CronogramaAtividades cronogramaAtividades){
+public class AtaParticipantesDao {
+    private Connection conexaoDb;
+    
+    public boolean Cria(Integer idAta, AtaParticipantes ataParticipantes){
         conexaoDb = new ConexaoDb().getConexao();
-            String sql="INSERT INTO CRONOGRAMA_ATIVIDADES(fk_id_cronograma, aula, conteudo)"
-                + " VALUES(?,?,?)";
+            String sql="INSERT INTO ATA_PARTICIPANTES(fk_id_ata_reuniao, participante)"
+                + " VALUES(?,?)";
         try {
             PreparedStatement stmt = conexaoDb.prepareStatement(sql);
             
-            stmt.setInt(1, idCronograma);
-            stmt.setString(2, cronogramaAtividades.getAula());
-            stmt.setString(3, cronogramaAtividades.getConteudo());
+            stmt.setInt(1, idAta);
+            stmt.setString(2, ataParticipantes.getParticipante());
             
             stmt.execute();
 
             return true;
 
         } catch (SQLException ex) {
-            Logger.getLogger(CronogramaAtividadesDao.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(AtaParticipantesDao.class.getName()).log(Level.SEVERE, null, ex);
             return false;
         }finally{
             try {
@@ -48,52 +48,51 @@ public class CronogramaAtividadesDao {
         }
     }
      
-    public List<CronogramaAtividades> getLista(Integer id){
+    public List<AtaParticipantes> getLista(Integer idAta){
         conexaoDb = new ConexaoDb().getConexao();
-        List<CronogramaAtividades> listaCronogramaAtividades = new ArrayList<>();
-            String sql ="SELECT * FROM CRONOGRAMA_ATIVIDADES WHERE fk_id_cronograma=?";
+        List<AtaParticipantes> listaAtaParticipantes = new ArrayList<>();
+            String sql ="SELECT * FROM ATA_PARTICIPANTES WHERE fk_id_ata_reuniao=?";
            
         try {
             PreparedStatement stmt = conexaoDb.prepareStatement(sql);
-            stmt.setInt(1, id);
+            stmt.setInt(1, idAta);
             ResultSet rs = stmt.executeQuery();
             while(rs.next()){
                 
-            CronogramaAtividades cronogramaAtividades = new CronogramaAtividades();
+            AtaParticipantes ataParticipantes = new AtaParticipantes();
             
-            cronogramaAtividades.setAula(rs.getString("aula"));
-            cronogramaAtividades.setConteudo(rs.getString("conteudo"));
+            ataParticipantes.setParticipante(rs.getString("participante"));
             
-            listaCronogramaAtividades.add(cronogramaAtividades);
+            listaAtaParticipantes.add(ataParticipantes);
             
             }
-            return listaCronogramaAtividades;
+            return listaAtaParticipantes;
         
         } catch (SQLException ex) {
-            Logger.getLogger(CronogramaAtividadesDao.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(AtaReuniaoDao.class.getName()).log(Level.SEVERE, null, ex);
             return null;
         }
     }     
     
-    public boolean Remove(Integer id){
+    public boolean Remove(Integer idAta){
         conexaoDb = new ConexaoDb().getConexao();
-        String sql = "DELETE FROM CRONOGRAMA_ATIVIDADES WHERE fk_id_cronograma=?";
+        String sql = "DELETE FROM ATA_PARTICIPANTES WHERE fk_id_ata_reuniao=?";
         try {
             PreparedStatement stmt = conexaoDb.prepareStatement(sql);
             
-            stmt.setInt(1, id);
+            stmt.setInt(1, idAta);
             
             stmt.execute();
             return true;
         } catch (SQLException ex) {
-            Logger.getLogger(CronogramaAtividadesDao.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(AtaReuniaoDao.class.getName()).log(Level.SEVERE, null, ex);
             return false;
         }finally{
             try {
                 conexaoDb.close();
             } catch (SQLException ex) {
-                Logger.getLogger(CronogramaAtividadesDao.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(AtaReuniaoDao.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-    }   
+    } 
 }
