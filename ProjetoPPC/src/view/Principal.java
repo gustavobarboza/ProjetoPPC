@@ -48,9 +48,9 @@ public class Principal extends javax.swing.JFrame {
         jMenuGestaoPPC = new javax.swing.JMenuItem();
         jMenuGestaoBibliografia = new javax.swing.JMenuItem();
         jMenuGestaoAtaReuniao = new javax.swing.JMenuItem();
-        jMenuGestaoMatrizCurricular = new javax.swing.JMenuItem();
         jMenuSimulador = new javax.swing.JMenu();
         jMenuSimuladorMEC = new javax.swing.JMenuItem();
+        jMenuSimuladorMEC1 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
@@ -196,14 +196,6 @@ public class Principal extends javax.swing.JFrame {
         });
         jMenuGestao.add(jMenuGestaoAtaReuniao);
 
-        jMenuGestaoMatrizCurricular.setText("Matriz Curricular");
-        jMenuGestaoMatrizCurricular.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuGestaoMatrizCurricularActionPerformed(evt);
-            }
-        });
-        jMenuGestao.add(jMenuGestaoMatrizCurricular);
-
         jMenuBar1.add(jMenuGestao);
 
         jMenuSimulador.setText("Simulador");
@@ -215,6 +207,14 @@ public class Principal extends javax.swing.JFrame {
             }
         });
         jMenuSimulador.add(jMenuSimuladorMEC);
+
+        jMenuSimuladorMEC1.setText("Gerenciar Simulações");
+        jMenuSimuladorMEC1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuSimuladorMEC1ActionPerformed(evt);
+            }
+        });
+        jMenuSimulador.add(jMenuSimuladorMEC1);
 
         jMenuBar1.add(jMenuSimulador);
 
@@ -309,11 +309,6 @@ public class Principal extends javax.swing.JFrame {
         gestaoAtasReuniao.setVisible(true);
     }//GEN-LAST:event_jMenuGestaoAtaReuniaoActionPerformed
 
-    private void jMenuGestaoMatrizCurricularActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuGestaoMatrizCurricularActionPerformed
-        GestaoMatrizCurricular gestaoMatrizCurricular = new GestaoMatrizCurricular(new javax.swing.JFrame(), true);
-        gestaoMatrizCurricular.setVisible(true);
-    }//GEN-LAST:event_jMenuGestaoMatrizCurricularActionPerformed
-
     private void jMenuSimuladorMECActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuSimuladorMECActionPerformed
         SimuladorAvaliacaoMEC simuladorAvaliacaoMEC = new SimuladorAvaliacaoMEC(new javax.swing.JFrame(), true);
         simuladorAvaliacaoMEC.setVisible(true);
@@ -328,6 +323,11 @@ public class Principal extends javax.swing.JFrame {
         CadastroCronograma cadastroCronograma = new CadastroCronograma(new javax.swing.JFrame(), true);
         cadastroCronograma.setVisible(true);
     }//GEN-LAST:event_jMenuCadastroCronogramaActionPerformed
+
+    private void jMenuSimuladorMEC1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuSimuladorMEC1ActionPerformed
+        GestaoSimuladorMec simulador = new GestaoSimuladorMec(this, true);
+        simulador.setVisible(true);
+    }//GEN-LAST:event_jMenuSimuladorMEC1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -382,11 +382,11 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuGestaoCronograma;
     private javax.swing.JMenuItem jMenuGestaoCurso;
     private javax.swing.JMenuItem jMenuGestaoDisciplina;
-    private javax.swing.JMenuItem jMenuGestaoMatrizCurricular;
     private javax.swing.JMenuItem jMenuGestaoPPC;
     private javax.swing.JMenuItem jMenuGestaoPlanoEnsino;
     private javax.swing.JMenuItem jMenuGestaoProfessor;
     private javax.swing.JMenu jMenuSimulador;
     private javax.swing.JMenuItem jMenuSimuladorMEC;
+    private javax.swing.JMenuItem jMenuSimuladorMEC1;
     // End of variables declaration//GEN-END:variables
 }

@@ -10,12 +10,22 @@ package entity;
  * @author Gustavo
  */
 public class SimulacaoAvaliacaoMec {
+    public int fk_id_curso;
     private int idSimulacaoAvaliacaoMec;
-    private int notaFinal;
-    private int identificadorSimulacao;
+    private String notaFinal;
+    private String identificadorSimulacao;
     private String sugestaoMelhoriaDimensao1;
     private String sugestaoMelhoriaDimensao2;
 
+    public int getFk_id_curso() {
+        return fk_id_curso;
+    }
+
+    public void setFk_id_curso(int fk_id_curso) {
+        this.fk_id_curso = fk_id_curso;
+    }
+    
+    
     public int getIdSimulacaoAvaliacaoMec() {
         return idSimulacaoAvaliacaoMec;
     }
@@ -24,19 +34,19 @@ public class SimulacaoAvaliacaoMec {
         this.idSimulacaoAvaliacaoMec = idSimulacaoAvaliacaoMec;
     }
 
-    public int getNotaFinal() {
+    public String getNotaFinal() {
         return notaFinal;
     }
 
-    public void setNotaFinal(int notaFinal) {
+    public void setNotaFinal(String notaFinal) {
         this.notaFinal = notaFinal;
     }
 
-    public int getIdentificadorSimulacao() {
+    public String getIdentificadorSimulacao() {
         return identificadorSimulacao;
     }
 
-    public void setIdentificadorSimulacao(int identificadorSimulacao) {
+    public void setIdentificadorSimulacao(String identificadorSimulacao) {
         this.identificadorSimulacao = identificadorSimulacao;
     }
 
